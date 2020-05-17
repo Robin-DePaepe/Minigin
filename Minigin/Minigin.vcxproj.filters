@@ -76,7 +76,6 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\ImportEnginePch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SceneManager.cpp">

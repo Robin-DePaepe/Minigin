@@ -9,7 +9,7 @@ public:
 	void Initialize();
 	void LoadGame() const;
 	void Cleanup();
-	MINIGIN_ENTRYPOINT void Run();
+	 void Run();
 private:
 	SDL_Window* m_Window{};
 };
