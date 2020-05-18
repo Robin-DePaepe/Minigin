@@ -41,6 +41,9 @@ private:
 	//private functions
 	virtual void Update() = 0;
 	virtual void Render() const = 0;
+
+	void HandleInput();
+	void InitInput();
 };
 
 

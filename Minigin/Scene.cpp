@@ -11,6 +11,8 @@ Scene::Scene(const std::wstring& name)
 	: m_Name(name) 
 	,m_ShowFpsCounter{false}
 {
+	InitInput();
+
 	//fps counter
 	auto fontFPS = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
 	m_spFpsCounter = std::make_shared<TextObject>( "INITIALIZING", fontFPS );
@@ -30,6 +32,14 @@ const std::wstring& Scene::GetName() const
 	return m_Name;
 }
 
+void Scene::HandleInput()
+{
+}
+
+void Scene::InitInput()
+{
+}
+
 void Scene::Add(const std::shared_ptr<SceneObject>& object)
 {
 	m_Objects.push_back(object);
@@ -37,6 +47,8 @@ void Scene::Add(const std::shared_ptr<SceneObject>& object)
 
 void Scene::RootUpdate()
 {
+	HandleInput();
+
 	for(auto& object : m_Objects)
 	{
 		object->Update();

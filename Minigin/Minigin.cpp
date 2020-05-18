@@ -35,6 +35,7 @@ void Minigin::Initialize()
 	}
 
 	Renderer::GetInstance().Init(m_Window);
+	Logger::Initialize();
 }
 
 /**
@@ -64,6 +65,7 @@ void Minigin::LoadGame() const
 
 void Minigin::Cleanup()
 {
+	Logger::Release();
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_Window);
 	m_Window = nullptr;

@@ -14,7 +14,12 @@ void SceneManager::Render()
 
 void SceneManager::AddGameScene(shared_ptr<Scene> spScene)
 {
-	if (spScene == nullptr) return; //throw warning
+	if (spScene == nullptr)
+	{
+		Logger::LogError(L"Attempt to add invalid scene (AddGameScene)", true);
+		return;
+	}
+
 
 	//check if the name isn't already used
 	for (const auto& scene : m_spScenes)
@@ -29,7 +34,12 @@ void SceneManager::AddGameScene(shared_ptr<Scene> spScene)
 
 void SceneManager::RemoveGameScene(shared_ptr<Scene> spScene)
 {
-	if (spScene == nullptr) return; //throw warning
+	if (spScene == nullptr)
+	{
+		Logger::LogWarning(L"Scene is not found (RemoveGameScene)", true);
+		return;
+	}
+
 
 	//remove the scene from the vector
 	auto it = find(m_spScenes.cbegin(), m_spScenes.cend(), spScene);
@@ -49,8 +59,11 @@ void SceneManager::SetActiveGameScene(const wstring& sceneName)
 
 void SceneManager::SetActiveGameScene(shared_ptr<Scene> spScene)
 {
-	if (spScene == nullptr) return; //throw warning
-
+	if (spScene == nullptr)
+	{
+		Logger::LogError(L"Attempt to select an invalid scene (SetActiveGameScene)", true);
+		return;
+	}
 	if (m_spActiveScene != nullptr) m_spActiveScene->SceneDeactivated();
 
 	m_spActiveScene = spScene;
@@ -76,7 +89,7 @@ void SceneManager::PreviousScene()
 	if (it == m_spScenes.cbegin()) it = m_spScenes.cend();
 
 	--it;
-	   
+
 	SetActiveGameScene(*it);
 }
 
@@ -89,7 +102,7 @@ shared_ptr<Scene> SceneManager::GetScene(const wstring& sceneName)
 			return scene;
 		}
 	}
-	//log warning
+	Logger::LogWarning(L"Scene not found (GetScene)", true);
 	return nullptr;
 }
 
