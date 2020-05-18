@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
-
+#include "SoundStream.h"
+#include "SoundEffect.h"
 class TestScene1 final : public Scene
 {
 public:
@@ -21,5 +22,8 @@ private:
 	virtual void SceneActivated() override;
 	virtual void SceneDeactivated() override;
 
+	//
+	SoundEffect m_Test;
+	SoundStream m_stream;
 };
 

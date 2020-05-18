@@ -5,8 +5,8 @@
 #include "Scene.h"
 #include "ResourceManager.h"
 #include "TextObject.h"
-#include "../BubbleBobble/TestScene1.h"
-#include "../BubbleBobble/TestScene2.h"
+#include "TestScene1.h"
+#include "TestScene2.h"
 int main()
 {
 	Minigin engine;
@@ -20,12 +20,12 @@ int main()
 	//testing
 	auto spScene1 = make_shared<TestScene1>(L"Test zonder fps");
 	auto spScene2 = make_shared<TestScene2>(L"Test met fps");
+	
 
 	SceneManager& sceneManager = SceneManager::GetInstance();
 	sceneManager.AddGameScene(spScene1);
 	sceneManager.AddGameScene(spScene2);
 
-	sceneManager.NextScene();
 	sceneManager.NextScene();
 	sceneManager.NextScene();
 
