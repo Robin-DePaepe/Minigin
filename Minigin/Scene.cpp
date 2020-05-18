@@ -6,9 +6,8 @@
 #include <SDL.h>
 #include "TextObject.h"
 
-unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name)
+Scene::Scene(const std::wstring& name)
 	: m_Name(name) 
 	,m_ShowFpsCounter{false}
 {
@@ -20,12 +19,15 @@ Scene::Scene(const std::string& name)
 	m_spFpsCounter->SetPosition(15, 15);
 }
 
-Scene::~Scene() = default;
-
 
 void Scene::ShowFpsCounter(bool enable)
 {
 	m_ShowFpsCounter = enable;
+}
+
+const std::wstring& Scene::GetName() const
+{
+	return m_Name;
 }
 
 void Scene::Add(const std::shared_ptr<SceneObject>& object)
@@ -33,7 +35,7 @@ void Scene::Add(const std::shared_ptr<SceneObject>& object)
 	m_Objects.push_back(object);
 }
 
-void Scene::Update()
+void Scene::RootUpdate()
 {
 	for(auto& object : m_Objects)
 	{
@@ -44,14 +46,17 @@ void Scene::Update()
 		m_spFpsCounter->SetText(std::to_string(Time::GetInstance().GetFPS()) + "FPS");
 		m_spFpsCounter->Update();
 	}
+	Update();
 }
 
-void Scene::Render() const
+void Scene::RootRender() const
 {
 	for (const auto& object : m_Objects)
 	{
 		object->Render();
 	}
 	if (m_ShowFpsCounter) m_spFpsCounter->Render();
+
+	Render();
 }
 

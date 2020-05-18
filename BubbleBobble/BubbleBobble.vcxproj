@@ -159,6 +159,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\BubbleBobble.cpp" />
+    <ClCompile Include="TestScene1.cpp" />
+    <ClCompile Include="TestScene2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestScene1.h" />
+    <ClInclude Include="TestScene2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

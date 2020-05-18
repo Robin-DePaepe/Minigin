@@ -1,10 +1,11 @@
 #pragma once
 #include "SceneObject.h"
 #include "TransformComponent.h"
-
+#include "SDL_pixels.h"
 
 class Font;
 class Texture2D;
+
 class TextObject final : public SceneObject
 {
 public:

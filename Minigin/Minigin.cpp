@@ -42,24 +42,24 @@ void Minigin::Initialize()
  */
 void Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	//auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
-	scene.Add(go);
+	//auto go = std::make_shared<GameObject>();
+	//go->SetTexture("background.jpg");
+	//scene.Add(go);
 
-	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->GetTransfrom()->SetPosition(216.f, 180.f);
-	scene.Add(go);
+	//go = std::make_shared<GameObject>();
+	//go->SetTexture("logo.png");
+	//go->GetTransfrom()->SetPosition(216.f, 180.f);
+	//scene.Add(go);
 
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 32);
-	scene.Add(to);
+	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
+	//to->SetPosition(80, 32);
+	//scene.Add(to);
 
-	scene.ShowFpsCounter(true);
+	//scene.ShowFpsCounter(true);
 }
 
 void Minigin::Cleanup()
@@ -72,13 +72,6 @@ void Minigin::Cleanup()
 
 void Minigin::Run()
 {
-	Initialize();
-
-	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
-
-	LoadGame();
-
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
