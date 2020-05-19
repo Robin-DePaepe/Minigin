@@ -7,6 +7,7 @@
 #include "TextObject.h"
 #include "TestScene1.h"
 #include "TestScene2.h"
+
 int main()
 {
 	Minigin engine;
@@ -26,7 +27,6 @@ int main()
 	sceneManager.AddGameScene(spScene1);
 	sceneManager.AddGameScene(spScene2);
 
-	sceneManager.NextScene();
 	sceneManager.NextScene();
 
 	engine.Run();

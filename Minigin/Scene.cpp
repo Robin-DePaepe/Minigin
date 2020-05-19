@@ -48,6 +48,7 @@ void Scene::Add(const std::shared_ptr<SceneObject>& object)
 void Scene::RootUpdate()
 {
 	HandleInput();
+	SoundManager::GetInstance().GetSystem()->update(); 
 
 	for(auto& object : m_Objects)
 	{

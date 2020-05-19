@@ -80,10 +80,7 @@
       <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h" />
-    <ClInclude Include="SoundStream.h">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundEffect.h">
+    <ClInclude Include="SoundManager.h">
       <Filter>Sound</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,10 +131,7 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Logger.cpp" />
-    <ClCompile Include="SoundStream.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundEffect.cpp">
+    <ClCompile Include="SoundManager.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
