@@ -10,6 +10,9 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "Time.h"
+#include "EngineInput.h"
+
+bool Minigin::m_Continue = true;
 
 using namespace std;
 using namespace std::chrono;
@@ -39,6 +42,18 @@ void Minigin::Initialize()
 	Renderer::GetInstance().Init(m_Window);
 	Logger::Initialize();
 	InputManager::GetInstance().Initialize(m_Window);
+
+	//Engine input
+	Logger::LogInfo(L"Press F2 to load the previous scene and F3 to load the next scene");
+	Logger::LogInfo(L"Press ESC to quit the application");
+
+	shared_ptr<Command> previousScene = make_shared<PreviousSceneCommand>(PreviousSceneCommand{});
+	shared_ptr<Command> nextScene = make_shared<NextSceneCommand>(NextSceneCommand{});
+	shared_ptr<Command> quitGame = make_shared<QuitCommand>(QuitCommand{});
+
+	InputManager::GetInstance().AddInput(InputAction(previousScene, VK_F2, ControllerButton::none, InputTriggerState::Pressed));
+	InputManager::GetInstance().AddInput(InputAction(nextScene, VK_F3, ControllerButton::none, InputTriggerState::Pressed));
+	InputManager::GetInstance().AddInput(InputAction(quitGame, VK_ESCAPE, ControllerButton::none, InputTriggerState::Pressed));
 }
 
 /**

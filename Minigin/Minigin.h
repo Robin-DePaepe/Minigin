@@ -10,8 +10,8 @@ public:
 	void LoadGame() const;
 	void Cleanup();
 	 void Run();
-	 void QuitProgram();
+	 static void QuitProgram();
 private:
 	SDL_Window* m_Window{};
-	bool m_Continue;
+	static bool m_Continue;
 };

@@ -67,6 +67,7 @@ void SceneManager::SetActiveGameScene(shared_ptr<Scene> spScene)
 	if (m_spActiveScene != nullptr) m_spActiveScene->SceneDeactivated();
 
 	m_spActiveScene = spScene;
+	Logger::LogInfo(L"Loaded in scene: " + spScene->GetName());
 
 	m_spActiveScene->SceneActivated();
 }

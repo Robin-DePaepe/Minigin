@@ -8,11 +8,19 @@ TestScene1::TestScene1(const std::wstring& name)
     
 }
 
+TestScene1::~TestScene1()
+{
+    m_pSound->release();
+}
+
 void TestScene1::Initialize()
 {
 	SoundManager::GetInstance().GetSystem()->createSound("Resources/Sounds/arena_champ.wav", FMOD_2D, nullptr, &m_pSound);
     shared_ptr<Command> test = make_shared<TestCommand>(TestCommand{});
     InputManager::GetInstance().AddInput(InputAction(test, VK_LBUTTON, ControllerButton::ButtonY, InputTriggerState::Released));
+
+    SoundManager::GetInstance().GetSystem()->playSound(m_pSound, 0, false, &m_pChannel);
+
 }
 
 void TestScene1::Update()
@@ -37,12 +45,13 @@ void TestScene1::Render() const
 
 void TestScene1::SceneActivated()
 {
-	SoundManager::GetInstance().GetSystem()->playSound(m_pSound, 0, false, &m_pChannel);
+    m_pChannel->setPaused(false);
+
 }
 
 void TestScene1::SceneDeactivated()
 {
-	m_pSound->release();
+    m_pChannel->setPaused(true);
 }
 
 void TestCommand::Execute()

@@ -26,6 +26,9 @@
     <Filter Include="Components">
       <UniqueIdentifier>{b04982ef-aef9-4ac6-8910-0e6066c75585}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{c2304404-0ce5-459d-aad3-fcdc65a8b519}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SceneManager.h">
@@ -61,9 +64,6 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
     <ClInclude Include="Singleton.h">
       <Filter>Helpers</Filter>
     </ClInclude>
@@ -80,7 +80,15 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h" />
+    <ClInclude Include="EngineInput.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SceneManager.cpp">
@@ -113,9 +121,6 @@
     <ClCompile Include="Font.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Managers</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -131,6 +136,12 @@
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="SoundManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineInput.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
