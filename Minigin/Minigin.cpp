@@ -16,6 +16,8 @@ using namespace std::chrono;
 
 void Minigin::Initialize()
 {
+	m_Continue = true;
+
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -36,6 +38,7 @@ void Minigin::Initialize()
 
 	Renderer::GetInstance().Init(m_Window);
 	Logger::Initialize();
+	InputManager::GetInstance().Initialize(m_Window);
 }
 
 /**
@@ -80,13 +83,11 @@ void Minigin::Run()
 		auto& input = InputManager::GetInstance();
 		auto& time = Time::GetInstance();
 
-		bool doContinue = true;
-
 		//game loop
-		while (doContinue)
+		while (m_Continue)
 		{
 			//process input
-			doContinue = input.ProcessInput();
+			input.ProcessInput();
 
 			//update
 			time.Update();
@@ -97,6 +98,11 @@ void Minigin::Run()
 		}
 	}
 	Cleanup();
+}
+
+void Minigin::QuitProgram()
+{
+	m_Continue = false;
 }
 
 

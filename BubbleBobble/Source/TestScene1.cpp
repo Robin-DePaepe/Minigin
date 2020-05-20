@@ -5,7 +5,7 @@
 TestScene1::TestScene1(const std::wstring& name)
 	:Scene{name}
 {
-
+    
 }
 
 void TestScene1::Initialize()
