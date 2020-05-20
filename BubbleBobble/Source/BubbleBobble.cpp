@@ -27,7 +27,7 @@ int main()
 	sceneManager.AddGameScene(spScene1);
 	sceneManager.AddGameScene(spScene2);
 
-	sceneManager.NextScene();
+//	sceneManager.NextScene();
 
 	engine.Run();
 }

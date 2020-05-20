@@ -100,8 +100,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)3rdParty\Fmod\lib;$(SolutionDir)3rdParty\SDL2_ttf\lib\$(Platform);$(SolutionDir)3rdParty\SDL2_image\lib\$(Platform);$(SolutionDir)3rdParty\SDL2\lib\$(Platform);$(SolutionDir)Bin\$(Platform)\$(Configuration)\Minigin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Minigin.lib;SDL2_image.lib;SDL2.lib;SDL2_ttf.lib;SDL2main.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)3rdParty\Fmod\lib\$(Platform);$(SolutionDir)3rdParty\SDL2_ttf\lib\$(Platform);$(SolutionDir)3rdParty\SDL2_image\lib\$(Platform);$(SolutionDir)3rdParty\SDL2\lib\$(Platform);$(SolutionDir)Bin\$(Platform)\$(Configuration)\Minigin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Minigin.lib;SDL2_image.lib;SDL2.lib;SDL2_ttf.lib;SDL2main.lib;xinput.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -153,8 +153,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)3rdParty\Fmod\lib;$(SolutionDir)3rdParty\SDL2_ttf\lib\$(Platform);$(SolutionDir)3rdParty\SDL2_image\lib\$(Platform);$(SolutionDir)3rdParty\SDL2\lib\$(Platform);$(SolutionDir)Bin\$(Platform)\$(Configuration)\Minigin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Minigin.lib;SDL2_image.lib;SDL2.lib;SDL2_ttf.lib;SDL2main.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)3rdParty\Fmod\lib\$(Platform);$(SolutionDir)3rdParty\SDL2_ttf\lib\$(Platform);$(SolutionDir)3rdParty\SDL2_image\lib\$(Platform);$(SolutionDir)3rdParty\SDL2\lib\$(Platform);$(SolutionDir)Bin\$(Platform)\$(Configuration)\Minigin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Minigin.lib;SDL2_image.lib;SDL2.lib;SDL2_ttf.lib;SDL2main.lib;xinput.lib;fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

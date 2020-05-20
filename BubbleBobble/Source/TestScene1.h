@@ -1,7 +1,13 @@
 #pragma once
 #include "Scene.h"
-#include "SoundStream.h"
-#include "SoundEffect.h"
+#include "Command.h"
+
+class TestCommand : public Command
+{
+	virtual void Execute()  override;
+	virtual void Undo() override {};
+};
+
 class TestScene1 final : public Scene
 {
 public:
@@ -23,7 +29,8 @@ private:
 	virtual void SceneDeactivated() override;
 
 	//
-	SoundEffect m_Test;
-	SoundStream m_stream;
+	FMOD::Sound* m_pSound;
+	FMOD::Channel* m_pChannel;
+
 };
 
