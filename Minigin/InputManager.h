@@ -85,13 +85,13 @@ private:
 
 	std::vector<InputAction> m_Actions;
 
-	 BYTE* m_pCurrKeyboardState, * m_pOldKeyboardState, * m_pKeyboardState0, * m_pKeyboardState1;
+	 SHORT* m_pCurrKeyboardState, * m_pOldKeyboardState, * m_pKeyboardState0, * m_pKeyboardState1;
 	 bool m_KeyboardState0Active;
 
 	 SDL_Window * m_pSdlWindow;
 	//functions
 	void ProcessButton(ControllerButton button, InputTriggerState triggerState);
-
+	void GetActualKeyboardState(SHORT* state);//getkeyboardstate only returned false for every key
 };
 
 

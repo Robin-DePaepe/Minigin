@@ -12,15 +12,14 @@ void TestScene1::Initialize()
 {
 	SoundManager::GetInstance().GetSystem()->createSound("Resources/Sounds/arena_champ.wav", FMOD_2D, nullptr, &m_pSound);
     shared_ptr<Command> test = make_shared<TestCommand>(TestCommand{});
-    InputManager::GetInstance().AddInput(InputAction(test, 'S', ControllerButton::none, InputTriggerState::Pressed));
-    InputManager::GetInstance().AddInput(InputAction(test, -1, ControllerButton::ButtonY, InputTriggerState::Released));
+    InputManager::GetInstance().AddInput(InputAction(test, VK_LBUTTON, ControllerButton::ButtonY, InputTriggerState::Released));
 }
 
 void TestScene1::Update()
 {
  if(InputManager::GetInstance().IsDown('W'))			std::cout << "Down \n";
- if(InputManager::GetInstance().IsReleased('W'))			std::cout << "\n released \n";
- if(InputManager::GetInstance().IsPressed('W'))			std::cout << "\npressed \n";
+ if(InputManager::GetInstance().IsReleased('A'))			std::cout << "\n released \n";
+ if(InputManager::GetInstance().IsPressed('Q'))			std::cout << "\npressed \n";
 
  if(InputManager::GetInstance().IsDown(ControllerButton::ButtonA))			std::cout << "Down \n";
  if(InputManager::GetInstance().IsReleased(ControllerButton::ButtonA))			std::cout << "\n released \n";

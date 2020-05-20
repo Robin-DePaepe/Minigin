@@ -23,16 +23,11 @@ InputManager::~InputManager()
 
 void InputManager::Initialize(SDL_Window* sdlwindow)
 {
-	m_pKeyboardState0 = new BYTE[256];
-	m_pKeyboardState1 = new BYTE[256];
+	m_pKeyboardState0 = new SHORT[256];
+	m_pKeyboardState1 = new SHORT[256];
 
-	bool getKeyboardResult;
-
-	getKeyboardResult = GetKeyboardState(m_pKeyboardState0);
-	if (getKeyboardResult == false) Logger::LogWarning(L"Failed to get keyboard state in InputManager contstuctor\n");
-
-	getKeyboardResult = GetKeyboardState(m_pKeyboardState1);
-	if (getKeyboardResult == false) Logger::LogWarning(L"Failed to get keyboard state in InputManager contstuctor\n");
+	GetActualKeyboardState(m_pKeyboardState0);
+	GetActualKeyboardState(m_pKeyboardState1);
 
 	m_pSdlWindow = sdlwindow;
 }
@@ -136,21 +131,18 @@ void InputManager::ProcessInput()
 #pragma region
 
 	//update the keyboardStates
-	BOOL getKeyboardResult;
-
 	if (m_KeyboardState0Active)
 	{
-		getKeyboardResult = GetKeyboardState(m_pKeyboardState1);
+		GetActualKeyboardState(m_pKeyboardState1);
 		m_pOldKeyboardState = m_pKeyboardState0;
 		m_pCurrKeyboardState = m_pKeyboardState1;
 	}
 	else
 	{
-		getKeyboardResult = GetKeyboardState(m_pKeyboardState0);
+		GetActualKeyboardState(m_pKeyboardState0);
 		m_pOldKeyboardState = m_pKeyboardState1;
 		m_pCurrKeyboardState = m_pKeyboardState0;
 	}
-	if (getKeyboardResult == false) Logger::LogWarning(L"Failed to get keyboard state in ProcessInput\n");
 
 	m_KeyboardState0Active = !m_KeyboardState0Active;
 
@@ -179,13 +171,6 @@ void InputManager::ProcessInput()
 #pragma endregion keyboard & mouse input
 }
 
-bool InputManager::IsDown(int virtualKey) const
-{
-	if ((m_pOldKeyboardState[virtualKey] )) std::cout << "old \n";
-	if ((m_pCurrKeyboardState[virtualKey] & 0xF0) != 0) std::cout << "new \n";
-	return  (((m_pOldKeyboardState[virtualKey] & 0xF0)) != 0 && ((m_pCurrKeyboardState[virtualKey] & 0xF0) != 0));//previous state and current one is active
-}
-
 bool InputManager::IsDown(ControllerButton button) const
 {
 	return std::find(m_DownButtons.cbegin(), m_DownButtons.cend(), button) != m_DownButtons.cend();
@@ -196,19 +181,24 @@ bool InputManager::IsPressed(ControllerButton button) const
 	return std::find(m_PressedButtons.cbegin(), m_PressedButtons.cend(), button) != m_PressedButtons.cend();
 }
 
-bool InputManager::IsPressed(int virtualKey) const
-{
-	return (m_pOldKeyboardState[virtualKey] & 0xF0) == 0 && (m_pCurrKeyboardState[virtualKey] & 0xF0) != 0;//previous state is inactive and current one is active
-}
-
 bool InputManager::IsReleased(ControllerButton button) const
 {
 	return std::find(m_ReleasedButtons.cbegin(), m_ReleasedButtons.cend(), button) != m_ReleasedButtons.cend();
 }
 
+bool InputManager::IsDown(int virtualKey) const
+{
+	return	m_pOldKeyboardState[virtualKey] && m_pCurrKeyboardState[virtualKey];//previous state and current one is active
+}
+
+bool InputManager::IsPressed(int virtualKey) const
+{
+	return	!m_pOldKeyboardState[virtualKey] && m_pCurrKeyboardState[virtualKey];//previous state is inactive and current one is active
+}
+
 bool InputManager::IsReleased(int virtualKey) const
 {
-	return (m_pOldKeyboardState[virtualKey] & 0xF0) != 0 && (m_pCurrKeyboardState[virtualKey] & 0xF0) == 0;//previous state is active and current one is inactive
+	return	m_pOldKeyboardState[virtualKey] && !m_pCurrKeyboardState[virtualKey];//previous state is active and current one is inactive
 }
 
 void InputManager::AddInput(InputAction inputAction)
@@ -243,6 +233,11 @@ void InputManager::ProcessButton(ControllerButton button, InputTriggerState trig
 			action.upCommand->Execute();
 		}
 	}
+}
+
+void InputManager::GetActualKeyboardState(SHORT* state)
+{
+	for (size_t i = 0; i < 256; i++)state[i] = GetAsyncKeyState(i);
 }
 
 
