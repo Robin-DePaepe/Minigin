@@ -16,6 +16,7 @@ std::shared_ptr<TransformComponent> BaseComponent::GetTransform() const
 {
 	if (m_pGameObject != nullptr) return m_pGameObject->GetTransfrom();
 
+	Logger::LogWarning(L"Returning empty transform.\n");
 	return nullptr;
 }
 

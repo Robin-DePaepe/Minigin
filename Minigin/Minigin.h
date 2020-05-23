@@ -7,7 +7,6 @@ class Minigin
 {
 public:
 	void Initialize();
-	void LoadGame() const;
 	void Cleanup();
 	 void Run();
 	 static void QuitProgram();

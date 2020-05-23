@@ -75,9 +75,11 @@ void StateManager<states>::ChangeState(states newState)
 	auto it = m_States.find(newState);
 
 	if (it == m_States.cend()) Logger::LogError(L"Invalid state requested!");
-
-	m_pActiveState = *it;
-	m_pActiveState.second->StartAction();
+	else
+	{
+		m_pActiveState = *it;
+		m_pActiveState.second->StartAction();
+	}
 }
 
 

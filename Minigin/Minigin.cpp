@@ -19,6 +19,8 @@ using namespace std::chrono;
 
 void Minigin::Initialize()
 {
+	try
+	{
 	m_Continue = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -38,7 +40,7 @@ void Minigin::Initialize()
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
-
+	//initialize classes
 	Renderer::GetInstance().Init(m_Window);
 	Logger::Initialize();
 	InputManager::GetInstance().Initialize(m_Window);
@@ -54,31 +56,19 @@ void Minigin::Initialize()
 	InputManager::GetInstance().AddInput(InputAction(previousScene, VK_F2, ControllerButton::none, InputTriggerState::Pressed));
 	InputManager::GetInstance().AddInput(InputAction(nextScene, VK_F3, ControllerButton::none, InputTriggerState::Pressed));
 	InputManager::GetInstance().AddInput(InputAction(quitGame, VK_ESCAPE, ControllerButton::none, InputTriggerState::Pressed));
-}
-
-/**
- * Code constructing the scene world starts here
- */
-void Minigin::LoadGame() const
-{
-	//auto& scene = SceneManager::GetInstance().CreateScene("Demo");
-
-	//auto go = std::make_shared<GameObject>();
-	//go->SetTexture("background.jpg");
-	//scene.Add(go);
-
-	//go = std::make_shared<GameObject>();
-	//go->SetTexture("logo.png");
-	//go->GetTransfrom()->SetPosition(216.f, 180.f);
-	//scene.Add(go);
-
-
-	//auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	//auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	//to->SetPosition(80, 32);
-	//scene.Add(to);
-
-	//scene.ShowFpsCounter(true);
+	}
+	catch(runtime_error error)
+	{
+		std::cout << "Runtime error:" << error.what() << std::endl;
+	}
+	catch (const std::exception & exc)
+	{
+		std::cout << exc.what();
+	}
+	catch (...)
+	{
+		std::cout << "Something unexpected went wrong in the engine initialization. Please report this issue to Robin De Paepe\n";
+	}
 }
 
 void Minigin::Cleanup()
@@ -92,6 +82,7 @@ void Minigin::Cleanup()
 
 void Minigin::Run()
 {
+	try
 	{
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
@@ -111,6 +102,14 @@ void Minigin::Run()
 			//render
 			renderer.Render();
 		}
+	}
+	catch(const std::exception& exc)
+	{
+		std::cout << exc.what();
+	}
+	catch (...)
+	{
+		std::cout << "Something unexpected went wrong in the engine. Please report this issue to Robin De Paepe\n";
 	}
 	Cleanup();
 }
