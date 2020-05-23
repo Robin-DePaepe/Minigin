@@ -76,7 +76,6 @@
     <ClInclude Include="TransformComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
-    <ClInclude Include="Logger.h" />
     <ClInclude Include="SoundManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
@@ -93,7 +92,25 @@
       <Filter>Managers</Filter>
     </ClInclude>
     <ClInclude Include="State.h">
-      <Filter>Managers</Filter>
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="ITextLocalizer.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="TextLocalizer.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Csv.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +156,6 @@
     <ClCompile Include="TransformComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="SoundManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -149,8 +165,15 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="TextLocalizer.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
