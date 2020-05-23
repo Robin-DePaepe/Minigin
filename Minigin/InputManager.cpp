@@ -237,7 +237,7 @@ void InputManager::ProcessButton(ControllerButton button, InputTriggerState trig
 
 void InputManager::GetActualKeyboardState(SHORT* state)
 {
-	for (size_t i = 0; i < 256; i++)state[i] = GetAsyncKeyState(i);
+	for (int i = 0; i < 256; i++)state[i] = GetAsyncKeyState(i);
 }
 
 

@@ -158,13 +158,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\JumpingState.cpp" />
     <ClCompile Include="Source\BubbleBobble.cpp" />
     <ClCompile Include="Source\TestScene1.cpp" />
     <ClCompile Include="Source\TestScene2.cpp" />
+    <ClCompile Include="Source\StateExample.cpp" />
+    <ClCompile Include="Source\TestStatesManager.cpp" />
+    <ClCompile Include="Source\WalkingState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\JumpingState.h" />
     <ClInclude Include="Source\TestScene1.h" />
     <ClInclude Include="Source\TestScene2.h" />
+    <ClInclude Include="Source\StateExample.h" />
+    <ClInclude Include="Source\TestStatesManager.h" />
+    <ClInclude Include="Source\WalkingState.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
