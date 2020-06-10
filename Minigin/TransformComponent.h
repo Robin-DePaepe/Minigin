@@ -1,7 +1,7 @@
 #pragma once
 #pragma warning(push)
 #pragma warning (disable:4201)
-#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 #pragma warning(pop)
 #include "BaseComponent.h"
 
@@ -18,26 +18,26 @@ public:
 	TransformComponent& operator=(TransformComponent&& other) = delete;
 
 	//getters
-	const glm::vec3& GetPosition() const { return m_Position; }
-	const glm::vec3& GetRotation() const { return m_Rotation; }
-	const glm::vec3& GetScale() const { return m_Scale; }
+	const glm::vec2& GetPosition() const { return m_Position; }
+	const glm::vec2& GetRotation() const { return m_Rotation; }
+	const glm::vec2& GetScale() const { return m_Scale; }
 
 	//setters
-	void SetPosition(float x, float y, float z = 0.f);
-	void SetRotation(float x, float y, float z = 0.f);
-	void SetScale(float x, float y, float z = 0.f);
+	void SetPosition(float x, float y);
+	void SetRotation(float x, float y);
+	void SetScale(float x, float y);
 
 	//transformations
-	void Translate(float x, float y, float z = 0.f);
-	void Rotate(float x, float y, float z = 0.f);
-	void Scale(float x, float y, float z = 0.f);
+	void Translate(float x, float y);
+	void Rotate(float x, float y);
+	void Scale(float x, float y);
 
 	//other functions 
 	void Update() override;
 	void Render() const override;
 private:
-	glm::vec3 m_Position;
-	glm::vec3 m_Rotation;
-	glm::vec3 m_Scale;
+	glm::vec2 m_Position;
+	glm::vec2 m_Rotation;
+	glm::vec2 m_Scale;
 };
 

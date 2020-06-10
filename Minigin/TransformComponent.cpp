@@ -2,46 +2,40 @@
 #include "TransformComponent.h"
 
 
-void TransformComponent::SetPosition(const float x, const float y, const float z)
+void TransformComponent::SetPosition(const float x, const float y)
 {
 	m_Position.x = x;
 	m_Position.y = y;
-	m_Position.z = z;
 }
 
-void TransformComponent::SetRotation(float x, float y, float z)
+void TransformComponent::SetRotation(float x, float y)
 {
 	m_Rotation.x = x;
 	m_Rotation.y = y;
-	m_Rotation.z = z;
 }
 
-void TransformComponent::SetScale(float x, float y, float z)
+void TransformComponent::SetScale(float x, float y)
 {
 	m_Scale.x = x;
 	m_Scale.y = y;
-	m_Scale.z = z;
 }
 
-void TransformComponent::Translate(float x, float y, float z)
+void TransformComponent::Translate(float x, float y)
 {
 	m_Position.x += x;
 	m_Position.y += y;
-	m_Position.z += z;
 }
 
-void TransformComponent::Rotate(float x, float y, float z)
+void TransformComponent::Rotate(float x, float y)
 {
 	m_Rotation.x += x;
 	m_Rotation.y += y;
-	m_Rotation.z += z;
 }
 
-void TransformComponent::Scale(float x, float y, float z)
+void TransformComponent::Scale(float x, float y)
 {
 	m_Scale.x += x;
 	m_Scale.y += y;
-	m_Scale.z += z;
 }
 
 void TransformComponent::Update()
