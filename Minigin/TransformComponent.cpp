@@ -23,8 +23,30 @@ void TransformComponent::SetScale(float x, float y, float z)
 	m_Scale.z = z;
 }
 
+void TransformComponent::Translate(float x, float y, float z)
+{
+	m_Position.x += x;
+	m_Position.y += y;
+	m_Position.z += z;
+}
+
+void TransformComponent::Rotate(float x, float y, float z)
+{
+	m_Rotation.x += x;
+	m_Rotation.y += y;
+	m_Rotation.z += z;
+}
+
+void TransformComponent::Scale(float x, float y, float z)
+{
+	m_Scale.x += x;
+	m_Scale.y += y;
+	m_Scale.z += z;
+}
+
 void TransformComponent::Update()
 {
+
 }
 
 void TransformComponent::Render() const

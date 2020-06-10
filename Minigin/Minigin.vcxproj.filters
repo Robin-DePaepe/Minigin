@@ -112,6 +112,15 @@
     <ClInclude Include="Csv.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="BoxColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementControllerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBodyComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SceneManager.cpp">
@@ -171,9 +180,15 @@
     <ClCompile Include="TextLocalizer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="BoxColliderComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementControllerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

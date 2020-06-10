@@ -27,6 +27,11 @@ public:
 	void SetRotation(float x, float y, float z = 0.f);
 	void SetScale(float x, float y, float z = 0.f);
 
+	//transformations
+	void Translate(float x, float y, float z = 0.f);
+	void Rotate(float x, float y, float z = 0.f);
+	void Scale(float x, float y, float z = 0.f);
+
 	//other functions 
 	void Update() override;
 	void Render() const override;

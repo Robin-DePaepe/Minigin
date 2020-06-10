@@ -1,6 +1,8 @@
 #pragma once
 #include "Scene.h"
 
+class ITextLocalizer;
+
 class TestScene2 final: public Scene
 {
 public:
@@ -20,6 +22,9 @@ private:
 
 	virtual void SceneActivated() override;
 	virtual void SceneDeactivated() override;
+	void TestLoca(ITextLocalizer* localizer);
+
+	ITextLocalizer* localizer;
 
 };
 
