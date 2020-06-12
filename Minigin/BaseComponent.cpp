@@ -20,4 +20,10 @@ std::shared_ptr<TransformComponent> BaseComponent::GetTransform() const
 	return nullptr;
 }
 
-
+BaseComponent::BaseComponent()
+	:m_pGameObject{nullptr}
+	,m_Delete{false}
+	,m_Enabled{true}
+	,m_Visible{true}
+{
+}

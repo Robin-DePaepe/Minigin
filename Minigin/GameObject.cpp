@@ -3,8 +3,9 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 
-GameObject::GameObject()
+GameObject::GameObject(const std::string& name)
 	:m_spTransform{ std::make_shared<TransformComponent>( )}
+	, m_Name{name}
 {}
 
 GameObject::~GameObject() = default;
@@ -15,6 +16,8 @@ void GameObject::Update()
 
 	for (std::shared_ptr<BaseComponent> spBaseComp : m_spComponents)
 	{
+		if (!spBaseComp->Enabled()) continue;
+		spBaseComp->PhysxUpdate();
 		spBaseComp->Update();
 	}
 	//delete components
@@ -34,6 +37,8 @@ void GameObject::Render() const
 
 	for (std::shared_ptr<BaseComponent> spBaseComp : m_spComponents)
 	{
+		if (!spBaseComp->Visible()) continue;
+
 		spBaseComp->Render();
 	}
 }

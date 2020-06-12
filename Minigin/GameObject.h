@@ -21,7 +21,7 @@ public:
 	void RemoveComponent(std::shared_ptr<BaseComponent> spComp);
 
 	//rule of 5
-	GameObject();
+	GameObject(const std::string& name = "");
 	virtual ~GameObject();
 
 	GameObject(const GameObject& other) = delete;
@@ -62,5 +62,6 @@ private:
 	std::shared_ptr<TransformComponent> m_spTransform;
 	std::vector<std::shared_ptr<BaseComponent>> m_spComponents;
 	std::shared_ptr<Texture2D> m_spTexture{};
+	std::string m_Name;
 };
 
