@@ -32,27 +32,22 @@ enum class InputTriggerState
 	Pressed,	Released,	Down
 };
 
-enum class PlayerIndex 
-{
-	playerOne,	 playerTwo, playerThree, playerFour
-};
 
 struct InputAction
 {
-	InputAction(std::shared_ptr<Command> upCommand,int keyboardCode = -1,ControllerButton controllerButton = ControllerButton::none,
-		InputTriggerState triggerState = InputTriggerState::Pressed, PlayerIndex playerIndex = PlayerIndex::playerOne)
+	InputAction(std::shared_ptr<Command> upCommand,bool active,int keyboardCode = -1,ControllerButton controllerButton = ControllerButton::none,	InputTriggerState triggerState = InputTriggerState::Pressed)
 		:KeyCode{keyboardCode}
 		,ControllerInput{controllerButton}
 		,TriggerState{triggerState}
-		, PlayerIndex{playerIndex}
 		,upCommand{upCommand}
+		,Active{active}
 	{}
 
 	int KeyCode;
 	ControllerButton ControllerInput;
 	std::shared_ptr<Command> upCommand;
 	InputTriggerState TriggerState;
-	PlayerIndex PlayerIndex;
+	bool Active;
 };
 
 class InputManager final : public Singleton<InputManager>
@@ -75,7 +70,8 @@ public:
 	bool IsReleased(ControllerButton button) const;
 	bool IsReleased(int virtualKey) const;
 
-	void AddInput(InputAction inputAction);
+	size_t AddInput(InputAction inputAction);
+	void ChangeInputActionStatus(size_t id,bool active);
 
 	void Initialize(SDL_Window* sdlwindow);
 private:

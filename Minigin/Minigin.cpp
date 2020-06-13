@@ -53,9 +53,9 @@ void Minigin::Initialize()
 	shared_ptr<Command> nextScene = make_shared<NextSceneCommand>(NextSceneCommand{});
 	shared_ptr<Command> quitGame = make_shared<QuitCommand>(QuitCommand{});
 
-	InputManager::GetInstance().AddInput(InputAction(previousScene, VK_F2, ControllerButton::none, InputTriggerState::Pressed));
-	InputManager::GetInstance().AddInput(InputAction(nextScene, VK_F3, ControllerButton::none, InputTriggerState::Pressed));
-	InputManager::GetInstance().AddInput(InputAction(quitGame, VK_ESCAPE, ControllerButton::none, InputTriggerState::Pressed));
+	InputManager::GetInstance().AddInput(InputAction(previousScene, true, VK_F2, ControllerButton::none, InputTriggerState::Pressed));
+	InputManager::GetInstance().AddInput(InputAction(nextScene, true, VK_F3, ControllerButton::none, InputTriggerState::Pressed));
+	InputManager::GetInstance().AddInput(InputAction(quitGame,true, VK_ESCAPE, ControllerButton::none, InputTriggerState::Pressed));
 	}
 	catch(runtime_error error)
 	{
