@@ -1,15 +1,9 @@
 #pragma once
-#include "Subject.h"
 
 class GameObject;
 class TransformComponent;
 
-enum Event
-{
-	OnTiggerStay
-};
-
-class BaseComponent : public Subject<Event,BaseComponent>
+class BaseComponent
 {
 public:
 	BaseComponent();
@@ -20,10 +14,10 @@ public:
 	BaseComponent& operator=(const BaseComponent& other) = delete;
 	BaseComponent& operator=(BaseComponent&& other) = delete;
 
-	virtual void Initialize()  {};
 	virtual void Update() = 0;
 	virtual void PhysxUpdate() = 0;
 	virtual void Render() const = 0;
+	virtual void Initialize()  {};
 
 	void SetGameObject(GameObject* owner);
 	void DeleteComponent();

@@ -29,9 +29,6 @@
     <Filter Include="Input">
       <UniqueIdentifier>{c2304404-0ce5-459d-aad3-fcdc65a8b519}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Prefabs">
-      <UniqueIdentifier>{f742f508-e5a2-4b35-868c-126b4e672c90}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SceneManager.h">
@@ -115,14 +112,14 @@
     <ClInclude Include="Csv.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="BoxColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementControllerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="RigidBodyComponent.h">
       <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderComponent.h">
-      <Filter>Components</Filter>
-    </ClInclude>
-    <ClInclude Include="BoxCollider.h">
-      <Filter>Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -183,13 +180,13 @@
     <ClCompile Include="TextLocalizer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="RigidBodyComponent.cpp" />
-    <ClCompile Include="ColliderComponent.cpp">
+    <ClCompile Include="BoxColliderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
-    <ClCompile Include="BoxCollider.cpp">
-      <Filter>Prefabs</Filter>
+    <ClCompile Include="MovementControllerComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
+    <ClCompile Include="RigidBodyComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
