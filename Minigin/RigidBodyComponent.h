@@ -1,16 +1,19 @@
 #pragma once
 #include "BaseComponent.h"
+#pragma warning(push)
 #pragma warning (disable:4201)
-#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
 #pragma warning(pop)
 #include <memory>
 #include "Time.h"
+
+class ColliderComponent;
 
 class RigidBodyComponent final : public BaseComponent
 {
 public:
 	//rule of 5
-	RigidBodyComponent(bool isStatic = false);
+	RigidBodyComponent(float mass = 1.f,bool isStatic = false);
 	~RigidBodyComponent() = default;
 
 	RigidBodyComponent(const RigidBodyComponent& other) = delete;
@@ -18,10 +21,13 @@ public:
 	RigidBodyComponent& operator=(const RigidBodyComponent& other) = delete;
 	RigidBodyComponent& operator=(RigidBodyComponent&& other) = delete;
 
+	//functions
+	void PhysxUpdate() override;
 	void Update() override;
 	void Render() const override {};
+	void Initialize() override;
 
-	void AddForce(glm::vec3 force);
+	void AddForce(glm::vec2 force);
 	void ClearForce();
 
 	bool IsStatic()  const { return m_IsStatic; }
@@ -31,11 +37,14 @@ public:
 
 private:
 	const bool m_IsStatic;
-	bool m_IsKinematic;
-	glm::vec3 m_Velocity;
-	const float m_Gravity;
-	const std::shared_ptr<TransformComponent> m_spTransform;
+	const float m_Gravity,m_Mass;
 	const Time& m_Time;
+	
+	bool m_IsKinematic, m_Initialized;
+	glm::vec2 m_Velocity;
+
+	 std::shared_ptr<TransformComponent> m_spTransform;
+	 std::shared_ptr<ColliderComponent> m_spCollider;
 };
 
 

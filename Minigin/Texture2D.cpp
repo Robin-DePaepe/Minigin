@@ -27,4 +27,9 @@ SDL_Texture* Texture2D::GetSDLTexture() const
 Texture2D::Texture2D(SDL_Texture* texture)
 {
 	m_Texture = texture;
+
+	int w, h;
+	SDL_QueryTexture(m_Texture, nullptr, nullptr, &w, &h);
+
+	std::cout << w << "          " << h << std::endl;
 }

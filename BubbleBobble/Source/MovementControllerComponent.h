@@ -4,6 +4,10 @@
 #include "Time.h"
 #include <memory>
 
+class MovementControllerComponent;
+class RigidBodyComponent;
+class ColliderComponent;
+
 #pragma region MovementCommands
 class MoveLeftCommand : public Command
 {
@@ -67,13 +71,19 @@ public:
 	MovementControllerComponent& operator=(const MovementControllerComponent& other) = delete;
 	MovementControllerComponent& operator=(MovementControllerComponent&& other) = delete;
 
+	void Initialize() override;
+	void PhysxUpdate() override {};
 	void Update() override;
 	void Render() const override {};
 
 private:
-	float m_Speed, m_JumpPower;
 	std::shared_ptr<TransformComponent> m_spTransform;
+	std::shared_ptr<RigidBodyComponent> m_spRigid;
+	std::shared_ptr<ColliderComponent> m_spCollider;
+
+	float m_Speed, m_JumpPower;
 	Time& m_Time;
+	bool m_Initialized;
 	//member functions
 	void MoveLeft();
 	void MoveRight();
