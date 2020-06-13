@@ -2,6 +2,11 @@
 #include "TransformComponent.h"
 
 
+TransformComponent::TransformComponent()
+	:m_Scale{1.f,1.f}
+{
+}
+
 void TransformComponent::SetPosition(const float x, const float y)
 {
 	m_Position.x = x;
@@ -37,11 +42,3 @@ void TransformComponent::Scale(float x, float y)
 	m_Scale.x += x;
 	m_Scale.y += y;
 }
-
-void TransformComponent::Update()
-{
-
-}
-
-void TransformComponent::Render() const
-{}
