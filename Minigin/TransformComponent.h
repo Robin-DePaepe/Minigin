@@ -9,7 +9,7 @@ class TransformComponent final : public BaseComponent
 {
 public:
 	//rule of 5
-	TransformComponent() = default;
+	TransformComponent();
 	~TransformComponent() = default;
 
 	TransformComponent(const TransformComponent& other) = delete;
@@ -33,8 +33,9 @@ public:
 	void Scale(float x, float y);
 
 	//other functions 
-	void Update() override;
-	void Render() const override;
+	void PhysxUpdate() override {};
+	void Update() override {};
+	void Render() const override {};
 private:
 	glm::vec2 m_Position;
 	glm::vec2 m_Rotation;

@@ -3,7 +3,8 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
-
+struct SDL_Color;
+struct SDL_Rect;
 
 class Texture2D;
 /**
@@ -18,6 +19,8 @@ public:
 
 	void RenderTexture(const Texture2D& texture, float x, float y) const;
 	void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
+
+	void RenderRect(	SDL_Rect rect, SDL_Color color) const;
 
 	SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 private:

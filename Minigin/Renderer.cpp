@@ -15,6 +15,8 @@ void Renderer::Init(SDL_Window * window)
 
 void Renderer::Render() const
 {
+	SDL_SetRenderDrawColor(m_Renderer, 0,0,0,0);
+
 	SDL_RenderClear(m_Renderer);
 
 	SceneManager::GetInstance().Render();
@@ -48,4 +50,11 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
 	dst.w = static_cast<int>(width);
 	dst.h = static_cast<int>(height);
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+}
+
+void Renderer::RenderRect(SDL_Rect rect, SDL_Color color) const
+{
+	SDL_SetRenderDrawColor(m_Renderer, color.r,color.g,color.b,color.a);
+
+	SDL_RenderFillRect(m_Renderer, &rect);
 }

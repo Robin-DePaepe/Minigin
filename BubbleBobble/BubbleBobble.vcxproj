@@ -158,8 +158,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Source\JumpingState.cpp" />
     <ClCompile Include="Source\BubbleBobble.cpp" />
+    <ClCompile Include="Source\MovementControllerComponent.cpp" />
     <ClCompile Include="Source\TestScene1.cpp" />
     <ClCompile Include="Source\TestScene2.cpp" />
     <ClCompile Include="Source\StateExample.cpp" />
@@ -167,7 +169,9 @@
     <ClCompile Include="Source\WalkingState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Source\JumpingState.h" />
+    <ClInclude Include="Source\MovementControllerComponent.h" />
     <ClInclude Include="Source\TestScene1.h" />
     <ClInclude Include="Source\TestScene2.h" />
     <ClInclude Include="Source\StateExample.h" />
