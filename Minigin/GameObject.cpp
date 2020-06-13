@@ -57,7 +57,6 @@ void GameObject::AddComponent(std::shared_ptr<BaseComponent> spComp)
 {
 	m_spComponents.push_back(spComp);
 	spComp->SetGameObject(this);
-	spComp->Initialize();
 }
 
 void GameObject::RemoveComponent(std::shared_ptr<BaseComponent> spComp)
@@ -67,18 +66,4 @@ void GameObject::RemoveComponent(std::shared_ptr<BaseComponent> spComp)
 	m_spComponents.erase(it);
 	spComp->SetGameObject(nullptr);
 }
-
-void GameObject::onNotify(const BaseComponent& entity, Event event)
-{
-	switch (event)
-	{
-	case OnTiggerStay:
-		//for the trigger events we pass the other object instead of the enitity itself
-		OnTriggerStay(entity.GetGameObject());
-		break;
-	default:
-		break;
-	}
-}
-
 

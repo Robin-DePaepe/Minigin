@@ -12,13 +12,12 @@ void TestScene2::Initialize()
 {
 	ShowFpsCounter(true);
 	// Load the file with Dutch translations, 
-//	localizer->Load("Resources/loca.csv", "nl-be");
+	localizer->Load("Resources/loca.csv", "nl-be");
 }
 
 void TestScene2::Update()
 {
 	ShowFpsCounter(true);
-
 }
 
 void TestScene2::Render() const
@@ -29,13 +28,13 @@ void TestScene2::Render() const
 
 void TestScene2::SceneActivated()
 {
-		//TestLoca(localizer);
+		TestLoca(localizer);
 }
 
 void TestScene2::SceneDeactivated()
 {
 	// Load the British translations
-	localizer->Load("Resources/loca.csv", "en-uk");
+	localizer->Load("Resources/gloca.csv", "en-uk");
 
 	// test it
 	TestLoca(localizer);
