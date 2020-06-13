@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "Renderer.h"
+#include "Texture2D.h"
 
 GameObject::GameObject(const std::string& name)
 	:m_spTransform{ std::make_shared<TransformComponent>( )}
@@ -46,6 +47,13 @@ void GameObject::Render() const
 void GameObject::SetTexture(const std::string& filename)
 {
 	m_spTexture = ResourceManager::GetInstance().LoadTexture(filename);
+}
+
+glm::vec2 GameObject::GetTextureSize() const
+{
+	if (!m_spTexture) return glm::vec2{};
+
+	return m_spTexture->GetSize();
 }
 
 std::shared_ptr<TransformComponent> GameObject::GetTransfrom() const

@@ -17,6 +17,8 @@ public:
 	void Render() const override;
 
 	void SetTexture(const std::string& filename);
+	glm::vec2 GetTextureSize() const;
+
 	std::shared_ptr<TransformComponent> GetTransfrom() const;
 
 	const std::string& GetName() const { return m_Name; }
