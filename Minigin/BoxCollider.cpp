@@ -14,13 +14,7 @@ minigin::BoxCollider::BoxCollider(float width, float height, bool isTrigger, boo
 	, m_Width{ width }
 	, m_Height{ height }
 	, m_VisualizeBox{ visualizeBox }
-{
-	if (visualizeBox)
-	{
-		m_DebugBox = make_shared<GameObject>();
-		m_DebugBox->SetTexture("DebugOverlay.png");
-	}
-}
+{}
 
 
 void minigin::BoxCollider::PhysxUpdate()
@@ -79,11 +73,6 @@ void minigin::BoxCollider::PhysxUpdate()
 
 void minigin::BoxCollider::Update()
 {
-	if (m_VisualizeBox)
-	{
-		glm::vec2 pos = GetTransform()->GetPosition();
-		m_DebugBox->GetTransfrom()->SetPosition(pos.x, pos.y);
-	}
 }
 
 void minigin::BoxCollider::Render() const
