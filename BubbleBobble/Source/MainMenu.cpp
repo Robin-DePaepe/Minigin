@@ -10,10 +10,10 @@
 
 MainMenu::MainMenu(const wstring& name)
 	:Scene{ name }
-	,m_StartP1ButtonPos{216.f,100.f}
-	,m_StartP2ButtonPos{216.f,200.f}
-	,m_QuitButtonPos{216.f,300.f}
-	,m_LoadScene{false}
+	, m_StartP1ButtonPos{ 216.f,100.f }
+	, m_StartP2ButtonPos{ 216.f,200.f }
+	, m_QuitButtonPos{ 216.f,300.f }
+	, m_LoadScene{ false }
 {
 }
 
@@ -37,13 +37,13 @@ void MainMenu::Initialize()
 	//start button 1P
 	auto startButton = make_shared<minigin::GameObject>();
 	startButton->SetTexture("Sprites/StartButtonOnePlayer.png");
-	startButton->GetTransfrom()->SetPosition(m_StartP1ButtonPos.x,m_StartP1ButtonPos.y);
+	startButton->GetTransfrom()->SetPosition(m_StartP1ButtonPos.x, m_StartP1ButtonPos.y);
 	m_StartButtonSize = startButton->GetTextureSize();
 
 	Add(startButton);
 
 	//start button 2P
-	 startButton = make_shared<minigin::GameObject>();
+	startButton = make_shared<minigin::GameObject>();
 	startButton->SetTexture("Sprites/StartButtonTwoPlayer.png");
 	startButton->GetTransfrom()->SetPosition(m_StartP2ButtonPos.x, m_StartP2ButtonPos.y);
 
@@ -68,15 +68,14 @@ void MainMenu::Update()
 }
 
 void MainMenu::Render() const
-{
-}
+{}
 
 void MainMenu::SceneActivated()
 {
 	minigin::SoundManager::GetInstance().GetSystem()->playSound(m_pSound, 0, false, &m_pChannel);
 	minigin::InputManager::GetInstance().ChangeInputActionStatus(m_ClickActionId, true);
 
-	for (const auto& object : m_Objects) 
+	for (const auto& object : m_Objects)
 	{
 		shared_ptr<minigin::GameObject> pGameObject{ dynamic_pointer_cast<minigin::GameObject>(object) };
 
@@ -113,15 +112,12 @@ void MainMenu::MouseButtonClicked()
 		Level::SetTwoPlayersSelected(true);
 		m_LoadScene = true;
 	}
-	if (IsPointInRect(glm::vec2{x,y},m_QuitButtonPos, m_QuitButtonSize.x, m_QuitButtonSize.y)) minigin::Minigin::QuitProgram();
+	if (IsPointInRect(glm::vec2{ x,y }, m_QuitButtonPos, m_QuitButtonSize.x, m_QuitButtonSize.y)) minigin::Minigin::QuitProgram();
 }
 
 bool MainMenu::IsPointInRect(glm::vec2 point, glm::vec2 pos, float width, float height)
 {
-	return (
-		point.x > pos.x && point.x < pos.x + width &&
-		point.y > pos.y && point.y < pos.y + height
-		);
+	return (point.x > pos.x&& point.x < pos.x + width && point.y > pos.y&& point.y < pos.y + height);
 }
 
 void ClickCommand::Execute()

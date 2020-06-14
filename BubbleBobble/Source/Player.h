@@ -50,7 +50,7 @@ public:
 	void Update() override;
 
 	shared_ptr<GameObject> GetBubble();
-
+	int GetScore() const { return m_Score; }
 private:
 	//datamembers
 	unsigned int m_Lives;

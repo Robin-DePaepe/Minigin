@@ -6,6 +6,7 @@
 #include "SceneManager.h"
 #include "Bubble.h"
 #include "SoundManager.h"
+#include "Melon.h"
 
 Player::Player(const glm::vec2& pos, int moveLeftButton, minigin::ControllerButton moveLeftButtonC, int moveRightButton, minigin::ControllerButton moveRightButtonC,
 	int jumpButton, minigin::ControllerButton jumpButtonC, int fireButton, minigin::ControllerButton fireButtonC, const wstring& name)
@@ -56,6 +57,8 @@ void Player::OnTriggerStay(GameObject* other)
 	{
 		--m_Lives;
 
+		cout << "You have " << m_Lives << " left.";
+
 		minigin::SoundManager::GetInstance().GetSystem()->playSound(m_pSound, 0, false, &m_pChannel);
 
 		if (m_Lives == 0) minigin::SceneManager::GetInstance().SetActiveGameScene(minigin::SceneManager::GetInstance().GetScene(L"Main Menu"));
@@ -65,7 +68,13 @@ void Player::OnTriggerStay(GameObject* other)
 	}
 	if (other->GetName() == L"Pickup")
 	{
+		//ideally would be a conversion to the base class of pickups
+		Melon* melon = static_cast<Melon*>(other);
 
+		m_Score += melon->GetScore();
+		std::cout << "Awarded " << melon->GetScore() << " for picking up the melon. \nNew score is: " << m_Score << std::endl;
+
+		melon->DestroyObject();
 	}
 }
 

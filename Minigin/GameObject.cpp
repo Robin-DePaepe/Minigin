@@ -68,6 +68,15 @@ glm::vec2 minigin::GameObject::GetTextureSize() const
 	return m_spTexture->GetSize();
 }
 
+shared_ptr<minigin::GameObject> minigin::GameObject::GetNewObject()
+{
+	auto copy = m_spObject;
+
+	m_spObject = nullptr;
+
+	return copy;
+}
+
 shared_ptr<minigin::TransformComponent> minigin::GameObject::GetTransfrom() const
 {
 	return m_spTransform;

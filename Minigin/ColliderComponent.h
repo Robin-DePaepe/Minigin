@@ -28,7 +28,7 @@ namespace minigin
 
 		bool IsOnGround() const { return m_OnGround; }
 		bool IsBlockedLeft() const { return m_BlockedLeft; }
-		bool IsBlockedRight() const { return m_BlockedRight; }
+e		bool IsBlockedRight() const { return m_BlockedRight; }
 		bool IsBlockedTop() const { return m_BlockedTop; }
 
 		void SetIsStatic(bool value) { m_IsStatic = value; }

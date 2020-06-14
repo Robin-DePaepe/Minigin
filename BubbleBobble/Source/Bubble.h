@@ -14,9 +14,11 @@ public:
 	void OnTriggerStay(GameObject* other) override;
 	void Update() override;
 
+
 private:
 	//datamembers
-	const float m_MaxSurviveTime, m_MaxCatchTime, m_FireSpeed, m_FloatingSpeed;
-	float m_Timer, m_Dir;
+	const float  m_MaxCatchTime, m_FireSpeed, m_FloatingSpeed;
+	float m_Timer, m_Dir, m_MaxSurviveTime;
+	bool m_ContainsEnemy;
 };
 

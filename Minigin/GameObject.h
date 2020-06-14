@@ -30,18 +30,19 @@ namespace minigin
 
 		void SetTexture(const string& filename);
 		glm::vec2 GetTextureSize() const;
+		shared_ptr<GameObject> GetNewObject();
 
 		shared_ptr<TransformComponent> GetTransfrom() const;
-
 		const wstring& GetName() const { return m_Name; }
+
 
 		void AddComponent(shared_ptr<BaseComponent> pComp);
 		void RemoveComponent(shared_ptr<BaseComponent> spComp);
 
 		virtual void SetActions(bool active);
 
-		virtual void onNotify(const BaseComponent& entity, Event event) override;
 
+		virtual void onNotify(const BaseComponent& entity, Event event) override;
 		virtual void OnTriggerStay(GameObject* other) { UNREFERENCED_PARAMETER(other); };
 
 		//templated functions
@@ -77,6 +78,7 @@ namespace minigin
 		//datamembers	
 		shared_ptr<TransformComponent> m_spTransform;
 		vector<shared_ptr<BaseComponent>> m_spComponents;
+		shared_ptr<GameObject> m_spObject;
 	private:
 		shared_ptr<Texture2D> m_spTexture{};
 		wstring m_Name;

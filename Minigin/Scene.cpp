@@ -19,7 +19,7 @@ minigin::Scene::Scene(const wstring& name)
 	m_spFpsCounter = make_shared<TextObject>("INITIALIZING", fontFPS);
 
 	m_spFpsCounter->SetColor({ 255,255,0 });
-	m_spFpsCounter->SetPosition(150, 15);
+	m_spFpsCounter->SetPosition(15, 15);
 }
 
 

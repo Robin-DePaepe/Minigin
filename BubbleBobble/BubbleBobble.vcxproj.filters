@@ -37,6 +37,9 @@
     <ClCompile Include="Source\ZenChan.cpp">
       <Filter>Objects</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Melon.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainMenu.h">
@@ -58,6 +61,9 @@
       <Filter>Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Source\ZenChan.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Melon.h">
       <Filter>Objects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,18 +4,19 @@
 #include "Minigin.h"
 #include "BoxCollider.h"
 #include <RigidBodyComponent.h>
+#include "ZenChan.h"
+
+using namespace minigin;
 
 bool Level::m_TwoPlayersSelected = false;
 unsigned int Level::m_LevelNumber = 6;
 
 Level::Level(const wstring& name)
-	:Scene{ name }	
+	:Scene{ name }
 {
-	ShowFpsCounter(true);
-
 	LevelParser levelParser;
 
-	m_Levels = move(levelParser.Parse("SeperatedLevelData.dat"));	
+	m_Levels = move(levelParser.Parse("SeperatedLevelData.dat"));
 }
 
 void Level::Initialize()
@@ -23,6 +24,19 @@ void Level::Initialize()
 
 void Level::Update()
 {
+	bool enemies{ false };
+
+	for (const auto& object : m_Objects)
+	{		
+		auto gameObj = dynamic_pointer_cast<GameObject>(object);
+
+		if (gameObj != nullptr)
+		{
+			if (gameObj->GetName() == L"Enemy") enemies = true;
+			auto object{ gameObj->GetNewObject() };
+			if(object != nullptr) Add(object);
+		}
+	}
 	//p1
 	auto bubble{ m_spPlayer1->GetBubble() };
 	if (bubble != nullptr) Add(bubble);
@@ -33,6 +47,8 @@ void Level::Update()
 		bubble = m_spPlayer2->GetBubble();
 		if (bubble != nullptr) Add(bubble);
 	}
+
+	if (enemies == false) SceneManager::GetInstance().NextScene();
 }
 
 void Level::Render() const
@@ -41,17 +57,17 @@ void Level::Render() const
 
 void Level::SceneActivated()
 {
-	std::cout << "Player1 controls:  A = left,  D = right,  W = jump, E = Fire \n ";
+	std::cout << "Player1 controls:  A = left,  D = right,  W = jump, E = Fire \n";
 	std::cout << "Player1 controls controller:  dpadLeft = left,  dpadRight = right,  dpadUp = jump, leftTrigger = Fire \n \n";
 
-	m_spPlayer1 =  make_shared<Player>(glm::vec2{150.f,100.f}, 'A', minigin::ControllerButton::DpadLeft,'D',minigin::ControllerButton::DpadRight,
-'W',minigin::ControllerButton::DpadUp,'E',minigin::ControllerButton::LeftTrigger);
+	m_spPlayer1 = make_shared<Player>(glm::vec2{ 150.f,100.f }, 'A', minigin::ControllerButton::DpadLeft, 'D', minigin::ControllerButton::DpadRight,
+		'W', minigin::ControllerButton::DpadUp, 'E', minigin::ControllerButton::LeftTrigger);
 	m_spPlayerGameObject1 = m_spPlayer1;
 	Add(m_spPlayerGameObject1);
 
 	if (m_TwoPlayersSelected)
 	{
-		std::cout << "Player2 controls:  left arrow = left,  right arrow = right,  up arrow = jump, down arrow = Fire \n ";
+		std::cout << "Player2 controls:  left arrow = left,  right arrow = right,  up arrow = jump, down arrow = Fire \n";
 		std::cout << "Player2 controls controller:  X = left,  B = right,  A = jump, rightTrigger = Fire \n \n";
 
 		m_spPlayer2 = make_shared<Player>(glm::vec2{ 550.f,100.f }, VK_LEFT, minigin::ControllerButton::ButtonX, VK_RIGHT, minigin::ControllerButton::ButtonB,
@@ -60,11 +76,18 @@ void Level::SceneActivated()
 		Add(m_spPlayerGameObject2);
 	}
 
+	Add(make_shared<ZenChan>(glm::vec2{100.f,300.f}));
+	Add(make_shared<ZenChan>(glm::vec2{400.f,150.f}));
+	Add(make_shared<ZenChan>(glm::vec2{300.f,400.f}));
+
 	LoadLevel();
 }
 
 void Level::SceneDeactivated()
 {
+	cout << "\nPlayer 1 had a score of : " << m_spPlayer1->GetScore() << std::endl;
+	if (m_TwoPlayersSelected) cout << "\nPlayer 2 had a score of : " << m_spPlayer2->GetScore() << std::endl;
+
 	m_spPlayer1 = nullptr;
 	m_spPlayer2 = nullptr;
 
@@ -97,7 +120,7 @@ void Level::LoadLevel()
 				tile->GetTransfrom()->SetScale(2.f, 2.f);
 
 				tile->AddComponent(make_shared<minigin::BoxCollider>(tile->GetTextureSize().x, tile->GetTextureSize().y, false, false));
-				tile->AddComponent(make_shared<minigin::RigidBodyComponent>(1.f,true));
+				tile->AddComponent(make_shared<minigin::RigidBodyComponent>(1.f, true));
 
 				Add(tile);
 			}
