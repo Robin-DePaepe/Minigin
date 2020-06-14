@@ -6,7 +6,7 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "TransformComponent.h"
-#include "Level1.h"
+#include "Level.h"
 
 MainMenu::MainMenu(const wstring& name)
 	:Scene{ name }
@@ -63,7 +63,7 @@ void MainMenu::Update()
 	if (m_LoadScene)
 	{
 		m_LoadScene = false;
-		minigin::SceneManager::GetInstance().SetActiveGameScene(minigin::SceneManager::GetInstance().GetScene(L"Level1"));
+		minigin::SceneManager::GetInstance().SetActiveGameScene(minigin::SceneManager::GetInstance().GetScene(L"Level"));
 	}
 }
 
@@ -105,12 +105,12 @@ void MainMenu::MouseButtonClicked()
 
 	if (IsPointInRect(glm::vec2{ x,y }, m_StartP1ButtonPos, m_StartButtonSize.x, m_StartButtonSize.y))
 	{
-		Level1::SetTwoPlayersSelected(false);
+		Level::SetTwoPlayersSelected(false);
 		m_LoadScene = true;
 	}
 	if (IsPointInRect(glm::vec2{ x,y }, m_StartP2ButtonPos, m_StartButtonSize.x, m_StartButtonSize.y))
 	{
-		Level1::SetTwoPlayersSelected(true);
+		Level::SetTwoPlayersSelected(true);
 		m_LoadScene = true;
 	}
 	if (IsPointInRect(glm::vec2{x,y},m_QuitButtonPos, m_QuitButtonSize.x, m_QuitButtonSize.y)) minigin::Minigin::QuitProgram();

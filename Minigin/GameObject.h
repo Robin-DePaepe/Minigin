@@ -1,13 +1,16 @@
 #pragma once
-#include "TransformComponent.h"
 #include "SceneObject.h"
-#include "BaseComponent.h"
-#include <type_traits>
 #include "Observer.h"
+#pragma warning(push)
+#pragma warning (disable:4201)
+#include <glm/vec2.hpp>
+#pragma warning(pop)
+#include "BaseComponent.h"
 
 namespace minigin
 {
 	class Texture2D;
+	class TransformComponent;
 
 	class GameObject : public SceneObject, public Observer<Event, BaseComponent>
 	{
@@ -22,8 +25,8 @@ namespace minigin
 		GameObject& operator=(GameObject&& other) = delete;
 
 		//functions
-		void Update() override;
-		void Render() const override;
+		virtual void Update() override;
+		virtual void Render() const override;
 
 		void SetTexture(const string& filename);
 		glm::vec2 GetTextureSize() const;
@@ -74,6 +77,7 @@ namespace minigin
 		//datamembers	
 		shared_ptr<TransformComponent> m_spTransform;
 		vector<shared_ptr<BaseComponent>> m_spComponents;
+	private:
 		shared_ptr<Texture2D> m_spTexture{};
 		wstring m_Name;
 	};

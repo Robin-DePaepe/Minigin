@@ -1,15 +1,18 @@
 #pragma once
+#include "RigidBodyComponent.h"
+#include "BoxCollider.h"
+#include "InputManager.h"
 #include "BaseComponent.h"
 #include "Command.h"
 #include "Time.h"
 #include <memory>
+#include <vector>
+#include <fmod.hpp>
 
 class MovementControllerComponent;
-class RigidBodyComponent;
-class ColliderComponent;
 
 #pragma region MovementCommands
-class MoveLeftCommand : public Command
+class MoveLeftCommand final : public minigin::Command
 {
 public:
 	MoveLeftCommand(MovementControllerComponent* pObj, void(MovementControllerComponent::* pFucntion)())
@@ -25,7 +28,7 @@ private:
 	void(MovementControllerComponent::* m_pFucntion)();
 };
 
-class MoveRightCommand : public Command
+class MoveRightCommand final : public minigin::Command
 {
 public:
 	MoveRightCommand(MovementControllerComponent* pObj, void(MovementControllerComponent::* pFucntion)())
@@ -41,7 +44,7 @@ private:
 	void(MovementControllerComponent::* m_pFucntion)();
 };
 
-class JumpCommand : public Command
+class JumpCommand final : public minigin::Command
 {
 public:
 	JumpCommand(MovementControllerComponent* pObj, void(MovementControllerComponent::* pFucntion)())
@@ -59,11 +62,12 @@ private:
 #pragma endregion MovementCommands
 
 
-class MovementControllerComponent final : public BaseComponent
+class MovementControllerComponent final : public minigin::BaseComponent
 {
 public:
 	//rule of 5
-	MovementControllerComponent(float speed, float jumpPower, int moveLeftButton,int moveRightButton, int jumpButton);
+	MovementControllerComponent(float speed, float jumpPower, int moveLeftButton,int moveRightButton, int jumpButton, minigin::ControllerButton moveLeftButtonC
+		, minigin::ControllerButton moveRightButtonC, minigin::ControllerButton jumpButtonC);
 	~MovementControllerComponent() = default;
 
 	MovementControllerComponent(const MovementControllerComponent& other) = delete;
@@ -71,19 +75,30 @@ public:
 	MovementControllerComponent& operator=(const MovementControllerComponent& other) = delete;
 	MovementControllerComponent& operator=(MovementControllerComponent&& other) = delete;
 
+	//functions
 	void Initialize() override;
 	void PhysxUpdate() override {};
 	void Update() override;
 	void Render() const override {};
 
+	 void SetActions(bool active) override;
+
+	 bool IsFacingLeft() const { return m_FacingLeft; }
 private:
-	std::shared_ptr<TransformComponent> m_spTransform;
-	std::shared_ptr<RigidBodyComponent> m_spRigid;
-	std::shared_ptr<ColliderComponent> m_spCollider;
+	//datamembers
+	shared_ptr<minigin::TransformComponent> m_spTransform;
+	shared_ptr<minigin::RigidBodyComponent> m_spRigid;
+	shared_ptr<minigin::ColliderComponent> m_spCollider;
 
 	float m_Speed, m_JumpPower;
-	Time& m_Time;
-	bool m_Initialized;
+	minigin::Time& m_Time;
+	bool m_Initialized,m_FacingLeft;
+	vector<size_t> m_ActionIds;
+	minigin::InputManager& m_InputManager;
+
+	FMOD::Sound* m_pSound;
+	FMOD::Channel* m_pChannel;
+
 	//member functions
 	void MoveLeft();
 	void MoveRight();

@@ -3,6 +3,8 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "Texture2D.h"
+#include "TransformComponent.h"
+#include <SDL.h>
 
 minigin::GameObject::GameObject(const wstring& name)
 	:m_spTransform{ make_shared<TransformComponent>() }
@@ -23,17 +25,25 @@ void minigin::GameObject::Update()
 		spBaseComp->Update();
 	}
 	//delete components
-	for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+	auto it = m_spComponents.begin();
+
+	while (it != m_spComponents.cend())
 	{
-		if (spBaseComp->Destoy())
-			m_spComponents.erase(find(m_spComponents.begin(), m_spComponents.end(), spBaseComp));
+		if ((*it)->Destroy()) it = m_spComponents.erase(it);
+		else ++it;
 	}
 }
 
 void minigin::GameObject::Render() const
 {
+	if (!m_Visible) return;
+
+	SDL_Rect dst;
+	SDL_QueryTexture(m_spTexture->GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
+
 	const auto pos = m_spTransform->GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_spTexture, pos.x, pos.y);
+
+	Renderer::GetInstance().RenderTexture(*m_spTexture, pos.x, pos.y, dst.w * m_spTransform->GetScale().x, dst.h * m_spTransform->GetScale().y);
 
 	m_spTransform->Render();
 
@@ -44,6 +54,7 @@ void minigin::GameObject::Render() const
 		spBaseComp->Render();
 	}
 }
+
 
 void minigin::GameObject::SetTexture(const string & filename)
 {

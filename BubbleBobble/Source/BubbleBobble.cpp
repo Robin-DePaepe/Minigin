@@ -5,29 +5,28 @@
 #include "Scene.h"
 #include "ResourceManager.h"
 #include "TextObject.h"
-#include "TestScene1.h"
-#include "TestScene2.h"
+
+#include "MainMenu.h"
+#include "Level.h"
 
 int main()
 {
-	Minigin engine;
+	minigin::Minigin engine;
 
 	//init the engine
 	engine.Initialize();
 
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
+	minigin::ResourceManager::GetInstance().Init("../BubbleBobble/Resources/");
 
-	//testing
-	auto spScene1 = make_shared<TestScene1>(L"Test zonder fps");
-	auto spScene2 = make_shared<TestScene2>(L"Test met fps");
-	
+	auto spMainMenu = make_shared<MainMenu>(L"Main Menu");
+	auto spLevel = make_shared<Level>(L"Level");
 
-	SceneManager& sceneManager = SceneManager::GetInstance();
-	sceneManager.AddGameScene(spScene1);
-	sceneManager.AddGameScene(spScene2);
+	minigin::SceneManager& sceneManager = minigin::SceneManager::GetInstance();
 
-	//sceneManager.NextScene();
+	sceneManager.AddGameScene(spMainMenu);
+	sceneManager.AddGameScene(spLevel);
+
 
 	engine.Run();
 }

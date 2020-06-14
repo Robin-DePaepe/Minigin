@@ -41,7 +41,12 @@ void Bubble::Update()
 	}
 	else if (m_Timer <=  m_MaxSurviveTime)
 	{
-		GetTransfrom()->Translate(minigin::Time::GetInstance().GetElapsedTime() * m_FloatingSpeed  * m_Dir, minigin::Time::GetInstance().GetElapsedTime()  * -m_FloatingSpeed);
+		float y{0.f};
+
+		//stops the bubble at the top
+		if (GetTransfrom()->GetPosition().y > 25.f) y = minigin::Time::GetInstance().GetElapsedTime() * -m_FloatingSpeed;
+
+		GetTransfrom()->Translate(minigin::Time::GetInstance().GetElapsedTime() * m_FireSpeed * m_Dir, y);
 		m_Dir *= -1.f;
 	}
 	else
