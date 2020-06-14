@@ -40,7 +40,7 @@ namespace minigin
 		bool Visible() const { return m_Visible; }
 		bool SetVisible(bool value) { m_Visible = value; }
 
-		bool Destoy() const { return m_Delete; }
+		bool Destroy() const { return m_Delete; }
 		void DestoyComponent(bool value) { m_Delete = value; }
 
 		GameObject* GetGameObject() const { return m_pGameObject; }
