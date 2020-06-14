@@ -20,7 +20,13 @@ namespace minigin
 		void DestroyObject();
 		bool Destroy() const { return m_Delete; }
 
+		void SetVisibility(bool value);
+
+	protected:
+		//datamember
+		bool m_Visible;
 	private:
+		//datamember
 		bool m_Delete;
 	};
 }

@@ -33,7 +33,7 @@ void minigin::TextObject::Update()
 
 void minigin::TextObject::Render() const
 {
-	if (m_Texture != nullptr)
+	if (m_Texture != nullptr && m_Visible)
 	{
 		const auto pos = m_Transform.GetPosition();
 		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y);
