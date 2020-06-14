@@ -14,51 +14,51 @@ namespace minigin
 		FixMe = 0x8
 	};
 
-	class Logger
+	class Logger final
 	{
 		//nested classes
 	private:
 		class BaseLogger
 		{
 		protected:
-			wostream* m_os = nullptr;
+			wostream* m_pOs = nullptr;
 		public:
 			BaseLogger() = default;
 			virtual ~BaseLogger() = default;
 
 			virtual void Log(const wstring& message)
 			{
-				(*m_os) << message;
-				m_os->flush();
+				(*m_pOs) << message;
+				m_pOs->flush();
 			}
 		};
 
-		class FileLogger : public BaseLogger
+		class FileLogger final: public BaseLogger
 		{
 			wstring m_filename;
 		public:
 			explicit FileLogger(const wstring& fileName)
 				: m_filename(fileName)
 			{
-				m_os = new wofstream(m_filename.c_str());
+				m_pOs = new wofstream(m_filename.c_str());
 			}
 			~FileLogger()
 			{
-				if (m_os)
+				if (m_pOs)
 				{
-					wofstream* of = static_cast<wofstream*>(m_os);
-					of->close();
-					delete m_os;
+					wofstream* pOf = static_cast<wofstream*>(m_pOs);
+					pOf->close();
+					delete m_pOs;
 				}
 			}
 		};
 
-		class ConsoleLogger : public BaseLogger
+		class ConsoleLogger final: public BaseLogger
 		{
 		public:
 			ConsoleLogger()
 			{
-				m_os = &wcout;
+				m_pOs = &wcout;
 			}
 		};
 
@@ -93,8 +93,8 @@ namespace minigin
 
 		static void ReleaseLoggers()
 		{
-			delete m_ConsoleLogger;
-			delete m_FileLogger;
+			delete m_pConsoleLogger;
+			delete m_pFileLogger;
 		};
 		//TIMER 
 		static double m_PcFreq;
@@ -103,11 +103,11 @@ namespace minigin
 
 		static HANDLE m_ConsoleHandle;
 
-		static ConsoleLogger* m_ConsoleLogger;
-		static FileLogger* m_FileLogger;
+		static ConsoleLogger* m_pConsoleLogger;
+		static FileLogger* m_pFileLogger;
 		static char m_BreakBitField;
 
-		static wchar_t* m_ConvertBuffer;
+		static wchar_t* m_pConvertBuffer;
 		static const size_t m_ConvertBufferSize = 1024;
 
 		friend class Game;

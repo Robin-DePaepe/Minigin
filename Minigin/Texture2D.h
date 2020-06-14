@@ -11,20 +11,24 @@ namespace minigin
 	/**
 	 * Simple RAII wrapper for an SDL_Texture
 	 */
-	class Texture2D
+	class Texture2D final
 	{
 	public:
-		SDL_Texture* GetSDLTexture() const;
+		//rule of 5
 		explicit Texture2D(SDL_Texture* texture);
 		~Texture2D();
-
-		glm::vec2 GetSize() const;
 
 		Texture2D(const Texture2D&) = delete;
 		Texture2D(Texture2D&&) = delete;
 		Texture2D& operator= (const Texture2D&) = delete;
 		Texture2D& operator= (const Texture2D&&) = delete;
+
+		//functions
+		SDL_Texture* GetSDLTexture() const;
+		glm::vec2 GetSize() const;
+
 	private:
-		SDL_Texture* m_Texture;
+		//datamembers
+		SDL_Texture* m_pTexture;
 	};
 }

@@ -1,13 +1,12 @@
 #pragma once
 #include "Subject.h"
 
-
 namespace minigin
 {
-class GameObject;
-class TransformComponent;
+	class GameObject;
+	class TransformComponent;
 
-	enum Event
+	enum class Event
 	{
 		OnTiggerStay
 	};
@@ -15,6 +14,7 @@ class TransformComponent;
 	class BaseComponent : public Subject<Event, BaseComponent>
 	{
 	public:
+		//rule of 5
 		BaseComponent();
 		virtual ~BaseComponent() = default;
 
@@ -23,6 +23,7 @@ class TransformComponent;
 		BaseComponent& operator=(const BaseComponent& other) = delete;
 		BaseComponent& operator=(BaseComponent&& other) = delete;
 
+		//functions
 		virtual void Initialize() {};
 		virtual void Update() = 0;
 		virtual void PhysxUpdate() = 0;
@@ -46,6 +47,7 @@ class TransformComponent;
 		shared_ptr<TransformComponent> GetTransform() const;
 
 	protected:
+		//datamembers
 		GameObject* m_pGameObject;
 		bool m_Delete, m_Visible, m_Enabled;
 	};

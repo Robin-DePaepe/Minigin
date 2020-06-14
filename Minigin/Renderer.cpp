@@ -4,10 +4,10 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 
-void minigin::Renderer::Init(SDL_Window * window)
+void minigin::Renderer::Init(SDL_Window* pWindow)
 {
-	m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (m_Renderer == nullptr) 
+	m_pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (m_pRenderer == nullptr)
 	{
 		throw runtime_error(string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
@@ -15,21 +15,21 @@ void minigin::Renderer::Init(SDL_Window * window)
 
 void minigin::Renderer::Render() const
 {
-	SDL_SetRenderDrawColor(m_Renderer, 0,0,0,0);
+	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 0);
 
-	SDL_RenderClear(m_Renderer);
+	SDL_RenderClear(m_pRenderer);
 
 	SceneManager::GetInstance().Render();
-	
-	SDL_RenderPresent(m_Renderer);
+
+	SDL_RenderPresent(m_pRenderer);
 }
 
 void minigin::Renderer::Destroy()
 {
-	if (m_Renderer != nullptr)
+	if (m_pRenderer != nullptr)
 	{
-		SDL_DestroyRenderer(m_Renderer);
-		m_Renderer = nullptr;
+		SDL_DestroyRenderer(m_pRenderer);
+		m_pRenderer = nullptr;
 	}
 }
 
@@ -54,7 +54,7 @@ void minigin::Renderer::RenderTexture(const Texture2D& texture, const float x, c
 
 void minigin::Renderer::RenderRect(SDL_Rect rect, SDL_Color color) const
 {
-	SDL_SetRenderDrawColor(m_Renderer, color.r,color.g,color.b,color.a);
+	SDL_SetRenderDrawColor(m_pRenderer, color.r, color.g, color.b, color.a);
 
-	SDL_RenderFillRect(m_Renderer, &rect);
+	SDL_RenderFillRect(m_pRenderer, &rect);
 }

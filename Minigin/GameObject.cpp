@@ -5,8 +5,8 @@
 #include "Texture2D.h"
 
 minigin::GameObject::GameObject(const wstring& name)
-	:m_spTransform{ make_shared<TransformComponent>( )}
-	, m_Name{name}
+	:m_spTransform{ make_shared<TransformComponent>() }
+	, m_Name{ name }
 {}
 
 minigin::GameObject::~GameObject() = default;
@@ -18,6 +18,7 @@ void minigin::GameObject::Update()
 	for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
 	{
 		if (!spBaseComp->Enabled()) continue;
+
 		spBaseComp->PhysxUpdate();
 		spBaseComp->Update();
 	}
@@ -44,7 +45,7 @@ void minigin::GameObject::Render() const
 	}
 }
 
-void minigin::GameObject::SetTexture(const string& filename)
+void minigin::GameObject::SetTexture(const string & filename)
 {
 	m_spTexture = ResourceManager::GetInstance().LoadTexture(filename);
 }
@@ -81,11 +82,11 @@ void minigin::GameObject::SetActions(bool active)
 	for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)		spBaseComp->SetActions(active);
 }
 
-void minigin::GameObject::onNotify(const BaseComponent& entity, Event event)
+void minigin::GameObject::onNotify(const BaseComponent & entity, Event event)
 {
 	switch (event)
 	{
-	case OnTiggerStay:
+	case  Event::OnTiggerStay:
 		//for the trigger events we pass the other object instead of the enitity itself
 		OnTriggerStay(entity.GetGameObject());
 		break;

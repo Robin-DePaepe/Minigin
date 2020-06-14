@@ -10,7 +10,7 @@
 
 namespace minigin
 {
-class ColliderComponent;
+	class ColliderComponent;
 
 	class RigidBodyComponent final : public BaseComponent
 	{
@@ -39,6 +39,7 @@ class ColliderComponent;
 		void SetKinematic(bool value) { m_IsKinematic = value; };
 
 	private:
+		//datamembers
 		const bool m_IsStatic;
 		const float m_Gravity, m_Mass;
 		const Time& m_Time;

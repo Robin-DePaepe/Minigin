@@ -20,7 +20,6 @@ void minigin::SceneManager::AddGameScene(shared_ptr<Scene> spScene)
 		return;
 	}
 
-
 	//check if the name isn't already used
 	for (const auto& scene : m_spScenes)
 	{
@@ -39,7 +38,6 @@ void minigin::SceneManager::RemoveGameScene(shared_ptr<Scene> spScene)
 		Logger::LogWarning(L"Scene is not found (RemoveGameScene)", true);
 		return;
 	}
-
 
 	//remove the scene from the vector
 	auto it = find(m_spScenes.cbegin(), m_spScenes.cend(), spScene);
@@ -64,6 +62,7 @@ void minigin::SceneManager::SetActiveGameScene(shared_ptr<Scene> spScene)
 		Logger::LogError(L"Attempt to select an invalid scene (SetActiveGameScene)", true);
 		return;
 	}
+
 	if (m_spActiveScene != nullptr) m_spActiveScene->SceneDeactivated();
 
 	m_spActiveScene = spScene;
@@ -94,7 +93,7 @@ void minigin::SceneManager::PreviousScene()
 	SetActiveGameScene(*it);
 }
 
-shared_ptr<minigin::Scene> minigin::SceneManager::GetScene(const wstring& sceneName)
+shared_ptr<minigin::Scene> minigin::SceneManager::GetScene(const wstring& sceneName) const
 {
 	for (const auto& scene : m_spScenes)
 	{

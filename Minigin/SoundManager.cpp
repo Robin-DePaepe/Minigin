@@ -1,6 +1,8 @@
 #include "MiniginPCH.h"
 #include "SoundManager.h"
-
+#pragma warning(push)
+#pragma warning(disable: 26812)
+#pragma warning(pop)
 
 minigin::SoundManager::SoundManager()
 {
@@ -15,8 +17,6 @@ minigin::SoundManager::~SoundManager()
 	}
 }
 
-#pragma warning(push)
-#pragma warning(disable: 26812)
 bool minigin::SoundManager::ErrorCheck(FMOD_RESULT res)
 {
 	if (res != FMOD_OK)
@@ -26,16 +26,13 @@ bool minigin::SoundManager::ErrorCheck(FMOD_RESULT res)
 		Logger::LogError(strstr.str());
 		return false;
 	}
-
 	return true;
 }
-#pragma warning(pop)
 
 void minigin::SoundManager::Initialize()
 {
 	unsigned int version;
 	int numdrivers;
-
 	/*
 	Create a System object and initialize.
 	*/

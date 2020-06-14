@@ -13,6 +13,15 @@ namespace minigin
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
+		SceneManager() = default;
+		 ~SceneManager() = default;
+
+		SceneManager(const SceneManager& other) = delete;
+		SceneManager(SceneManager&& other) = delete;
+		SceneManager& operator=(const SceneManager& other) = delete;
+		SceneManager& operator=(SceneManager&& other) = delete;
+
+		//functions
 		void Update();
 		void Render();
 
@@ -28,10 +37,9 @@ namespace minigin
 		void PreviousScene();
 
 		shared_ptr<Scene> GetActiveScene() const { return m_spActiveScene; }
-		shared_ptr<Scene> GetScene(const wstring& sceneName);
+		shared_ptr<Scene> GetScene(const wstring& sceneName) const;
 
 	private:
-		SceneManager() = default;
 		friend class Singleton<SceneManager>;
 		//datamembers
 		vector<shared_ptr<Scene>> m_spScenes;

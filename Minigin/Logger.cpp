@@ -10,10 +10,10 @@ __int64 minigin::Logger::m_PerformanceTimerArr[] = { 0 };
 double minigin::Logger::m_PcFreq = 0.0;
 HANDLE minigin::Logger::m_ConsoleHandle = nullptr;
 
-minigin::Logger::ConsoleLogger* minigin::Logger::m_ConsoleLogger = nullptr;
-minigin::Logger::FileLogger* minigin::Logger::m_FileLogger = nullptr;
+minigin::Logger::ConsoleLogger* minigin::Logger::m_pConsoleLogger = nullptr;
+minigin::Logger::FileLogger* minigin::Logger::m_pFileLogger = nullptr;
 char minigin::Logger::m_BreakBitField = static_cast<char>(LogLevel::Error);
-wchar_t* minigin::Logger::m_ConvertBuffer = new wchar_t[m_ConvertBufferSize];
+wchar_t* minigin::Logger::m_pConvertBuffer = new wchar_t[m_ConvertBufferSize];
 
 void minigin::Logger::Initialize()
 {
@@ -50,7 +50,7 @@ void minigin::Logger::Initialize()
 
 		//Set ConsoleHandle
 		m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-		m_ConsoleLogger = new ConsoleLogger();
+		m_pConsoleLogger = new ConsoleLogger();
 
 		//Disable Close-Button
 		HWND hwnd = GetConsoleWindow();
@@ -67,8 +67,8 @@ void minigin::Logger::Release()
 {
 	ReleaseLoggers();
 
-	delete[] m_ConvertBuffer;
-	m_ConvertBuffer = nullptr;
+	delete[] m_pConvertBuffer;
+	m_pConvertBuffer = nullptr;
 }
 
 int minigin::Logger::StartPerformanceTimer()
@@ -107,14 +107,14 @@ double minigin::Logger::StopPerformanceTimer(int timerId)
 
 void minigin::Logger::StartFileLogging(const wstring& fileName)
 {
-	delete m_FileLogger;
+	delete m_pFileLogger;
 
-	m_FileLogger = new FileLogger(fileName);
+	m_pFileLogger = new FileLogger(fileName);
 }
 
 void minigin::Logger::StopFileLogging()
 {
-	delete m_FileLogger;
+	delete m_pFileLogger;
 }
 
 void minigin::Logger::LogInfo(const wstring& msg, bool includeTimeStamp)
@@ -180,9 +180,9 @@ void minigin::Logger::LogFormat(LogLevel level, const wchar_t* format, ...)
 	va_list ap;
 
 	va_start(ap, format);
-	_vsnwprintf_s(&m_ConvertBuffer[0], m_ConvertBufferSize, m_ConvertBufferSize, format, ap);
+	_vsnwprintf_s(&m_pConvertBuffer[0], m_ConvertBufferSize, m_ConvertBufferSize, format, ap);
 	va_end(ap);
-	Log(level, wstring(&m_ConvertBuffer[0]));
+	Log(level, wstring(&m_pConvertBuffer[0]));
 }
 
 void minigin::Logger::Log(LogLevel level, const wstring& msg, bool includeTimeStamp)
@@ -221,10 +221,10 @@ void minigin::Logger::Log(LogLevel level, const wstring& msg, bool includeTimeSt
 	stream << L"\n";
 
 	//Use specific loggers to log
-	if (m_ConsoleLogger)
-		m_ConsoleLogger->Log(stream.str());
-	if (m_FileLogger)
-		m_FileLogger->Log(stream.str());
+	if (m_pConsoleLogger)
+		m_pConsoleLogger->Log(stream.str());
+	if (m_pFileLogger)
+		m_pFileLogger->Log(stream.str());
 
 	//if error, break
 	if (level == LogLevel::Error)

@@ -6,6 +6,7 @@ namespace minigin
     class Observer
     {
     public:
+        //virtual functions
         virtual ~Observer() = default;
         virtual void onNotify(const subject& entity, enumEvents event) = 0;
     };

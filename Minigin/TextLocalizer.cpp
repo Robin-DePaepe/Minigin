@@ -10,7 +10,7 @@ void minigin::TextLocalizer::Load(const string& filename, const string& locale)
 	in.read_header(io::ignore_extra_column, "key", locale);
 
 	string key, translation;
-	while(in.read_row(key,translation)) m_TextMap.insert(pair<string,string>(key,translation));
+	while (in.read_row(key, translation)) m_TextMap.insert(pair<string, string>(key, translation));
 }
 
 string minigin::TextLocalizer::Get(const string& key)

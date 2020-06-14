@@ -9,6 +9,7 @@ namespace minigin
 	class ResourceManager final : public Singleton<ResourceManager>
 	{
 	public:
+		//functions
 		void Init(const string& data);
 		shared_ptr<Texture2D> LoadTexture(const string& file) const;
 		shared_ptr<Font> LoadFont(const string& file, unsigned int size) const;

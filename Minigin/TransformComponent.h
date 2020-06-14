@@ -34,11 +34,13 @@ namespace minigin
 		void Rotate(float x, float y);
 		void Scale(float x, float y);
 
-		//other functions 
+		//Game loop functions 
 		void PhysxUpdate() override {};
 		void Update() override {};
 		void Render() const override {};
+
 	private:
+		//datamembers
 		glm::vec2 m_Position;
 		glm::vec2 m_Rotation;
 		glm::vec2 m_Scale;

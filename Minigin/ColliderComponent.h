@@ -17,6 +17,7 @@ namespace minigin
 		ColliderComponent& operator=(const ColliderComponent& other) = delete;
 		ColliderComponent& operator=(ColliderComponent&& other) = delete;
 
+		//functions
 		void Initialize() override;
 		virtual void PhysxUpdate() override {};
 		virtual void Update() override {};
@@ -31,8 +32,8 @@ namespace minigin
 		bool IsBlockedTop() const { return m_BlockedTop; }
 
 	protected:
-		bool m_IsTrigger;
-		bool m_OnGround, m_BlockedLeft, m_BlockedRight, m_BlockedTop;
+		//datamembers
+		bool m_OnGround, m_BlockedLeft, m_BlockedRight, m_BlockedTop, m_IsTrigger;
 		static vector<ColliderComponent*> m_pColliders;
 	};
 }

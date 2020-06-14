@@ -2,19 +2,19 @@
 #include "Command.h"
 namespace minigin
 {
-	class NextSceneCommand : public Command
+	class NextSceneCommand final : public Command
 	{
 		virtual void Execute()  override;
 		virtual void Undo() override {};
 	};
 
-	class PreviousSceneCommand : public Command
+	class PreviousSceneCommand final : public Command
 	{
 		virtual void Execute()  override;
 		virtual void Undo() override {};
 	};
 
-	class QuitCommand : public Command
+	class QuitCommand final : public Command
 	{
 		virtual void Execute()  override;
 		virtual void Undo() override {};

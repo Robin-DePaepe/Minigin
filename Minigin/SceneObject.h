@@ -4,9 +4,7 @@ namespace minigin
 	class SceneObject
 	{
 	public:
-		virtual void Update() = 0;
-		virtual void Render() const = 0;
-
+		//rule of 5
 		SceneObject() = default;
 		virtual ~SceneObject() = default;
 
@@ -14,5 +12,9 @@ namespace minigin
 		SceneObject(SceneObject&& other) = delete;
 		SceneObject& operator=(const SceneObject& other) = delete;
 		SceneObject& operator=(SceneObject&& other) = delete;
+
+		//functions
+		virtual void Update() = 0;
+		virtual void Render() const = 0;
 	};
 }

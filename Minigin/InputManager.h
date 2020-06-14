@@ -33,9 +33,8 @@ namespace minigin
 	{
 		Pressed, Released, Down
 	};
-
-
-	struct InputAction
+	
+	struct InputAction final
 	{
 		InputAction(shared_ptr<Command> upCommand, bool active, int keyboardCode = -1, ControllerButton controllerButton = ControllerButton::none, InputTriggerState triggerState = InputTriggerState::Pressed)
 			:KeyCode{ keyboardCode }
@@ -55,9 +54,16 @@ namespace minigin
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
+		//rule of 5
 		InputManager();
 		~InputManager();
 
+		InputManager(const InputManager& other) = delete;
+		InputManager(InputManager&& other) = delete;
+		InputManager& operator=(const InputManager& other) = delete;
+		InputManager& operator=(InputManager&& other) = delete;
+
+		//functions
 		bool ControllerConnected() const;
 		void GetMousePos(int& x, int& y) const;
 
@@ -76,17 +82,20 @@ namespace minigin
 		void ChangeInputActionStatus(size_t id, bool active);
 
 		void Initialize(SDL_Window* sdlwindow);
+
 	private:
+		//datamembers
 		vector<ControllerButton> m_PressedButtons;
 		vector<ControllerButton> m_ReleasedButtons;
 		vector<ControllerButton> m_DownButtons;
 
 		vector<InputAction> m_Actions;
+		SDL_Window* m_pSdlWindow;
 
 		SHORT* m_pCurrKeyboardState, * m_pOldKeyboardState, * m_pKeyboardState0, * m_pKeyboardState1;
 		bool m_KeyboardState0Active;
 
-		SDL_Window* m_pSdlWindow;
+
 		//functions
 		void ProcessButton(ControllerButton button, InputTriggerState triggerState);
 		void GetActualKeyboardState(SHORT* state);//getkeyboardstate only returned false for every key

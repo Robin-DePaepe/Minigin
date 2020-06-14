@@ -51,6 +51,13 @@ void minigin::Scene::RootUpdate()
 	HandleInput();
 	SoundManager::GetInstance().GetSystem()->update();
 
+	if (m_ShowFpsCounter)
+	{
+		m_spFpsCounter->SetText(to_string(Time::GetInstance().GetFPS()) + "FPS");
+		m_spFpsCounter->Update();
+	}
+
+	//multhi threat the updating of the objects in the scene
 	vector<thread*> pThreads;
 	unsigned int counter{ 0 };
 
@@ -74,12 +81,8 @@ void minigin::Scene::RootUpdate()
 		}
 		else pThreads.push_back(pThread);
 	}
-	if (m_ShowFpsCounter)
-	{
-		m_spFpsCounter->SetText(to_string(Time::GetInstance().GetFPS()) + "FPS");
-		m_spFpsCounter->Update();
-	}
 
+	//clean up the created threads
 	for (size_t i = 0; i < pThreads.size(); i++)
 	{
 		pThreads[i]->join();

@@ -31,16 +31,19 @@ namespace minigin
 
 		void ShowFpsCounter(bool enable);
 		const wstring& GetName() const;
+
 	protected:
+		//datamembers
 		vector < shared_ptr<SceneObject>> m_Objects{};
+
 	private:
 		//datamembers
 		wstring m_Name;
+		const unsigned int m_Processor_Cores;
 
 		bool m_ShowFpsCounter;
 		shared_ptr<TextObject> m_spFpsCounter;
 
-		const unsigned int m_Processor_Cores;
 		//private functions
 		virtual void Update() = 0;
 		virtual void Render() const = 0;

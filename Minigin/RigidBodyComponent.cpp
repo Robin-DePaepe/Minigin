@@ -4,13 +4,13 @@
 #include "GameObject.h"
 #include "BoxCollider.h"
 
-minigin::RigidBodyComponent::RigidBodyComponent(float mass,bool isStatic)
+minigin::RigidBodyComponent::RigidBodyComponent(float mass, bool isStatic)
 	:m_IsKinematic{ false }
 	, m_IsStatic{ isStatic }
 	, m_Time{ Time::GetInstance() }
 	, m_Gravity{ 9.81f }
 	, m_Initialized{ false }
-	, m_Mass{mass}
+	, m_Mass{ mass }
 {
 }
 
@@ -24,13 +24,12 @@ void  minigin::RigidBodyComponent::Update()
 
 	if (m_IsStatic) return;
 
-	if (!m_spCollider->IsOnGround() && !m_IsKinematic)//check for in the air
-	{
-		m_Velocity.y += m_Time.GetElapsedTime() * m_Gravity * m_Mass;
-	}
-
+	//check if we want to apply gravity
+	if (!m_spCollider->IsOnGround() && !m_IsKinematic) m_Velocity.y += m_Time.GetElapsedTime() * m_Gravity * m_Mass;
+	//reset the y velocity when landing
 	if (m_spCollider->IsOnGround() && m_Velocity.y > 0.f) m_Velocity.y = 0.f;
 
+	//move the object
 	glm::vec2 translation{ m_Velocity * m_Time.GetElapsedTime() };
 
 	m_spTransform->Translate(translation.x, translation.y);
@@ -42,7 +41,6 @@ void  minigin::RigidBodyComponent::Initialize()
 	if (m_spCollider == nullptr) Logger::LogError(L"The Rigid body  needs a collider to function properly");
 
 	m_spTransform = GetTransform();
-
 	m_Initialized = true;
 }
 

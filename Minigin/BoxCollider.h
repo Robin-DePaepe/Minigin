@@ -16,10 +16,13 @@ namespace minigin
 		BoxCollider& operator=(const BoxCollider& other) = delete;
 		BoxCollider& operator=(BoxCollider&& other) = delete;
 
+		//functions
 		void PhysxUpdate() override;
 		void Update() override;
 		void Render() const override;
+
 	private:
+		//datamembers
 		bool m_VisualizeBox;
 		float m_Width, m_Height;
 		shared_ptr<GameObject> m_DebugBox;

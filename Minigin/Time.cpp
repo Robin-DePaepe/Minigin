@@ -2,11 +2,11 @@
 #include "Time.h"
 
 minigin::Time::Time()
-	:m_PreviousTime{ high_resolution_clock::now()}
-	,m_ElapsedTime{}
-	,m_FPSTimer{}
+	:m_PreviousTime{ high_resolution_clock::now() }
+	, m_ElapsedTime{}
+	, m_FPSTimer{}
 	, m_FPS{}
-	,m_FPSCount{}
+	, m_FPSCount{}
 {
 }
 
@@ -20,8 +20,8 @@ void minigin::Time::Update()
 	m_FPSTimer += m_ElapsedTime;
 	++m_FPSCount;
 
-	//update FPS
-	if (m_FPSTimer >= 1000.f) //in miliseconds
+	//update FPS in miliseconds
+	if (m_FPSTimer >= 1000.f) 
 	{
 		m_FPSTimer -= 1000.f;
 		m_FPS = m_FPSCount;
@@ -36,5 +36,6 @@ unsigned int minigin::Time::GetFPS() const
 
 float minigin::Time::GetElapsedTime() const
 {
-	return m_ElapsedTime / 1000.f;//return in seconds
+	//return in seconds
+	return m_ElapsedTime / 1000.f;
 }

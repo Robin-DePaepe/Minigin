@@ -3,7 +3,7 @@
 
 namespace minigin
 {
-	class SoundManager : public Singleton<SoundManager>
+	class SoundManager final : public Singleton<SoundManager>
 	{
 	public:
 		//rule of 5
@@ -15,14 +15,14 @@ namespace minigin
 		SoundManager& operator=(const SoundManager& other) = delete;
 		SoundManager& operator=(SoundManager&& other) noexcept = delete;
 
-		//public functions
+		// functions
 		static bool ErrorCheck(FMOD_RESULT res);
 		FMOD::System* GetSystem() const { return m_pFmodSystem; }
 
 	private:
 		//datamembers
 		FMOD::System* m_pFmodSystem = nullptr;
-		//private functions
+		// functions
 		void Initialize();
 	};
 }

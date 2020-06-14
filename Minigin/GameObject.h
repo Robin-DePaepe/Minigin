@@ -12,6 +12,15 @@ namespace minigin
 	class GameObject : public SceneObject, public Observer<Event, BaseComponent>
 	{
 	public:
+		//rule of 5
+		GameObject(const wstring& name = L"");
+		virtual ~GameObject();
+
+		GameObject(const GameObject& other) = delete;
+		GameObject(GameObject&& other) = delete;
+		GameObject& operator=(const GameObject& other) = delete;
+		GameObject& operator=(GameObject&& other) = delete;
+
 		//functions
 		void Update() override;
 		void Render() const override;
@@ -32,15 +41,7 @@ namespace minigin
 
 		virtual void OnTriggerStay(GameObject* other) { UNREFERENCED_PARAMETER(other); };
 
-		//rule of 5
-		GameObject(const wstring& name = L"");
-		virtual ~GameObject();
-
-		GameObject(const GameObject& other) = delete;
-		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
-		GameObject& operator=(GameObject&& other) = delete;
-
+		//templated functions
 #pragma region
 		template <class T>
 		shared_ptr<T> GetComponent()

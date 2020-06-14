@@ -9,24 +9,32 @@ struct SDL_Rect;
 namespace minigin
 {
 	class Texture2D;
-	/**
-	 * Simple RAII wrapper for the SDL renderer
-	 */
+
 	class Renderer final : public Singleton<Renderer>
 	{
 	public:
-		void Init(SDL_Window* window);
+		//rule of 5
+		Renderer() = default;
+		~Renderer() = default;
+
+		Renderer(const Renderer& other) = delete;
+		Renderer(Renderer&& other) = delete;
+		Renderer& operator=(const Renderer& other) = delete;
+		Renderer& operator=(Renderer&& other) = delete;
+
+		//functions
+		void Init(SDL_Window* pWindow);
 		void Render() const;
 		void Destroy();
 
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
-
 		void RenderRect(SDL_Rect rect, SDL_Color color) const;
 
-		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
+		SDL_Renderer* GetSDLRenderer() const { return m_pRenderer; }
 	private:
-		SDL_Renderer* m_Renderer{};
+		//datamembers
+		SDL_Renderer* m_pRenderer{};
 	};
 }
 

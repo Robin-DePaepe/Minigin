@@ -3,7 +3,7 @@
 
 
 minigin::TransformComponent::TransformComponent()
-	:m_Scale{1.f,1.f}
+	:m_Scale{ 1.f,1.f }
 {
 }
 

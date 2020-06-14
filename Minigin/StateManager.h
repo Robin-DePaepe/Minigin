@@ -10,7 +10,7 @@ using namespace std;
 
 namespace minigin
 {
-	struct EnumClassHash
+	struct EnumClassHash final
 	{
 		template <typename T>
 		size_t operator()(T t) const
@@ -23,6 +23,7 @@ namespace minigin
 	class StateManager
 	{
 	public:
+		//rule of 5
 		StateManager() = default;
 		virtual ~StateManager() = default;
 
@@ -38,9 +39,11 @@ namespace minigin
 		void AddState(states state, State<states>* pStateClass, bool setCurrentState = false);
 
 	protected:
+		//datamembers
 		unordered_map<states, State<states>*, EnumClassHash> m_States;
 		pair<states, State<states>*> m_pActiveState;
 
+		//functions
 		void ChangeState(states newState);
 	};
 
