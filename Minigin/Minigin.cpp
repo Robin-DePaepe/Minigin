@@ -15,6 +15,8 @@
 using namespace chrono;
 
 bool minigin::Minigin::m_Continue = true;
+int minigin::Minigin::m_Width = 640;
+int minigin::Minigin::m_Height = 480;
 
 void minigin::Minigin::Initialize()
 {
@@ -31,8 +33,8 @@ void minigin::Minigin::Initialize()
 			"Programming 4 assignment",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
-			640,
-			480,
+			m_Width,
+			m_Height,
 			SDL_WINDOW_OPENGL
 		);
 		if (m_pWindow == nullptr)
