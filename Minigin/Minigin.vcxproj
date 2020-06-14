@@ -198,6 +198,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="BinaryReader.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Command.h" />
@@ -251,6 +252,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="TextLocalizer.cpp" />
     <ClCompile Include="TextObject.cpp" />

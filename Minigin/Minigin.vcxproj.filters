@@ -120,6 +120,9 @@
     <ClInclude Include="BoxCollider.h">
       <Filter>Prefabs</Filter>
     </ClInclude>
+    <ClInclude Include="BinaryReader.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SceneManager.cpp">
@@ -187,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="RigidBodyComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneObject.cpp">
+      <Filter>Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
