@@ -6,16 +6,16 @@
 #include <assert.h>
 
 
-__int64 Logger::m_PerformanceTimerArr[] = { 0 };
-double Logger::m_PcFreq = 0.0;
-HANDLE Logger::m_ConsoleHandle = nullptr;
+__int64 minigin::Logger::m_PerformanceTimerArr[] = { 0 };
+double minigin::Logger::m_PcFreq = 0.0;
+HANDLE minigin::Logger::m_ConsoleHandle = nullptr;
 
-Logger::ConsoleLogger* Logger::m_ConsoleLogger = nullptr;
-Logger::FileLogger* Logger::m_FileLogger = nullptr;
-char Logger::m_BreakBitField = static_cast<char>(LogLevel::Error);
-wchar_t* Logger::m_ConvertBuffer = new wchar_t[m_ConvertBufferSize];
+minigin::Logger::ConsoleLogger* minigin::Logger::m_ConsoleLogger = nullptr;
+minigin::Logger::FileLogger* minigin::Logger::m_FileLogger = nullptr;
+char minigin::Logger::m_BreakBitField = static_cast<char>(LogLevel::Error);
+wchar_t* minigin::Logger::m_ConvertBuffer = new wchar_t[m_ConvertBufferSize];
 
-void Logger::Initialize()
+void minigin::Logger::Initialize()
 {
 	for (int i = 0; i < MAX_PERFORMANCE_TIMERS; ++i)
 		m_PerformanceTimerArr[i] = -1;
@@ -63,7 +63,7 @@ void Logger::Initialize()
 #endif
 }
 
-void Logger::Release()
+void minigin::Logger::Release()
 {
 	ReleaseLoggers();
 
@@ -71,7 +71,7 @@ void Logger::Release()
 	m_ConvertBuffer = nullptr;
 }
 
-int Logger::StartPerformanceTimer()
+int minigin::Logger::StartPerformanceTimer()
 {
 	int counter = 0;
 	while (m_PerformanceTimerArr[counter] != -1)
@@ -94,7 +94,7 @@ int Logger::StartPerformanceTimer()
 	return counter;
 }
 
-double Logger::StopPerformanceTimer(int timerId)
+double minigin::Logger::StopPerformanceTimer(int timerId)
 {
 	LARGE_INTEGER li;
 	QueryPerformanceCounter(&li);
@@ -105,39 +105,39 @@ double Logger::StopPerformanceTimer(int timerId)
 	return diff;
 }
 
-void Logger::StartFileLogging(const wstring& fileName)
+void minigin::Logger::StartFileLogging(const wstring& fileName)
 {
 	delete m_FileLogger;
 
 	m_FileLogger = new FileLogger(fileName);
 }
 
-void Logger::StopFileLogging()
+void minigin::Logger::StopFileLogging()
 {
 	delete m_FileLogger;
 }
 
-void Logger::LogInfo(const wstring& msg, bool includeTimeStamp)
+void minigin::Logger::LogInfo(const wstring& msg, bool includeTimeStamp)
 {
 	Log(LogLevel::Info, msg, includeTimeStamp);
 }
 
-void Logger::LogWarning(const wstring& msg, bool includeTimeStamp)
+void minigin::Logger::LogWarning(const wstring& msg, bool includeTimeStamp)
 {
 	Log(LogLevel::Warning, msg, includeTimeStamp);
 }
 
-void Logger::LogError(const wstring& msg, bool includeTimeStamp)
+void minigin::Logger::LogError(const wstring& msg, bool includeTimeStamp)
 {
 	Log(LogLevel::Error, msg, includeTimeStamp);
 }
 
-void Logger::LogFixMe(const wstring& source, bool includeTimeStamp)
+void minigin::Logger::LogFixMe(const wstring& source, bool includeTimeStamp)
 {
 	Log(LogLevel::FixMe, source, includeTimeStamp);
 }
 
-bool Logger::LogHResult(HRESULT hr, const wstring& origin, bool includeTimeStamp)
+bool minigin::Logger::LogHResult(HRESULT hr, const wstring& origin, bool includeTimeStamp)
 {
 	if (FAILED(hr))
 	{
@@ -175,7 +175,7 @@ bool Logger::LogHResult(HRESULT hr, const wstring& origin, bool includeTimeStamp
 	return false;
 }
 
-void Logger::LogFormat(LogLevel level, const wchar_t* format, ...)
+void minigin::Logger::LogFormat(LogLevel level, const wchar_t* format, ...)
 {
 	va_list ap;
 
@@ -185,7 +185,7 @@ void Logger::LogFormat(LogLevel level, const wchar_t* format, ...)
 	Log(level, wstring(&m_ConvertBuffer[0]));
 }
 
-void Logger::Log(LogLevel level, const wstring& msg, bool includeTimeStamp)
+void minigin::Logger::Log(LogLevel level, const wstring& msg, bool includeTimeStamp)
 {
 	wstringstream stream;
 

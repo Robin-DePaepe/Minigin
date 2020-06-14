@@ -2,7 +2,7 @@
 #include "TextLocalizer.h"
 #include "Csv.h"
 
-void TextLocalizer::Load(const string& filename, const string& locale) 
+void minigin::TextLocalizer::Load(const string& filename, const string& locale)
 {
 	m_TextMap.clear();
 
@@ -13,7 +13,7 @@ void TextLocalizer::Load(const string& filename, const string& locale)
 	while(in.read_row(key,translation)) m_TextMap.insert(pair<string,string>(key,translation));
 }
 
-string TextLocalizer::Get(const string& key) 
+string minigin::TextLocalizer::Get(const string& key)
 {
 	if (m_TextMap.find(key) == m_TextMap.cend()) return "Error, text key not found";
 	return m_TextMap.at(key);

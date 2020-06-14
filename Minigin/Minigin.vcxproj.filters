@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="SceneGraph">
       <UniqueIdentifier>{4f80efac-68f4-44ac-9759-976faa7386b5}</UniqueIdentifier>
     </Filter>
@@ -183,12 +179,14 @@
     <ClCompile Include="TextLocalizer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
-    <ClCompile Include="RigidBodyComponent.cpp" />
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="BoxCollider.cpp">
       <Filter>Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="RigidBodyComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

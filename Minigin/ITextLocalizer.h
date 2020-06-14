@@ -1,7 +1,8 @@
 #pragma once
 #include <memory>
 
-
+namespace minigin
+{
 	class ITextLocalizer
 	{
 		/**
@@ -30,3 +31,4 @@
 			return stringFormatInternal(Get(fmt), forward<Args>(args)...);
 		}
 	};
+}

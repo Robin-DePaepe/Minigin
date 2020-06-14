@@ -9,7 +9,7 @@
 #include <SDL.h>
 #include "Renderer.h"
 
-BoxCollider::BoxCollider(float width, float height, bool isTrigger, bool visualizeBox)
+minigin::BoxCollider::BoxCollider(float width, float height, bool isTrigger, bool visualizeBox)
 	:ColliderComponent{ isTrigger }
 	, m_Width{ width }
 	, m_Height{ height }
@@ -23,7 +23,7 @@ BoxCollider::BoxCollider(float width, float height, bool isTrigger, bool visuali
 }
 
 
-void BoxCollider::PhysxUpdate()
+void minigin::BoxCollider::PhysxUpdate()
 {
 	m_BlockedLeft = false;
 	m_BlockedRight = false;
@@ -75,7 +75,7 @@ void BoxCollider::PhysxUpdate()
 	}
 }
 
-void BoxCollider::Update()
+void minigin::BoxCollider::Update()
 {
 	if (m_VisualizeBox)
 	{
@@ -84,7 +84,7 @@ void BoxCollider::Update()
 	}
 }
 
-void BoxCollider::Render() const
+void minigin::BoxCollider::Render() const
 {
 	if (m_VisualizeBox)
 	{

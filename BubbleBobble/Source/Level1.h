@@ -8,7 +8,7 @@
 //#pragma warning(pop)
 
 
-class Level1 final : public Scene
+class Level1 final : public minigin::Scene
 {
 public:
 	//rule of 5

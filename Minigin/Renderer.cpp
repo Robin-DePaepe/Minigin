@@ -4,7 +4,7 @@
 #include "SceneManager.h"
 #include "Texture2D.h"
 
-void Renderer::Init(SDL_Window * window)
+void minigin::Renderer::Init(SDL_Window * window)
 {
 	m_Renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (m_Renderer == nullptr) 
@@ -13,7 +13,7 @@ void Renderer::Init(SDL_Window * window)
 	}
 }
 
-void Renderer::Render() const
+void minigin::Renderer::Render() const
 {
 	SDL_SetRenderDrawColor(m_Renderer, 0,0,0,0);
 
@@ -24,7 +24,7 @@ void Renderer::Render() const
 	SDL_RenderPresent(m_Renderer);
 }
 
-void Renderer::Destroy()
+void minigin::Renderer::Destroy()
 {
 	if (m_Renderer != nullptr)
 	{
@@ -33,7 +33,7 @@ void Renderer::Destroy()
 	}
 }
 
-void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void minigin::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -42,7 +42,7 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void minigin::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
@@ -52,7 +52,7 @@ void Renderer::RenderTexture(const Texture2D& texture, const float x, const floa
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void Renderer::RenderRect(SDL_Rect rect, SDL_Color color) const
+void minigin::Renderer::RenderRect(SDL_Rect rect, SDL_Color color) const
 {
 	SDL_SetRenderDrawColor(m_Renderer, color.r,color.g,color.b,color.a);
 

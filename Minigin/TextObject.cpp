@@ -7,12 +7,12 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-TextObject::TextObject(const string& text, const shared_ptr<Font>& font) 
+minigin::TextObject::TextObject(const string& text, const shared_ptr<Font>& font) 
 	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Texture(nullptr)
 	,m_Color{255,255,255}
 { }
 
-void TextObject::Update()
+void minigin::TextObject::Update()
 {
 	if (m_NeedsUpdate)
 	{
@@ -32,7 +32,7 @@ void TextObject::Update()
 	}
 }
 
-void TextObject::Render() const
+void minigin::TextObject::Render() const
 {
 	if (m_Texture != nullptr)
 	{
@@ -42,18 +42,18 @@ void TextObject::Render() const
 }
 
 // This implementation uses the "dirty flag" pattern
-void TextObject::SetText(const string& text)
+void minigin::TextObject::SetText(const string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
 }
 
-void TextObject::SetPosition(const float x, const float y)
+void minigin::TextObject::SetPosition(const float x, const float y)
 {
 	m_Transform.SetPosition(x, y);
 }
 
-void TextObject::SetColor(SDL_Color color)
+void minigin::TextObject::SetColor(SDL_Color color)
 {
 	m_Color = color;
 }

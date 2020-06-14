@@ -7,7 +7,7 @@
 #include "TextObject.h"
 #include <thread>
 
-Scene::Scene(const wstring& name)
+minigin::Scene::Scene(const wstring& name)
 	: m_Name(name)
 	, m_ShowFpsCounter{ false }
 	, m_Processor_Cores{ thread::hardware_concurrency() }
@@ -23,30 +23,30 @@ Scene::Scene(const wstring& name)
 }
 
 
-void Scene::ShowFpsCounter(bool enable)
+void minigin::Scene::ShowFpsCounter(bool enable)
 {
 	m_ShowFpsCounter = enable;
 }
 
-const wstring& Scene::GetName() const
+const wstring& minigin::Scene::GetName() const
 {
 	return m_Name;
 }
 
-void Scene::HandleInput()
+void minigin::Scene::HandleInput()
 {
 }
 
-void Scene::InitInput()
+void minigin::Scene::InitInput()
 {
 }
 
-void Scene::Add(const shared_ptr<SceneObject>& object)
+void minigin::Scene::Add(const shared_ptr<SceneObject>& object)
 {
 	m_Objects.push_back(object);
 }
 
-void Scene::RootUpdate()
+void minigin::Scene::RootUpdate()
 {
 	HandleInput();
 	SoundManager::GetInstance().GetSystem()->update();
@@ -88,7 +88,7 @@ void Scene::RootUpdate()
 	Update();
 }
 
-void Scene::RootRender() const
+void minigin::Scene::RootRender() const
 {
 	for (const auto& object : m_Objects)
 	{

@@ -2,12 +2,12 @@
 #include "Texture2D.h"
 #include <SDL.h>
 
-Texture2D::~Texture2D()
+minigin::Texture2D::~Texture2D()
 {
 	SDL_DestroyTexture(m_Texture);
 }
 
-glm::vec2 Texture2D::GetSize() const
+glm::vec2 minigin::Texture2D::GetSize() const
 {
 	glm::vec2 size{};
 
@@ -22,12 +22,12 @@ glm::vec2 Texture2D::GetSize() const
 	return size;
 }
 
-SDL_Texture* Texture2D::GetSDLTexture() const
+SDL_Texture* minigin::Texture2D::GetSDLTexture() const
 {
 	return m_Texture;
 }
 
-Texture2D::Texture2D(SDL_Texture* texture)
+minigin::Texture2D::Texture2D(SDL_Texture* texture)
 {
 	m_Texture = texture;
 }

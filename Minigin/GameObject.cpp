@@ -4,14 +4,14 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 
-GameObject::GameObject(const wstring& name)
+minigin::GameObject::GameObject(const wstring& name)
 	:m_spTransform{ make_shared<TransformComponent>( )}
 	, m_Name{name}
 {}
 
-GameObject::~GameObject() = default;
+minigin::GameObject::~GameObject() = default;
 
-void GameObject::Update()
+void minigin::GameObject::Update()
 {
 	m_spTransform->Update();
 
@@ -29,7 +29,7 @@ void GameObject::Update()
 	}
 }
 
-void GameObject::Render() const
+void minigin::GameObject::Render() const
 {
 	const auto pos = m_spTransform->GetPosition();
 	Renderer::GetInstance().RenderTexture(*m_spTexture, pos.x, pos.y);
@@ -44,31 +44,31 @@ void GameObject::Render() const
 	}
 }
 
-void GameObject::SetTexture(const string& filename)
+void minigin::GameObject::SetTexture(const string& filename)
 {
 	m_spTexture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
-glm::vec2 GameObject::GetTextureSize() const
+glm::vec2 minigin::GameObject::GetTextureSize() const
 {
 	if (!m_spTexture) return glm::vec2{};
 
 	return m_spTexture->GetSize();
 }
 
-shared_ptr<TransformComponent> GameObject::GetTransfrom() const
+shared_ptr<minigin::TransformComponent> minigin::GameObject::GetTransfrom() const
 {
 	return m_spTransform;
 }
 
-void GameObject::AddComponent(shared_ptr<BaseComponent> spComp)
+void minigin::GameObject::AddComponent(shared_ptr<BaseComponent> spComp)
 {
 	m_spComponents.push_back(spComp);
 	spComp->SetGameObject(this);
 	spComp->Initialize();
 }
 
-void GameObject::RemoveComponent(shared_ptr<BaseComponent> spComp)
+void minigin::GameObject::RemoveComponent(shared_ptr<BaseComponent> spComp)
 {
 	auto it = find(m_spComponents.begin(), m_spComponents.end(), spComp);
 
@@ -76,7 +76,12 @@ void GameObject::RemoveComponent(shared_ptr<BaseComponent> spComp)
 	spComp->SetGameObject(nullptr);
 }
 
-void GameObject::onNotify(const BaseComponent& entity, Event event)
+void minigin::GameObject::SetActions(bool active)
+{
+	for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)		spBaseComp->SetActions(active);
+}
+
+void minigin::GameObject::onNotify(const BaseComponent& entity, Event event)
 {
 	switch (event)
 	{

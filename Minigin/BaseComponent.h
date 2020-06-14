@@ -1,47 +1,52 @@
 #pragma once
 #include "Subject.h"
 
+
+namespace minigin
+{
 class GameObject;
 class TransformComponent;
 
-enum Event
-{
-	OnTiggerStay
-};
+	enum Event
+	{
+		OnTiggerStay
+	};
 
-class BaseComponent : public Subject<Event,BaseComponent>
-{
-public:
-	BaseComponent();
-	virtual ~BaseComponent() = default;
+	class BaseComponent : public Subject<Event, BaseComponent>
+	{
+	public:
+		BaseComponent();
+		virtual ~BaseComponent() = default;
 
-	BaseComponent(const BaseComponent& other) = delete;
-	BaseComponent(BaseComponent&& other) = delete;
-	BaseComponent& operator=(const BaseComponent& other) = delete;
-	BaseComponent& operator=(BaseComponent&& other) = delete;
+		BaseComponent(const BaseComponent& other) = delete;
+		BaseComponent(BaseComponent&& other) = delete;
+		BaseComponent& operator=(const BaseComponent& other) = delete;
+		BaseComponent& operator=(BaseComponent&& other) = delete;
 
-	virtual void Initialize()  {};
-	virtual void Update() = 0;
-	virtual void PhysxUpdate() = 0;
-	virtual void Render() const = 0;
+		virtual void Initialize() {};
+		virtual void Update() = 0;
+		virtual void PhysxUpdate() = 0;
+		virtual void Render() const = 0;
 
-	void SetGameObject(GameObject* owner);
-	void DeleteComponent();
-	
-	bool Enabled() const { return m_Enabled; }
-	bool SetEnabled(bool value) { m_Enabled = value; }	
+		virtual void SetActions(bool active) { UNREFERENCED_PARAMETER(active); };
 
-	bool Visible() const { return m_Visible; }
-	bool SetVisible(bool value) { m_Visible = value; }
+		void SetGameObject(GameObject* owner);
+		void DeleteComponent();
 
-	bool Destoy() const { return m_Delete; }
-	void DestoyComponent(bool value)  {  m_Delete = value; }
+		bool Enabled() const { return m_Enabled; }
+		bool SetEnabled(bool value) { m_Enabled = value; }
 
-	GameObject* GetGameObject() const { return m_pGameObject; }
-	shared_ptr<TransformComponent> GetTransform() const;
+		bool Visible() const { return m_Visible; }
+		bool SetVisible(bool value) { m_Visible = value; }
 
-protected:
-	GameObject* m_pGameObject;
-	bool m_Delete,m_Visible,m_Enabled;
-};
+		bool Destoy() const { return m_Delete; }
+		void DestoyComponent(bool value) { m_Delete = value; }
 
+		GameObject* GetGameObject() const { return m_pGameObject; }
+		shared_ptr<TransformComponent> GetTransform() const;
+
+	protected:
+		GameObject* m_pGameObject;
+		bool m_Delete, m_Visible, m_Enabled;
+	};
+}

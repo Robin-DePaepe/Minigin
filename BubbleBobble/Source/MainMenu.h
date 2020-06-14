@@ -9,7 +9,7 @@
 
 class MainMenu;
 
-class ClickCommand final : public Command
+class ClickCommand final : public minigin::Command
 {
 public:
 	ClickCommand(MainMenu* pObj, void(MainMenu::* pFucntion)())
@@ -25,7 +25,7 @@ private:
 	void(MainMenu::* m_pFucntion)();
 };
 
-class MainMenu final : public Scene
+class MainMenu final : public minigin::Scene
 {
 public:
 	//rule of 5

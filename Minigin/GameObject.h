@@ -5,71 +5,75 @@
 #include <type_traits>
 #include "Observer.h"
 
-class Texture2D;
-
-class GameObject  : public SceneObject , public Observer<Event, BaseComponent>
+namespace minigin
 {
-public:
-	//functions
-	void Update() override;
-	void Render() const override;
+	class Texture2D;
 
-	void SetTexture(const string& filename);
-	glm::vec2 GetTextureSize() const;
+	class GameObject : public SceneObject, public Observer<Event, BaseComponent>
+	{
+	public:
+		//functions
+		void Update() override;
+		void Render() const override;
 
-	shared_ptr<TransformComponent> GetTransfrom() const;
+		void SetTexture(const string& filename);
+		glm::vec2 GetTextureSize() const;
 
-	const wstring& GetName() const { return m_Name; }
+		shared_ptr<TransformComponent> GetTransfrom() const;
 
-	void AddComponent(shared_ptr<BaseComponent> pComp);
-	void RemoveComponent(shared_ptr<BaseComponent> spComp);
+		const wstring& GetName() const { return m_Name; }
 
-	virtual void onNotify(const BaseComponent& entity, Event event) override;
+		void AddComponent(shared_ptr<BaseComponent> pComp);
+		void RemoveComponent(shared_ptr<BaseComponent> spComp);
 
-	virtual void OnTriggerStay(GameObject* other) { UNREFERENCED_PARAMETER(other); };
+		virtual void SetActions(bool active);
 
-	//rule of 5
-	GameObject(const wstring& name = L"");
-	virtual ~GameObject();
+		virtual void onNotify(const BaseComponent& entity, Event event) override;
 
-	GameObject(const GameObject& other) = delete;
-	GameObject(GameObject&& other) = delete;
-	GameObject& operator=(const GameObject& other) = delete;
-	GameObject& operator=(GameObject&& other) = delete;
+		virtual void OnTriggerStay(GameObject* other) { UNREFERENCED_PARAMETER(other); };
+
+		//rule of 5
+		GameObject(const wstring& name = L"");
+		virtual ~GameObject();
+
+		GameObject(const GameObject& other) = delete;
+		GameObject(GameObject&& other) = delete;
+		GameObject& operator=(const GameObject& other) = delete;
+		GameObject& operator=(GameObject&& other) = delete;
 
 #pragma region
-	template <class T>
-	shared_ptr<T> GetComponent()
-	{
-		const type_info& ti = typeid(T);
-		for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+		template <class T>
+		shared_ptr<T> GetComponent()
 		{
-			if (spBaseComp && typeid(*spBaseComp) == ti )
-				return static_pointer_cast<T>(spBaseComp);
+			const type_info& ti = typeid(T);
+			for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+			{
+				if (spBaseComp && typeid(*spBaseComp) == ti)
+					return static_pointer_cast<T>(spBaseComp);
+			}
+			return nullptr;
 		}
-		return nullptr;
-	}
 
-	template <class T>
-	vector<shared_ptr<T>> GetComponents()
-	{
-		const type_info& ti = typeid(T);
-		vector<shared_ptr<T>> components;
-
-		for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+		template <class T>
+		vector<shared_ptr<T>> GetComponents()
 		{
-			if (spBaseComp && typeid(*spBaseComp) == ti)
-				components.push_back(static_pointer_cast<T>(spBaseComp));
+			const type_info& ti = typeid(T);
+			vector<shared_ptr<T>> components;
+
+			for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+			{
+				if (spBaseComp && typeid(*spBaseComp) == ti)
+					components.push_back(static_pointer_cast<T>(spBaseComp));
+			}
+			return components;
 		}
-		return components;
-	}
 
 #pragma endregion Template methods
-protected:
-	//datamembers	
-	shared_ptr<TransformComponent> m_spTransform;
-	vector<shared_ptr<BaseComponent>> m_spComponents;
-	shared_ptr<Texture2D> m_spTexture{};
-	wstring m_Name;
-};
-
+	protected:
+		//datamembers	
+		shared_ptr<TransformComponent> m_spTransform;
+		vector<shared_ptr<BaseComponent>> m_spComponents;
+		shared_ptr<Texture2D> m_spTexture{};
+		wstring m_Name;
+	};
+}

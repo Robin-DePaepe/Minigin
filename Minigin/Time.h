@@ -2,22 +2,25 @@
 #include "Singleton.h"
 #include <chrono>
 
-using namespace std;
-using namespace chrono;
-class Time final : public Singleton<Time>
+namespace minigin
 {
-public:
-	Time();
-	void Update();
+	using namespace std;
+	using namespace chrono;
 
-	float GetElapsedTime() const;
-	unsigned int GetFPS() const;
+	class Time final : public Singleton<Time>
+	{
+	public:
+		Time();
+		void Update();
 
-private:
-	float m_ElapsedTime, m_FPSTimer;
-	unsigned int m_FPS;
-	unsigned int m_FPSCount;
+		float GetElapsedTime() const;
+		unsigned int GetFPS() const;
 
-	time_point<steady_clock> m_PreviousTime;
-};
+	private:
+		float m_ElapsedTime, m_FPSTimer;
+		unsigned int m_FPS;
+		unsigned int m_FPSCount;
 
+		time_point<steady_clock> m_PreviousTime;
+	};
+}

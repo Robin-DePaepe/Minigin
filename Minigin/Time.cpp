@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "Time.h"
 
-Time::Time()
+minigin::Time::Time()
 	:m_PreviousTime{ high_resolution_clock::now()}
 	,m_ElapsedTime{}
 	,m_FPSTimer{}
@@ -10,7 +10,7 @@ Time::Time()
 {
 }
 
-void Time::Update()
+void minigin::Time::Update()
 {
 	const auto currentTime = high_resolution_clock::now();
 	m_ElapsedTime = float(duration_cast<milliseconds>(currentTime - m_PreviousTime).count());
@@ -29,12 +29,12 @@ void Time::Update()
 	}
 }
 
-unsigned int Time::GetFPS() const
+unsigned int minigin::Time::GetFPS() const
 {
 	return m_FPS;
 }
 
-float Time::GetElapsedTime() const
+float minigin::Time::GetElapsedTime() const
 {
 	return m_ElapsedTime / 1000.f;//return in seconds
 }

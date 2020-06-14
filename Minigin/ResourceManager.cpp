@@ -8,7 +8,7 @@
 #include "Texture2D.h"
 #include "Font.h"
 
-void ResourceManager::Init(const string& dataPath)
+void minigin::ResourceManager::Init(const string& dataPath)
 {
 	m_DataPath = dataPath;
 
@@ -30,7 +30,7 @@ void ResourceManager::Init(const string& dataPath)
 	}
 }
 
-shared_ptr<Texture2D> ResourceManager::LoadTexture(const string& file) const
+shared_ptr<minigin::Texture2D>minigin::ResourceManager::LoadTexture(const string& file) const
 {
 	const auto fullPath = m_DataPath + file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.c_str());
@@ -41,7 +41,7 @@ shared_ptr<Texture2D> ResourceManager::LoadTexture(const string& file) const
 	return make_shared<Texture2D>(texture);
 }
 
-shared_ptr<Font> ResourceManager::LoadFont(const string& file, unsigned int size) const
+shared_ptr<minigin::Font> minigin::ResourceManager::LoadFont(const string& file, unsigned int size) const
 {
 	return make_shared<Font>(m_DataPath + file, size);
 }

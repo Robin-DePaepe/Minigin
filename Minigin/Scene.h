@@ -2,49 +2,51 @@
 #include "SceneManager.h"
 #include <string>
 
-class TextObject;
-class SceneObject;
-
-class Scene 
+namespace minigin
 {
-public:
-	//rule of 5
-	explicit Scene(const wstring& name);
-	virtual ~Scene() = default;
+	class TextObject;
+	class SceneObject;
 
-	Scene(const Scene& other) = delete;
-	Scene(Scene&& other) = delete;
-	Scene& operator=(const Scene& other) = delete;
-	Scene& operator=(Scene&& other) = delete;
+	class Scene
+	{
+	public:
+		//rule of 5
+		explicit Scene(const wstring& name);
+		virtual ~Scene() = default;
 
-	//public functions
-	virtual void Initialize() = 0;
-	virtual void RootUpdate();
-	virtual void RootRender() const;
-	
-	virtual void SceneActivated() {};
-	virtual void SceneDeactivated() {};
+		Scene(const Scene& other) = delete;
+		Scene(Scene&& other) = delete;
+		Scene& operator=(const Scene& other) = delete;
+		Scene& operator=(Scene&& other) = delete;
 
-	void Add(const shared_ptr<SceneObject>& object);
+		//public functions
+		virtual void Initialize() = 0;
+		virtual void RootUpdate();
+		virtual void RootRender() const;
 
-	void ShowFpsCounter(bool enable);
-	const wstring& GetName() const;
+		virtual void SceneActivated() {};
+		virtual void SceneDeactivated() {};
 
-private:
-	//datamembers
-	wstring m_Name;
-	vector < shared_ptr<SceneObject>> m_Objects{};
+		void Add(const shared_ptr<SceneObject>& object);
 
-	bool m_ShowFpsCounter;
-	shared_ptr<TextObject> m_spFpsCounter;
+		void ShowFpsCounter(bool enable);
+		const wstring& GetName() const;
+	protected:
+		vector < shared_ptr<SceneObject>> m_Objects{};
+	private:
+		//datamembers
+		wstring m_Name;
 
-	const unsigned int m_Processor_Cores;
-	//private functions
-	virtual void Update() = 0;
-	virtual void Render() const = 0;
+		bool m_ShowFpsCounter;
+		shared_ptr<TextObject> m_spFpsCounter;
 
-	void HandleInput();
-	void InitInput();
-};
+		const unsigned int m_Processor_Cores;
+		//private functions
+		virtual void Update() = 0;
+		virtual void Render() const = 0;
 
+		void HandleInput();
+		void InitInput();
+	};
+}
 

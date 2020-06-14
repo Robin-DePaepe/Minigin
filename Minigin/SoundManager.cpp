@@ -2,12 +2,12 @@
 #include "SoundManager.h"
 
 
-SoundManager::SoundManager()
+minigin::SoundManager::SoundManager()
 {
 	Initialize();
 }
 
-SoundManager::~SoundManager()
+minigin::SoundManager::~SoundManager()
 {
 	if (m_pFmodSystem)
 	{
@@ -17,7 +17,7 @@ SoundManager::~SoundManager()
 
 #pragma warning(push)
 #pragma warning(disable: 26812)
-bool SoundManager::ErrorCheck(FMOD_RESULT res)
+bool minigin::SoundManager::ErrorCheck(FMOD_RESULT res)
 {
 	if (res != FMOD_OK)
 	{
@@ -31,7 +31,7 @@ bool SoundManager::ErrorCheck(FMOD_RESULT res)
 }
 #pragma warning(pop)
 
-void SoundManager::Initialize()
+void minigin::SoundManager::Initialize()
 {
 	unsigned int version;
 	int numdrivers;

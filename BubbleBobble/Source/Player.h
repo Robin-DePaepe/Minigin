@@ -14,7 +14,7 @@
 //	Player(Player&& other) = delete;
 //	Player& operator=(const Player& other) = delete;
 //	Player& operator=(Player&& other) = delete;
-//
+//		 void SetActions(bool active) override;
 //private:
 //
 //

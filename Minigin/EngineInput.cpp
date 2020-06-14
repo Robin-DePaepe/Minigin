@@ -3,17 +3,17 @@
 #include "SceneManager.h"
 #include "Minigin.h"
 
-void NextSceneCommand::Execute()
+void minigin::NextSceneCommand::Execute()
 {
 	SceneManager::GetInstance().NextScene();
 }
 
-void PreviousSceneCommand::Execute()
+void minigin::PreviousSceneCommand::Execute()
 {
 	SceneManager::GetInstance().PreviousScene();
 }
 
-void QuitCommand::Execute()
+void minigin::QuitCommand::Execute()
 {
 	Minigin::QuitProgram();
 }

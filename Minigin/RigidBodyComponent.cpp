@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "BoxCollider.h"
 
-RigidBodyComponent::RigidBodyComponent(float mass,bool isStatic)
+minigin::RigidBodyComponent::RigidBodyComponent(float mass,bool isStatic)
 	:m_IsKinematic{ false }
 	, m_IsStatic{ isStatic }
 	, m_Time{ Time::GetInstance() }
@@ -14,11 +14,11 @@ RigidBodyComponent::RigidBodyComponent(float mass,bool isStatic)
 {
 }
 
-void RigidBodyComponent::PhysxUpdate()
+void  minigin::RigidBodyComponent::PhysxUpdate()
 {
 }
 
-void RigidBodyComponent::Update()
+void  minigin::RigidBodyComponent::Update()
 {
 	if (!m_Initialized) Logger::LogError(L"Rigidbody component hasn't been initialized");
 
@@ -36,7 +36,7 @@ void RigidBodyComponent::Update()
 	m_spTransform->Translate(translation.x, translation.y);
 }
 
-void RigidBodyComponent::Initialize()
+void  minigin::RigidBodyComponent::Initialize()
 {
 	if (m_pGameObject != nullptr) m_spCollider = m_pGameObject->GetComponent<BoxCollider>();
 	if (m_spCollider == nullptr) Logger::LogError(L"The Rigid body  needs a collider to function properly");
@@ -46,12 +46,12 @@ void RigidBodyComponent::Initialize()
 	m_Initialized = true;
 }
 
-void RigidBodyComponent::AddForce(glm::vec2 force)
+void  minigin::RigidBodyComponent::AddForce(glm::vec2 force)
 {
 	m_Velocity -= force;
 }
 
-void RigidBodyComponent::ClearForce()
+void  minigin::RigidBodyComponent::ClearForce()
 {
 	m_Velocity = glm::vec2{ 0.f,0.f };
 }

@@ -1,10 +1,12 @@
 #pragma once
 
-
-template<typename enumEvents, typename subject>
-class Observer
+namespace minigin
 {
-public:
-    virtual ~Observer() = default;
-    virtual void onNotify(const subject& entity, enumEvents event) = 0;
-};
+    template<typename enumEvents, typename subject>
+    class Observer
+    {
+    public:
+        virtual ~Observer() = default;
+        virtual void onNotify(const subject& entity, enumEvents event) = 0;
+    };
+}

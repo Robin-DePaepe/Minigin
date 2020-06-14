@@ -12,11 +12,11 @@
 #include "Time.h"
 #include "EngineInput.h"
 
-bool Minigin::m_Continue = true;
+bool minigin::Minigin::m_Continue = true;
 
 using namespace chrono;
 
-void Minigin::Initialize()
+void minigin::Minigin::Initialize()
 {
 	try
 	{
@@ -70,7 +70,7 @@ void Minigin::Initialize()
 	}
 }
 
-void Minigin::Cleanup()
+void minigin::Minigin::Cleanup()
 {
 	Logger::Release();
 	Renderer::GetInstance().Destroy();
@@ -79,7 +79,7 @@ void Minigin::Cleanup()
 	SDL_Quit();
 }
 
-void Minigin::Run()
+void minigin::Minigin::Run()
 {
 	try
 	{
@@ -113,7 +113,7 @@ void Minigin::Run()
 	Cleanup();
 }
 
-void Minigin::QuitProgram()
+void minigin::Minigin::QuitProgram()
 {
 	m_Continue = false;
 }

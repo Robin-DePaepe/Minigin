@@ -3,14 +3,17 @@
 
 struct SDL_Window;
 
-class Minigin
+namespace minigin
 {
-public:
-	void Initialize();
-	void Cleanup();
-	 void Run();
-	 static void QuitProgram();
-private:
-	SDL_Window* m_Window{};
-	static bool m_Continue;
-};
+	class Minigin
+	{
+	public:
+		void Initialize();
+		void Cleanup();
+		void Run();
+		static void QuitProgram();
+	private:
+		SDL_Window* m_Window{};
+		static bool m_Continue;
+	};
+}

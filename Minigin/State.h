@@ -1,21 +1,24 @@
 #pragma once
 
-template<typename states>
-class State
+namespace minigin
 {
-public:
-	State() = default;
-	virtual ~State() = default;
-		
-	State(const State& other) = delete;
-	State(State&& other) noexcept = delete;
-	State& operator=(const State& other) = delete;
-	State& operator=(State&& other) noexcept = delete;
+	template<typename states>
+	class State
+	{
+	public:
+		State() = default;
+		virtual ~State() = default;
 
-	virtual states Update() = 0;
-	virtual void Render() const = 0;
+		State(const State& other) = delete;
+		State(State&& other) noexcept = delete;
+		State& operator=(const State& other) = delete;
+		State& operator=(State&& other) noexcept = delete;
 
-	virtual void StartAction() = 0;
-	virtual void EndAction() = 0;
-private:
-};
+		virtual states Update() = 0;
+		virtual void Render() const = 0;
+
+		virtual void StartAction() = 0;
+		virtual void EndAction() = 0;
+	private:
+	};
+}

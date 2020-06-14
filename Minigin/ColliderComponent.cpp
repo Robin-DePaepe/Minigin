@@ -6,9 +6,11 @@
 #pragma warning(pop)
 #include "TransformComponent.h"
 #include "GameObject.h"
-vector<ColliderComponent*> ColliderComponent::m_pColliders{};
 
-ColliderComponent::ColliderComponent(bool isTrigger)
+
+vector<minigin::ColliderComponent*>  minigin::ColliderComponent::m_pColliders{};
+
+minigin::ColliderComponent::ColliderComponent(bool isTrigger)
 	:m_IsTrigger{ isTrigger }
 	,m_OnGround{false}
 	,m_BlockedRight{false}
@@ -18,12 +20,12 @@ ColliderComponent::ColliderComponent(bool isTrigger)
 	m_pColliders.push_back(this);
 }
 
-ColliderComponent::~ColliderComponent()
+minigin::ColliderComponent::~ColliderComponent()
 {
 	m_pColliders.erase(find(m_pColliders.cbegin(), m_pColliders.cend(), this));
 }
 
-void ColliderComponent::Initialize()
+void  minigin::ColliderComponent::Initialize()
 {
 	addObserver(GetGameObject());
 }

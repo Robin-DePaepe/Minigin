@@ -1,19 +1,20 @@
 #pragma once
 #include "Singleton.h"
 
-
-class Texture2D;
-class Font;
-
-class ResourceManager final : public Singleton<ResourceManager>
+namespace minigin
 {
-public:
-	void Init(const string& data);
-	shared_ptr<Texture2D> LoadTexture(const string& file) const;
-	shared_ptr<Font> LoadFont(const string& file, unsigned int size) const;
-private:
-	friend class Singleton<ResourceManager>;
-	ResourceManager() = default;
-	string m_DataPath;
-};
+	class Texture2D;
+	class Font;
 
+	class ResourceManager final : public Singleton<ResourceManager>
+	{
+	public:
+		void Init(const string& data);
+		shared_ptr<Texture2D> LoadTexture(const string& file) const;
+		shared_ptr<Font> LoadFont(const string& file, unsigned int size) const;
+	private:
+		friend class Singleton<ResourceManager>;
+		ResourceManager() = default;
+		string m_DataPath;
+	};
+}

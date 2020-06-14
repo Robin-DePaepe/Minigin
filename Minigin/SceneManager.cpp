@@ -2,17 +2,17 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
-void SceneManager::Update()
+void minigin::SceneManager::Update()
 {
 	m_spActiveScene->RootUpdate();
 }
 
-void SceneManager::Render()
+void minigin::SceneManager::Render()
 {
 	m_spActiveScene->RootRender();
 }
 
-void SceneManager::AddGameScene(shared_ptr<Scene> spScene)
+void minigin::SceneManager::AddGameScene(shared_ptr<Scene> spScene)
 {
 	if (spScene == nullptr)
 	{
@@ -32,7 +32,7 @@ void SceneManager::AddGameScene(shared_ptr<Scene> spScene)
 	if (m_spScenes.size() == 1) SetActiveGameScene(spScene);
 }
 
-void SceneManager::RemoveGameScene(shared_ptr<Scene> spScene)
+void minigin::SceneManager::RemoveGameScene(shared_ptr<Scene> spScene)
 {
 	if (spScene == nullptr)
 	{
@@ -47,17 +47,17 @@ void SceneManager::RemoveGameScene(shared_ptr<Scene> spScene)
 	if (it != m_spScenes.end()) m_spScenes.erase(it);
 }
 
-void SceneManager::RemoveGameScene(const wstring& sceneName)
+void minigin::SceneManager::RemoveGameScene(const wstring& sceneName)
 {
 	RemoveGameScene(GetScene(sceneName));
 }
 
-void SceneManager::SetActiveGameScene(const wstring& sceneName)
+void minigin::SceneManager::SetActiveGameScene(const wstring& sceneName)
 {
 	SetActiveGameScene(GetScene(sceneName));
 }
 
-void SceneManager::SetActiveGameScene(shared_ptr<Scene> spScene)
+void minigin::SceneManager::SetActiveGameScene(shared_ptr<Scene> spScene)
 {
 	if (spScene == nullptr)
 	{
@@ -72,7 +72,7 @@ void SceneManager::SetActiveGameScene(shared_ptr<Scene> spScene)
 	m_spActiveScene->SceneActivated();
 }
 
-void SceneManager::NextScene()
+void minigin::SceneManager::NextScene()
 {
 	auto it = find(m_spScenes.cbegin(), m_spScenes.cend(), m_spActiveScene);
 
@@ -83,7 +83,7 @@ void SceneManager::NextScene()
 	SetActiveGameScene(*it);
 }
 
-void SceneManager::PreviousScene()
+void minigin::SceneManager::PreviousScene()
 {
 	auto it = find(m_spScenes.cbegin(), m_spScenes.cend(), m_spActiveScene);
 
@@ -94,7 +94,7 @@ void SceneManager::PreviousScene()
 	SetActiveGameScene(*it);
 }
 
-shared_ptr<Scene> SceneManager::GetScene(const wstring& sceneName)
+shared_ptr<minigin::Scene> minigin::SceneManager::GetScene(const wstring& sceneName)
 {
 	for (const auto& scene : m_spScenes)
 	{
