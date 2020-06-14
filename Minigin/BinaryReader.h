@@ -48,29 +48,30 @@ namespace minigin
 	template<typename T>
 	T BinaryReader::Read()
 	{
+		char data[sizeof(T)];
+
 		if (m_Reader.is_open() && m_Reader.good())
 		{
-			char* pData{};
-			m_Reader.read(pData, sizeof(T));
-
-			return static_cast<T>(*size);
+			m_Reader.read(data, sizeof(T));
 		}
-		else	throw exception("BinaryReader::Read > Error trying to read file.");
+		else	Logger::LogError(L"BinaryReader::Read > Error trying to read file.");
+
+		return static_cast<T>(*data);
 	}
 
 	template<>
 	wstring BinaryReader::Read()
 	{
+		wstringstream ss;
+
 		if (m_Reader.is_open() && m_Reader.good())
 		{
 			int stringLength = int(Read<char>());
 
-			wstringstream ss;
-
 			for (int i = 0; i < stringLength; ++i) ss << Read<char>();
-
-			return wstring(ss.str());
 		}
-		else	throw exception("BinaryReader::Read > Error trying to read file.");
+		else	Logger::LogError(L"BinaryReader::Read > Error trying to read file.");
+
+		return wstring(ss.str());
 	}
 }
