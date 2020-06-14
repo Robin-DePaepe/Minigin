@@ -3,6 +3,7 @@
 #include "TransformComponent.h"
 #include "GameObject.h"
 #include "BoxCollider.h"
+#include <algorithm>
 
 minigin::RigidBodyComponent::RigidBodyComponent(float mass, bool isStatic)
 	:m_IsKinematic{ false }
@@ -11,6 +12,7 @@ minigin::RigidBodyComponent::RigidBodyComponent(float mass, bool isStatic)
 	, m_Gravity{ 9.81f }
 	, m_Initialized{ false }
 	, m_Mass{ mass }
+	,m_MaxAxisSpeed{200.f}
 {
 }
 
@@ -29,6 +31,8 @@ void  minigin::RigidBodyComponent::Update()
 	//reset the y velocity when landing
 	if (m_spCollider->IsOnGround() && m_Velocity.y > 0.f) m_Velocity.y = 0.f;
 
+	//clamp axis speed
+	if (m_Velocity.y >= m_MaxAxisSpeed) m_Velocity.y = m_MaxAxisSpeed;
 	//move the object
 	glm::vec2 translation{ m_Velocity * m_Time.GetElapsedTime() };
 
@@ -37,9 +41,17 @@ void  minigin::RigidBodyComponent::Update()
 
 void  minigin::RigidBodyComponent::Initialize()
 {
-	if (m_pGameObject != nullptr) m_spCollider = m_pGameObject->GetComponent<BoxCollider>();
-	if (m_spCollider == nullptr) Logger::LogError(L"The Rigid body  needs a collider to function properly");
+	if (m_pGameObject != nullptr)
+	{
+		auto colliders = m_pGameObject->GetComponents<minigin::BoxCollider>();
 
+		for (size_t i = 0; i < colliders.size(); i++)
+		{
+			if (colliders[i]->IsTrigger() == false) m_spCollider = colliders[i];
+		}
+		if (m_spCollider == nullptr) minigin::Logger::LogError(L"The Rigid body needs a non trigger collider to function properly");
+		else m_spCollider->SetIsStatic(m_IsStatic);
+	}
 	m_spTransform = GetTransform();
 	m_Initialized = true;
 }
