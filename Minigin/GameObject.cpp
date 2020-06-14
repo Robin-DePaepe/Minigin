@@ -4,8 +4,8 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 
-GameObject::GameObject(const std::string& name)
-	:m_spTransform{ std::make_shared<TransformComponent>( )}
+GameObject::GameObject(const wstring& name)
+	:m_spTransform{ make_shared<TransformComponent>( )}
 	, m_Name{name}
 {}
 
@@ -15,17 +15,17 @@ void GameObject::Update()
 {
 	m_spTransform->Update();
 
-	for (std::shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+	for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
 	{
 		if (!spBaseComp->Enabled()) continue;
 		spBaseComp->PhysxUpdate();
 		spBaseComp->Update();
 	}
 	//delete components
-	for (std::shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+	for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
 	{
 		if (spBaseComp->Destoy())
-			m_spComponents.erase(std::find(m_spComponents.begin(), m_spComponents.end(), spBaseComp));
+			m_spComponents.erase(find(m_spComponents.begin(), m_spComponents.end(), spBaseComp));
 	}
 }
 
@@ -36,7 +36,7 @@ void GameObject::Render() const
 
 	m_spTransform->Render();
 
-	for (std::shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+	for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
 	{
 		if (!spBaseComp->Visible()) continue;
 
@@ -44,7 +44,7 @@ void GameObject::Render() const
 	}
 }
 
-void GameObject::SetTexture(const std::string& filename)
+void GameObject::SetTexture(const string& filename)
 {
 	m_spTexture = ResourceManager::GetInstance().LoadTexture(filename);
 }
@@ -56,21 +56,21 @@ glm::vec2 GameObject::GetTextureSize() const
 	return m_spTexture->GetSize();
 }
 
-std::shared_ptr<TransformComponent> GameObject::GetTransfrom() const
+shared_ptr<TransformComponent> GameObject::GetTransfrom() const
 {
 	return m_spTransform;
 }
 
-void GameObject::AddComponent(std::shared_ptr<BaseComponent> spComp)
+void GameObject::AddComponent(shared_ptr<BaseComponent> spComp)
 {
 	m_spComponents.push_back(spComp);
 	spComp->SetGameObject(this);
 	spComp->Initialize();
 }
 
-void GameObject::RemoveComponent(std::shared_ptr<BaseComponent> spComp)
+void GameObject::RemoveComponent(shared_ptr<BaseComponent> spComp)
 {
-	auto it = std::find(m_spComponents.begin(), m_spComponents.end(), spComp);
+	auto it = find(m_spComponents.begin(), m_spComponents.end(), spComp);
 
 	m_spComponents.erase(it);
 	spComp->SetGameObject(nullptr);

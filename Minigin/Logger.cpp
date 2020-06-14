@@ -40,13 +40,13 @@ void Logger::Initialize()
 		//iostream objects to enter an error state. In versions of Visual Studio after 2005, this seems
 		//to always occur during startup regardless of whether anything has been read from or written to
 		//the console or not.
-		std::wcout.clear();
-		std::cout.clear();
-		std::wcerr.clear();
-		std::cerr.clear();
-		std::wcin.clear();
-		std::cin.clear();
-		std::cin.clear();
+		wcout.clear();
+		cout.clear();
+		wcerr.clear();
+		cerr.clear();
+		wcin.clear();
+		cin.clear();
+		cin.clear();
 
 		//Set ConsoleHandle
 		m_ConsoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -105,7 +105,7 @@ double Logger::StopPerformanceTimer(int timerId)
 	return diff;
 }
 
-void Logger::StartFileLogging(const std::wstring& fileName)
+void Logger::StartFileLogging(const wstring& fileName)
 {
 	delete m_FileLogger;
 
@@ -117,34 +117,34 @@ void Logger::StopFileLogging()
 	delete m_FileLogger;
 }
 
-void Logger::LogInfo(const std::wstring& msg, bool includeTimeStamp)
+void Logger::LogInfo(const wstring& msg, bool includeTimeStamp)
 {
 	Log(LogLevel::Info, msg, includeTimeStamp);
 }
 
-void Logger::LogWarning(const std::wstring& msg, bool includeTimeStamp)
+void Logger::LogWarning(const wstring& msg, bool includeTimeStamp)
 {
 	Log(LogLevel::Warning, msg, includeTimeStamp);
 }
 
-void Logger::LogError(const std::wstring& msg, bool includeTimeStamp)
+void Logger::LogError(const wstring& msg, bool includeTimeStamp)
 {
 	Log(LogLevel::Error, msg, includeTimeStamp);
 }
 
-void Logger::LogFixMe(const std::wstring& source, bool includeTimeStamp)
+void Logger::LogFixMe(const wstring& source, bool includeTimeStamp)
 {
 	Log(LogLevel::FixMe, source, includeTimeStamp);
 }
 
-bool Logger::LogHResult(HRESULT hr, const std::wstring& origin, bool includeTimeStamp)
+bool Logger::LogHResult(HRESULT hr, const wstring& origin, bool includeTimeStamp)
 {
 	if (FAILED(hr))
 	{
 		if (FACILITY_WINDOWS == HRESULT_FACILITY(hr))
 			hr = HRESULT_CODE(hr);
 
-		std::wstringstream ss;
+		wstringstream ss;
 		if (origin.size() != 0)
 		{
 			ss << ">ORIGIN:\n";
@@ -182,12 +182,12 @@ void Logger::LogFormat(LogLevel level, const wchar_t* format, ...)
 	va_start(ap, format);
 	_vsnwprintf_s(&m_ConvertBuffer[0], m_ConvertBufferSize, m_ConvertBufferSize, format, ap);
 	va_end(ap);
-	Log(level, std::wstring(&m_ConvertBuffer[0]));
+	Log(level, wstring(&m_ConvertBuffer[0]));
 }
 
-void Logger::Log(LogLevel level, const std::wstring& msg, bool includeTimeStamp)
+void Logger::Log(LogLevel level, const wstring& msg, bool includeTimeStamp)
 {
-	std::wstringstream stream;
+	wstringstream stream;
 
 	if (includeTimeStamp)
 	{

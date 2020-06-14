@@ -21,8 +21,8 @@ bool SoundManager::ErrorCheck(FMOD_RESULT res)
 {
 	if (res != FMOD_OK)
 	{
-		std::wstringstream strstr;
-		strstr << L"FMOD error! \n[" << res << L"] " << FMOD_ErrorString(res) << std::endl;
+		wstringstream strstr;
+		strstr << L"FMOD error! \n[" << res << L"] " << FMOD_ErrorString(res) << endl;
 		Logger::LogError(strstr.str());
 		return false;
 	}

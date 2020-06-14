@@ -1,6 +1,8 @@
 #pragma once
 #include <fstream>
 
+using namespace std;
+
 //credits to mathieu for this logger (logger from overlord engine)
 
 enum class LogLevel
@@ -18,12 +20,12 @@ private:
 	class BaseLogger
 	{
 	protected:
-		std::wostream* m_os = nullptr;
+		wostream* m_os = nullptr;
 	public:
 		BaseLogger() = default;
 		virtual ~BaseLogger() = default;
 
-		virtual void Log(const std::wstring& message)
+		virtual void Log(const wstring& message)
 		{
 			(*m_os) << message;
 			m_os->flush();
@@ -32,18 +34,18 @@ private:
 
 	class FileLogger : public BaseLogger
 	{
-		std::wstring m_filename;
+		wstring m_filename;
 	public:
-		explicit FileLogger(const std::wstring& fileName)
+		explicit FileLogger(const wstring& fileName)
 			: m_filename(fileName)
 		{
-			m_os = new std::wofstream(m_filename.c_str());
+			m_os = new wofstream(m_filename.c_str());
 		}
 		~FileLogger()
 		{
 			if (m_os)
 			{
-				std::wofstream* of = static_cast<std::wofstream*>(m_os);
+				wofstream* of = static_cast<wofstream*>(m_os);
 				of->close();
 				delete m_os;
 			}
@@ -55,7 +57,7 @@ private:
 	public:
 		ConsoleLogger()
 		{
-			m_os = &std::wcout;
+			m_os = &wcout;
 		}
 	};
 
@@ -65,14 +67,14 @@ public:
 	static int StartPerformanceTimer();
 	static double StopPerformanceTimer(int timerId);
 
-	static void Log(LogLevel level, const std::wstring& msg, bool includeTimeStamp = false);
+	static void Log(LogLevel level, const wstring& msg, bool includeTimeStamp = false);
 	static void LogFormat(LogLevel level, const wchar_t* format, ...);
-	static void LogInfo(const std::wstring& msg, bool includeTimeStamp = false);
-	static void LogWarning(const std::wstring& msg, bool includeTimeStamp = false);
-	static void LogError(const std::wstring& msg, bool includeTimeStamp = false);
-	static void LogFixMe(const std::wstring& source, bool includeTimeStamp = false);
-	static bool LogHResult(HRESULT hr, const std::wstring& origin, bool includeTimeStamp = false);
-	static void StartFileLogging(const std::wstring& fileName);
+	static void LogInfo(const wstring& msg, bool includeTimeStamp = false);
+	static void LogWarning(const wstring& msg, bool includeTimeStamp = false);
+	static void LogError(const wstring& msg, bool includeTimeStamp = false);
+	static void LogFixMe(const wstring& source, bool includeTimeStamp = false);
+	static bool LogHResult(HRESULT hr, const wstring& origin, bool includeTimeStamp = false);
+	static void StartFileLogging(const wstring& fileName);
 	static void StopFileLogging();
 
 #pragma warning(push)

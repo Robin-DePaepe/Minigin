@@ -2,7 +2,7 @@
 #include "TextLocalizer.h"
 #include "Csv.h"
 
-void TextLocalizer::Load(const std::string& filename, const std::string& locale) 
+void TextLocalizer::Load(const string& filename, const string& locale) 
 {
 	m_TextMap.clear();
 
@@ -10,10 +10,10 @@ void TextLocalizer::Load(const std::string& filename, const std::string& locale)
 	in.read_header(io::ignore_extra_column, "key", locale);
 
 	string key, translation;
-	while(in.read_row(key,translation)) m_TextMap.insert(std::pair<string,string>(key,translation));
+	while(in.read_row(key,translation)) m_TextMap.insert(pair<string,string>(key,translation));
 }
 
-std::string TextLocalizer::Get(const std::string& key) 
+string TextLocalizer::Get(const string& key) 
 {
 	if (m_TextMap.find(key) == m_TextMap.cend()) return "Error, text key not found";
 	return m_TextMap.at(key);

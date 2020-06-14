@@ -7,8 +7,6 @@
 
 class Texture2D;
 
-using namespace std;
-
 class GameObject  : public SceneObject , public Observer<Event, BaseComponent>
 {
 public:
@@ -16,22 +14,22 @@ public:
 	void Update() override;
 	void Render() const override;
 
-	void SetTexture(const std::string& filename);
+	void SetTexture(const string& filename);
 	glm::vec2 GetTextureSize() const;
 
-	std::shared_ptr<TransformComponent> GetTransfrom() const;
+	shared_ptr<TransformComponent> GetTransfrom() const;
 
-	const std::string& GetName() const { return m_Name; }
+	const wstring& GetName() const { return m_Name; }
 
-	void AddComponent(std::shared_ptr<BaseComponent> pComp);
-	void RemoveComponent(std::shared_ptr<BaseComponent> spComp);
+	void AddComponent(shared_ptr<BaseComponent> pComp);
+	void RemoveComponent(shared_ptr<BaseComponent> spComp);
 
 	virtual void onNotify(const BaseComponent& entity, Event event) override;
 
 	virtual void OnTriggerStay(GameObject* other) { UNREFERENCED_PARAMETER(other); };
 
 	//rule of 5
-	GameObject(const std::string& name = "");
+	GameObject(const wstring& name = L"");
 	virtual ~GameObject();
 
 	GameObject(const GameObject& other) = delete;
@@ -44,7 +42,7 @@ public:
 	shared_ptr<T> GetComponent()
 	{
 		const type_info& ti = typeid(T);
-		for (std::shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+		for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
 		{
 			if (spBaseComp && typeid(*spBaseComp) == ti )
 				return static_pointer_cast<T>(spBaseComp);
@@ -53,12 +51,12 @@ public:
 	}
 
 	template <class T>
-	std::vector<shared_ptr<T>> GetComponents()
+	vector<shared_ptr<T>> GetComponents()
 	{
 		const type_info& ti = typeid(T);
-		std::vector<shared_ptr<T>> components;
+		vector<shared_ptr<T>> components;
 
-		for (std::shared_ptr<BaseComponent> spBaseComp : m_spComponents)
+		for (shared_ptr<BaseComponent> spBaseComp : m_spComponents)
 		{
 			if (spBaseComp && typeid(*spBaseComp) == ti)
 				components.push_back(static_pointer_cast<T>(spBaseComp));
@@ -69,9 +67,9 @@ public:
 #pragma endregion Template methods
 protected:
 	//datamembers	
-	std::shared_ptr<TransformComponent> m_spTransform;
-	std::vector<std::shared_ptr<BaseComponent>> m_spComponents;
-	std::shared_ptr<Texture2D> m_spTexture{};
-	std::string m_Name;
+	shared_ptr<TransformComponent> m_spTransform;
+	vector<shared_ptr<BaseComponent>> m_spComponents;
+	shared_ptr<Texture2D> m_spTexture{};
+	wstring m_Name;
 };
 

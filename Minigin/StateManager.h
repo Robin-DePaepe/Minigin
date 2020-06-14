@@ -6,12 +6,13 @@
 #include <windows.h>
 #include "Logger.h"
 
+using namespace std;
 struct EnumClassHash
 {
 	template <typename T>
-	std::size_t operator()(T t) const
+	size_t operator()(T t) const
 	{
-		return static_cast<std::size_t>(t);
+		return static_cast<size_t>(t);
 	}
 };
 
@@ -34,8 +35,8 @@ public:
 	void AddState(states state, State<states>* pStateClass, bool setCurrentState = false);
 
 protected:
-	std::unordered_map<states, State<states>*, EnumClassHash> m_States;
-	std::pair<states, State<states>*> m_pActiveState;
+	unordered_map<states, State<states>*, EnumClassHash> m_States;
+	pair<states, State<states>*> m_pActiveState;
 
 	void ChangeState(states newState);
 };

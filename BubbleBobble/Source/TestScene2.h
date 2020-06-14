@@ -7,7 +7,7 @@ class TestScene2 final: public Scene
 {
 public:
 	//rule of 5
-	 TestScene2(const std::wstring& name);
+	 TestScene2(const wstring& name);
 	 ~TestScene2() = default;
 
 	TestScene2(const TestScene2& other) = delete;

@@ -43,8 +43,8 @@ private:
 	bool m_IsKinematic, m_Initialized;
 	glm::vec2 m_Velocity;
 
-	 std::shared_ptr<TransformComponent> m_spTransform;
-	 std::shared_ptr<ColliderComponent> m_spCollider;
+	 shared_ptr<TransformComponent> m_spTransform;
+	 shared_ptr<ColliderComponent> m_spCollider;
 };
 
 

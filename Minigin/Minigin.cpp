@@ -14,8 +14,7 @@
 
 bool Minigin::m_Continue = true;
 
-using namespace std;
-using namespace std::chrono;
+using namespace chrono;
 
 void Minigin::Initialize()
 {
@@ -25,7 +24,7 @@ void Minigin::Initialize()
 
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
-		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+		throw runtime_error(string("SDL_Init Error: ") + SDL_GetError());
 	}
 
 	m_Window = SDL_CreateWindow(
@@ -38,7 +37,7 @@ void Minigin::Initialize()
 	);
 	if (m_Window == nullptr)
 	{
-		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
+		throw runtime_error(string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 	//initialize classes
 	Renderer::GetInstance().Init(m_Window);
@@ -59,15 +58,15 @@ void Minigin::Initialize()
 	}
 	catch(runtime_error error)
 	{
-		std::cout << "Runtime error:" << error.what() << std::endl;
+		cout << "Runtime error:" << error.what() << endl;
 	}
-	catch (const std::exception & exc)
+	catch (const exception & exc)
 	{
-		std::cout << exc.what();
+		cout << exc.what();
 	}
 	catch (...)
 	{
-		std::cout << "Something unexpected went wrong in the engine initialization. Please report this issue to Robin De Paepe\n";
+		cout << "Something unexpected went wrong in the engine initialization. Please report this issue to Robin De Paepe\n";
 	}
 }
 
@@ -103,13 +102,13 @@ void Minigin::Run()
 			renderer.Render();
 		}
 	}
-	catch(const std::exception& exc)
+	catch(const exception& exc)
 	{
-		std::cout << exc.what();
+		cout << exc.what();
 	}
 	catch (...)
 	{
-		std::cout << "Something unexpected went wrong in the engine. Please report this issue to Robin De Paepe\n";
+		cout << "Something unexpected went wrong in the engine. Please report this issue to Robin De Paepe\n";
 	}
 	Cleanup();
 }

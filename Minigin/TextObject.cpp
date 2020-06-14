@@ -7,7 +7,7 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-TextObject::TextObject(const std::string& text, const std::shared_ptr<Font>& font) 
+TextObject::TextObject(const string& text, const shared_ptr<Font>& font) 
 	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Texture(nullptr)
 	,m_Color{255,255,255}
 { }
@@ -19,15 +19,15 @@ void TextObject::Update()
 		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
 		if (surf == nullptr) 
 		{
-			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
+			throw runtime_error(string("Render text failed: ") + SDL_GetError());
 		}
 		auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surf);
 		if (texture == nullptr) 
 		{
-			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
+			throw runtime_error(string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_Texture = std::make_shared<Texture2D>(texture);
+		m_Texture = make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
 }
@@ -42,7 +42,7 @@ void TextObject::Render() const
 }
 
 // This implementation uses the "dirty flag" pattern
-void TextObject::SetText(const std::string& text)
+void TextObject::SetText(const string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;

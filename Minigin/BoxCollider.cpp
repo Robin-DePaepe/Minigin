@@ -66,7 +66,7 @@ void BoxCollider::PhysxUpdate()
 				float rightXValueBox1{bottomLeft.x + m_Width * GetTransform()->GetScale().x };
 				float rightXValueBox2{ bottomLeftBox2.x + widthBox2 };
 
-				if (std::abs(pBox->GetTransform()->GetPosition().y - bottomLeft.y) < 0.25f) continue;
+				if (abs(pBox->GetTransform()->GetPosition().y - bottomLeft.y) < 0.25f) continue;
 
 				if (bottomLeft.x < rightXValueBox2 && rightXValueBox1 > rightXValueBox2 ) m_BlockedLeft = true;
 				if (rightXValueBox1 > bottomLeftBox2.x && bottomLeft.x < bottomLeftBox2.x) m_BlockedRight = true;

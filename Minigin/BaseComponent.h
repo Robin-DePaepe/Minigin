@@ -38,7 +38,7 @@ public:
 	void DestoyComponent(bool value)  {  m_Delete = value; }
 
 	GameObject* GetGameObject() const { return m_pGameObject; }
-	std::shared_ptr<TransformComponent> GetTransform() const;
+	shared_ptr<TransformComponent> GetTransform() const;
 
 protected:
 	GameObject* m_pGameObject;

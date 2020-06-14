@@ -6,7 +6,7 @@
 #pragma warning(pop)
 #include "TransformComponent.h"
 #include "GameObject.h"
-std::vector<ColliderComponent*> ColliderComponent::m_pColliders{};
+vector<ColliderComponent*> ColliderComponent::m_pColliders{};
 
 ColliderComponent::ColliderComponent(bool isTrigger)
 	:m_IsTrigger{ isTrigger }
@@ -20,7 +20,7 @@ ColliderComponent::ColliderComponent(bool isTrigger)
 
 ColliderComponent::~ColliderComponent()
 {
-	m_pColliders.erase(std::find(m_pColliders.cbegin(), m_pColliders.cend(), this));
+	m_pColliders.erase(find(m_pColliders.cbegin(), m_pColliders.cend(), this));
 }
 
 void ColliderComponent::Initialize()

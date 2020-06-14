@@ -25,7 +25,7 @@ class TestScene1 final : public Scene
 {
 public:
 	//rule of 5
-	TestScene1(const std::wstring& name);
+	TestScene1(const wstring& name);
 	~TestScene1();
 
 	TestScene1(const TestScene1& other) = delete;

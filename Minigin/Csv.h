@@ -62,7 +62,7 @@ namespace io {
     ////////////////////////////////////////////////////////////////////////////
 
     namespace error {
-        struct base : std::exception {
+        struct base : exception {
             virtual void format_error_message()const = 0;
 
             const char* what()const noexcept override {
@@ -77,7 +77,7 @@ namespace io {
 
         struct with_file_name {
             with_file_name() {
-                std::memset(file_name, 0, sizeof(file_name));
+                memset(file_name, 0, sizeof(file_name));
             }
 
             void set_file_name(const char* file_name) {
@@ -123,11 +123,11 @@ namespace io {
             with_errno {
             void format_error_message()const override {
                 if (errno_value != 0)
-                    std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                    snprintf(error_message_buffer, sizeof(error_message_buffer),
                         "Can not open file \"%s\" because \"%s\"."
-                        , file_name, std::strerror(errno_value));
+                        , file_name, strerror(errno_value));
                 else
-                    std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                    snprintf(error_message_buffer, sizeof(error_message_buffer),
                         "Can not open file \"%s\"."
                         , file_name);
             }
@@ -138,7 +138,7 @@ namespace io {
             with_file_name,
             with_file_line {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     "Line number %d in file \"%s\" exceeds the maximum length of 2^24-1."
                     , file_line, file_name);
             }
@@ -157,15 +157,15 @@ namespace io {
         public:
             explicit OwningStdIOByteSourceBase(FILE* file) :file(file) {
                 // Tell the std library that we want to do the buffering ourself.
-                std::setvbuf(file, 0, _IONBF, 0);
+                setvbuf(file, 0, _IONBF, 0);
             }
 
             int read(char* buffer, int size) {
-                return std::fread(buffer, 1, size, file);
+                return fread(buffer, 1, size, file);
             }
 
             ~OwningStdIOByteSourceBase() {
-                std::fclose(file);
+                fclose(file);
             }
 
         private:
@@ -174,7 +174,7 @@ namespace io {
 
         class NonOwningIStreamByteSource : public ByteSourceBase {
         public:
-            explicit NonOwningIStreamByteSource(std::istream& in) :in(in) {}
+            explicit NonOwningIStreamByteSource(istream& in) :in(in) {}
 
             int read(char* buffer, int size) {
                 in.read(buffer, size);
@@ -184,7 +184,7 @@ namespace io {
             ~NonOwningIStreamByteSource() {}
 
         private:
-            std::istream& in;
+            istream& in;
         };
 
         class NonOwningStringByteSource : public ByteSourceBase {
@@ -195,7 +195,7 @@ namespace io {
                 int to_copy_byte_count = desired_byte_count;
                 if (remaining_byte_count < to_copy_byte_count)
                     to_copy_byte_count = remaining_byte_count;
-                std::memcpy(buffer, str, to_copy_byte_count);
+                memcpy(buffer, str, to_copy_byte_count);
                 remaining_byte_count -= to_copy_byte_count;
                 str += to_copy_byte_count;
                 return to_copy_byte_count;
@@ -211,14 +211,14 @@ namespace io {
 #ifndef CSV_IO_NO_THREAD
         class AsynchronousReader {
         public:
-            void init(std::unique_ptr<ByteSourceBase>arg_byte_source) {
-                std::unique_lock<std::mutex>guard(lock);
-                byte_source = std::move(arg_byte_source);
+            void init(unique_ptr<ByteSourceBase>arg_byte_source) {
+                unique_lock<mutex>guard(lock);
+                byte_source = move(arg_byte_source);
                 desired_byte_count = -1;
                 termination_requested = false;
-                worker = std::thread(
+                worker = thread(
                     [&] {
-                        std::unique_lock<std::mutex>guard(lock);
+                        unique_lock<mutex>guard(lock);
                         try {
                             for (;;) {
                                 read_requested_condition.wait(
@@ -238,7 +238,7 @@ namespace io {
                             }
                         }
                         catch (...) {
-                            read_error = std::current_exception();
+                            read_error = current_exception();
                         }
                         read_finished_condition.notify_one();
                     }
@@ -250,7 +250,7 @@ namespace io {
             }
 
             void start_read(char* arg_buffer, int arg_desired_byte_count) {
-                std::unique_lock<std::mutex>guard(lock);
+                unique_lock<mutex>guard(lock);
                 buffer = arg_buffer;
                 desired_byte_count = arg_desired_byte_count;
                 read_byte_count = -1;
@@ -258,7 +258,7 @@ namespace io {
             }
 
             int finish_read() {
-                std::unique_lock<std::mutex>guard(lock);
+                unique_lock<mutex>guard(lock);
                 read_finished_condition.wait(
                     guard,
                     [&] {
@@ -266,7 +266,7 @@ namespace io {
                     }
                 );
                 if (read_error)
-                    std::rethrow_exception(read_error);
+                    rethrow_exception(read_error);
                 else
                     return read_byte_count;
             }
@@ -274,7 +274,7 @@ namespace io {
             ~AsynchronousReader() {
                 if (byte_source != nullptr) {
                     {
-                        std::unique_lock<std::mutex>guard(lock);
+                        unique_lock<mutex>guard(lock);
                         termination_requested = true;
                     }
                     read_requested_condition.notify_one();
@@ -283,26 +283,26 @@ namespace io {
             }
 
         private:
-            std::unique_ptr<ByteSourceBase>byte_source;
+            unique_ptr<ByteSourceBase>byte_source;
 
-            std::thread worker;
+            thread worker;
 
             bool termination_requested;
-            std::exception_ptr read_error;
+            exception_ptr read_error;
             char* buffer;
             int desired_byte_count;
             int read_byte_count;
 
-            std::mutex lock;
-            std::condition_variable read_finished_condition;
-            std::condition_variable read_requested_condition;
+            mutex lock;
+            condition_variable read_finished_condition;
+            condition_variable read_requested_condition;
         };
 #endif
 
         class SynchronousReader {
         public:
-            void init(std::unique_ptr<ByteSourceBase>arg_byte_source) {
-                byte_source = std::move(arg_byte_source);
+            void init(unique_ptr<ByteSourceBase>arg_byte_source) {
+                byte_source = move(arg_byte_source);
             }
 
             bool is_valid()const {
@@ -318,7 +318,7 @@ namespace io {
                 return byte_source->read(buffer, desired_byte_count);
             }
         private:
-            std::unique_ptr<ByteSourceBase>byte_source;
+            unique_ptr<ByteSourceBase>byte_source;
             char* buffer;
             int desired_byte_count;
         };
@@ -327,7 +327,7 @@ namespace io {
     class LineReader {
     private:
         static const int block_len = 1 << 20;
-        std::unique_ptr<char[]>buffer; // must be constructed before (and thus destructed after) the reader!
+        unique_ptr<char[]>buffer; // must be constructed before (and thus destructed after) the reader!
 #ifdef CSV_IO_NO_THREAD
         detail::SynchronousReader reader;
 #else
@@ -339,10 +339,10 @@ namespace io {
         char file_name[error::max_file_name_length + 1];
         unsigned file_line;
 
-        static std::unique_ptr<ByteSourceBase> open_file(const char* file_name) {
+        static unique_ptr<ByteSourceBase> open_file(const char* file_name) {
             // We open the file in binary mode as it makes no difference under *nix
             // and under Windows we handle \r\n newlines ourself.
-            FILE* file = std::fopen(file_name, "rb");
+            FILE* file = fopen(file_name, "rb");
             if (file == 0) {
                 int x = errno; // store errno as soon as possible, doing it after constructor call can fail.
                 error::can_not_open_file err;
@@ -350,13 +350,13 @@ namespace io {
                 err.set_file_name(file_name);
                 throw err;
             }
-            return std::unique_ptr<ByteSourceBase>(new detail::OwningStdIOByteSourceBase(file));
+            return unique_ptr<ByteSourceBase>(new detail::OwningStdIOByteSourceBase(file));
         }
 
-        void init(std::unique_ptr<ByteSourceBase>byte_source) {
+        void init(unique_ptr<ByteSourceBase>byte_source) {
             file_line = 0;
 
-            buffer = std::unique_ptr<char[]>(new char[3 * block_len]);
+            buffer = unique_ptr<char[]>(new char[3 * block_len]);
             data_begin = 0;
             data_end = byte_source->read(buffer.get(), 2 * block_len);
 
@@ -365,7 +365,7 @@ namespace io {
                 data_begin = 3;
 
             if (data_end == 2 * block_len) {
-                reader.init(std::move(byte_source));
+                reader.init(move(byte_source));
                 reader.start_read(buffer.get() + 2 * block_len, block_len);
             }
         }
@@ -380,52 +380,52 @@ namespace io {
             init(open_file(file_name));
         }
 
-        explicit LineReader(const std::string& file_name) {
+        explicit LineReader(const string& file_name) {
             set_file_name(file_name.c_str());
             init(open_file(file_name.c_str()));
         }
 
-        LineReader(const char* file_name, std::unique_ptr<ByteSourceBase>byte_source) {
+        LineReader(const char* file_name, unique_ptr<ByteSourceBase>byte_source) {
             set_file_name(file_name);
-            init(std::move(byte_source));
+            init(move(byte_source));
         }
 
-        LineReader(const std::string& file_name, std::unique_ptr<ByteSourceBase>byte_source) {
+        LineReader(const string& file_name, unique_ptr<ByteSourceBase>byte_source) {
             set_file_name(file_name.c_str());
-            init(std::move(byte_source));
+            init(move(byte_source));
         }
 
         LineReader(const char* file_name, const char* data_begin, const char* data_end) {
             set_file_name(file_name);
-            init(std::unique_ptr<ByteSourceBase>(new detail::NonOwningStringByteSource(data_begin, data_end - data_begin)));
+            init(unique_ptr<ByteSourceBase>(new detail::NonOwningStringByteSource(data_begin, data_end - data_begin)));
         }
 
-        LineReader(const std::string& file_name, const char* data_begin, const char* data_end) {
+        LineReader(const string& file_name, const char* data_begin, const char* data_end) {
             set_file_name(file_name.c_str());
-            init(std::unique_ptr<ByteSourceBase>(new detail::NonOwningStringByteSource(data_begin, data_end - data_begin)));
+            init(unique_ptr<ByteSourceBase>(new detail::NonOwningStringByteSource(data_begin, data_end - data_begin)));
         }
 
         LineReader(const char* file_name, FILE* file) {
             set_file_name(file_name);
-            init(std::unique_ptr<ByteSourceBase>(new detail::OwningStdIOByteSourceBase(file)));
+            init(unique_ptr<ByteSourceBase>(new detail::OwningStdIOByteSourceBase(file)));
         }
 
-        LineReader(const std::string& file_name, FILE* file) {
+        LineReader(const string& file_name, FILE* file) {
             set_file_name(file_name.c_str());
-            init(std::unique_ptr<ByteSourceBase>(new detail::OwningStdIOByteSourceBase(file)));
+            init(unique_ptr<ByteSourceBase>(new detail::OwningStdIOByteSourceBase(file)));
         }
 
-        LineReader(const char* file_name, std::istream& in) {
+        LineReader(const char* file_name, istream& in) {
             set_file_name(file_name);
-            init(std::unique_ptr<ByteSourceBase>(new detail::NonOwningIStreamByteSource(in)));
+            init(unique_ptr<ByteSourceBase>(new detail::NonOwningIStreamByteSource(in)));
         }
 
-        LineReader(const std::string& file_name, std::istream& in) {
+        LineReader(const string& file_name, istream& in) {
             set_file_name(file_name.c_str());
-            init(std::unique_ptr<ByteSourceBase>(new detail::NonOwningIStreamByteSource(in)));
+            init(unique_ptr<ByteSourceBase>(new detail::NonOwningIStreamByteSource(in)));
         }
 
-        void set_file_name(const std::string& file_name) {
+        void set_file_name(const string& file_name) {
             set_file_name(file_name.c_str());
         }
 
@@ -461,13 +461,13 @@ namespace io {
             assert(data_end <= block_len * 2);
 
             if (data_begin >= block_len) {
-                std::memcpy(buffer.get(), buffer.get() + block_len, block_len);
+                memcpy(buffer.get(), buffer.get() + block_len, block_len);
                 data_begin -= block_len;
                 data_end -= block_len;
                 if (reader.is_valid())
                 {
                     data_end += reader.finish_read();
-                    std::memcpy(buffer.get() + block_len, buffer.get() + 2 * block_len, block_len);
+                    memcpy(buffer.get() + block_len, buffer.get() + 2 * block_len, block_len);
                     reader.start_read(buffer.get() + 2 * block_len, block_len);
                 }
             }
@@ -513,12 +513,12 @@ namespace io {
         const int max_column_name_length = 63;
         struct with_column_name {
             with_column_name() {
-                std::memset(column_name, 0, max_column_name_length + 1);
+                memset(column_name, 0, max_column_name_length + 1);
             }
 
             void set_column_name(const char* column_name) {
                 if (column_name != nullptr) {
-                    std::strncpy(this->column_name, column_name, max_column_name_length);
+                    strncpy(this->column_name, column_name, max_column_name_length);
                     this->column_name[max_column_name_length] = '\0';
                 }
                 else {
@@ -534,12 +534,12 @@ namespace io {
 
         struct with_column_content {
             with_column_content() {
-                std::memset(column_content, 0, max_column_content_length + 1);
+                memset(column_content, 0, max_column_content_length + 1);
             }
 
             void set_column_content(const char* column_content) {
                 if (column_content != nullptr) {
-                    std::strncpy(this->column_content, column_content, max_column_content_length);
+                    strncpy(this->column_content, column_content, max_column_content_length);
                     this->column_content[max_column_content_length] = '\0';
                 }
                 else {
@@ -556,7 +556,7 @@ namespace io {
             with_file_name,
             with_column_name {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     R"(Extra column "%s" in header of file "%s".)"
                     , column_name, file_name);
             }
@@ -567,7 +567,7 @@ namespace io {
             with_file_name,
             with_column_name {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     R"(Missing column "%s" in header of file "%s".)"
                     , column_name, file_name);
             }
@@ -578,7 +578,7 @@ namespace io {
             with_file_name,
             with_column_name {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     R"(Duplicated column "%s" in header of file "%s".)"
                     , column_name, file_name);
             }
@@ -588,7 +588,7 @@ namespace io {
             base,
             with_file_name {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     "Header missing in file \"%s\"."
                     , file_name);
             }
@@ -599,7 +599,7 @@ namespace io {
             with_file_name,
             with_file_line {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     "Too few columns in line %d in file \"%s\"."
                     , file_line, file_name);
             }
@@ -610,7 +610,7 @@ namespace io {
             with_file_name,
             with_file_line {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     "Too many columns in line %d in file \"%s\"."
                     , file_line, file_name);
             }
@@ -621,7 +621,7 @@ namespace io {
             with_file_name,
             with_file_line {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     "Escaped string was not closed in line %d in file \"%s\"."
                     , file_line, file_name);
             }
@@ -634,7 +634,7 @@ namespace io {
             with_column_name,
             with_column_content {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     R"(The integer "%s" must be positive or 0 in column "%s" in file "%s" in line "%d".)"
                     , column_content, column_name, file_name, file_line);
             }
@@ -647,7 +647,7 @@ namespace io {
             with_column_name,
             with_column_content {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     R"(The integer "%s" contains an invalid digit in column "%s" in file "%s" in line "%d".)"
                     , column_content, column_name, file_name, file_line);
             }
@@ -660,7 +660,7 @@ namespace io {
             with_column_name,
             with_column_content {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     R"(The integer "%s" overflows in column "%s" in file "%s" in line "%d".)"
                     , column_content, column_name, file_name, file_line);
             }
@@ -673,7 +673,7 @@ namespace io {
             with_column_name,
             with_column_content {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     R"(The integer "%s" underflows in column "%s" in file "%s" in line "%d".)"
                     , column_content, column_name, file_name, file_line);
             }
@@ -686,7 +686,7 @@ namespace io {
             with_column_name,
             with_column_content {
             void format_error_message()const override {
-                std::snprintf(error_message_buffer, sizeof(error_message_buffer),
+                snprintf(error_message_buffer, sizeof(error_message_buffer),
                     R"(The content "%s" of column "%s" in file "%s" in line "%d" is not a single character.)"
                     , column_content, column_name, file_name, file_line);
             }
@@ -843,12 +843,12 @@ namespace io {
     struct set_to_max_on_overflow {
         template<class T>
         static void on_overflow(T& x) {
-            x = std::numeric_limits<T>::max;
+            x = numeric_limits<T>::max;
         }
 
         template<class T>
         static void on_underflow(T& x) {
-            x = std::numeric_limits<T>::min;
+            x = numeric_limits<T>::min;
         }
     };
 
@@ -877,7 +877,7 @@ namespace io {
         void parse_line(
             char* line,
             char** sorted_col,
-            const std::vector<int>& col_order
+            const vector<int>& col_order
         ) {
             for (int i : col_order) {
                 if (line == nullptr)
@@ -899,14 +899,14 @@ namespace io {
         template<unsigned column_count, class trim_policy, class quote_policy>
         void parse_header_line(
             char* line,
-            std::vector<int>& col_order,
-            const std::string* col_name,
+            vector<int>& col_order,
+            const string* col_name,
             ignore_column ignore_policy
         ) {
             col_order.clear();
 
             bool found[column_count];
-            std::fill(found, found + column_count, false);
+            fill(found, found + column_count, false);
             while (line) {
                 char* col_begin, * col_end;
                 chop_next_column<quote_policy>(line, col_begin, col_end);
@@ -958,7 +958,7 @@ namespace io {
         }
 
         template<class overflow_policy>
-        void parse(char* col, std::string& x) {
+        void parse(char* col, string& x) {
             x = col;
         }
 
@@ -978,7 +978,7 @@ namespace io {
             while (*col != '\0') {
                 if ('0' <= *col && *col <= '9') {
                     T y = *col - '0';
-                    if (x > (std::numeric_limits<T>::max - y) / 10) {
+                    if (x > (numeric_limits<T>::max - y) / 10) {
                         overflow_policy::on_overflow(x);
                         return;
                     }
@@ -1020,7 +1020,7 @@ namespace io {
                 while (*col != '\0') {
                     if ('0' <= *col && *col <= '9') {
                         T y = *col - '0';
-                        if (x < (std::numeric_limits<T>::min + y) / 10) {
+                        if (x < (numeric_limits<T>::min + y) / 10) {
                             overflow_policy::on_underflow(x);
                             return;
                         }
@@ -1138,7 +1138,7 @@ namespace io {
             // "sizeof(T)!=sizeof(T)" only when instantiating it. This is why
             // this strange construct is used.
             static_assert(sizeof(T) != sizeof(T),
-                "Can not parse this type. Only buildin integrals, floats, char, char*, const char* and std::string are supported");
+                "Can not parse this type. Only buildin integrals, floats, char, char*, const char* and string are supported");
         }
 
     }
@@ -1154,14 +1154,14 @@ namespace io {
             LineReader in;
 
             char* row[column_count];
-            std::string column_names[column_count];
+            string column_names[column_count];
 
-            std::vector<int>col_order;
+            vector<int>col_order;
 
             template<class ...ColNames>
-            void set_column_names(std::string s, ColNames...cols) {
-                column_names[column_count - sizeof...(ColNames) - 1] = std::move(s);
-                set_column_names(std::forward<ColNames>(cols)...);
+            void set_column_names(string s, ColNames...cols) {
+                column_names[column_count - sizeof...(ColNames) - 1] = move(s);
+                set_column_names(forward<ColNames>(cols)...);
             }
 
             void set_column_names() {}
@@ -1173,13 +1173,13 @@ namespace io {
             CSVReader& operator=(const CSVReader&);
 
             template<class ...Args>
-            explicit CSVReader(Args&&...args) :in(std::forward<Args>(args)...) {
-                std::fill(row, row + column_count, nullptr);
+            explicit CSVReader(Args&&...args) :in(forward<Args>(args)...) {
+                fill(row, row + column_count, nullptr);
                 col_order.resize(column_count);
                 for (unsigned i = 0; i < column_count; ++i)
                     col_order[i] = i;
                 for (unsigned i = 1; i <= column_count; ++i)
-                    column_names[i - 1] = "col" + std::to_string(i);
+                    column_names[i - 1] = "col" + to_string(i);
             }
 
             char* next_line() {
@@ -1191,7 +1191,7 @@ namespace io {
                 static_assert(sizeof...(ColNames) >= column_count, "not enough column names specified");
                 static_assert(sizeof...(ColNames) <= column_count, "too many column names specified");
                 try {
-                    set_column_names(std::forward<ColNames>(cols)...);
+                    set_column_names(forward<ColNames>(cols)...);
 
                     char* line;
                     do {
@@ -1216,21 +1216,21 @@ namespace io {
                     "not enough column names specified");
                 static_assert(sizeof...(ColNames) <= column_count,
                     "too many column names specified");
-                set_column_names(std::forward<ColNames>(cols)...);
-                std::fill(row, row + column_count, nullptr);
+                set_column_names(forward<ColNames>(cols)...);
+                fill(row, row + column_count, nullptr);
                 col_order.resize(column_count);
                 for (unsigned i = 0; i < column_count; ++i)
                     col_order[i] = i;
             }
 
-            bool has_column(const std::string& name) const {
-                return col_order.end() != std::find(
+            bool has_column(const string& name) const {
+                return col_order.end() != find(
                     col_order.begin(), col_order.end(),
-                    std::find(std::begin(column_names), std::end(column_names), name)
-                    - std::begin(column_names));
+                    find(begin(column_names), end(column_names), name)
+                    - begin(column_names));
             }
 
-            void set_file_name(const std::string& file_name) {
+            void set_file_name(const string& file_name) {
                 in.set_file_name(file_name);
             }
 
@@ -1251,10 +1251,10 @@ namespace io {
             }
 
         private:
-            void parse_helper(std::size_t) {}
+            void parse_helper(size_t) {}
 
             template<class T, class ...ColType>
-            void parse_helper(std::size_t r, T& t, ColType&...cols) {
+            void parse_helper(size_t r, T& t, ColType&...cols) {
                 if (row[r]) {
                     try {
                         try {

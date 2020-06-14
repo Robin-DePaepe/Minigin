@@ -31,6 +31,6 @@ public:
 protected:
 	bool m_IsTrigger;
 	bool m_OnGround, m_BlockedLeft, m_BlockedRight, m_BlockedTop;
-	static std::vector<ColliderComponent*> m_pColliders;
+	static vector<ColliderComponent*> m_pColliders;
 };
 

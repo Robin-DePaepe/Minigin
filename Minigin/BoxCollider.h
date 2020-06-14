@@ -2,8 +2,6 @@
 #include "ColliderComponent.h"
 #include <vector>
 
-using namespace std;
-
 class BoxCollider final : public ColliderComponent
 {
 public:
@@ -22,6 +20,6 @@ public:
 private:
 	bool m_VisualizeBox;
 	float m_Width, m_Height;
-	std::shared_ptr<GameObject> m_DebugBox;
+	shared_ptr<GameObject> m_DebugBox;
 };
 

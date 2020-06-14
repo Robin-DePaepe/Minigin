@@ -12,7 +12,7 @@ void BaseComponent::DeleteComponent()
 	m_Delete = true;
 }
 
-std::shared_ptr<TransformComponent> BaseComponent::GetTransform() const
+shared_ptr<TransformComponent> BaseComponent::GetTransform() const
 {
 	if (m_pGameObject != nullptr) return m_pGameObject->GetTransfrom();
 

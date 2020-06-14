@@ -1,3 +1,4 @@
+#include "MiniginPCH.h"
 #include "WalkingState.h"
 #include <iostream>
 
@@ -14,12 +15,12 @@ void WalkingState::Render() const
 
 void WalkingState::StartAction()
 {
-	std::cout << "Start walking\n";
+	cout << "Start walking\n";
 }
 
 void WalkingState::EndAction()
 {
-	std::cout << "end walking\n";
+	cout << "end walking\n";
 }
 
 void WalkingState::SlapAss()

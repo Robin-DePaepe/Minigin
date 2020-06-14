@@ -35,7 +35,7 @@ enum class InputTriggerState
 
 struct InputAction
 {
-	InputAction(std::shared_ptr<Command> upCommand,bool active,int keyboardCode = -1,ControllerButton controllerButton = ControllerButton::none,	InputTriggerState triggerState = InputTriggerState::Pressed)
+	InputAction(shared_ptr<Command> upCommand,bool active,int keyboardCode = -1,ControllerButton controllerButton = ControllerButton::none,	InputTriggerState triggerState = InputTriggerState::Pressed)
 		:KeyCode{keyboardCode}
 		,ControllerInput{controllerButton}
 		,TriggerState{triggerState}
@@ -45,7 +45,7 @@ struct InputAction
 
 	int KeyCode;
 	ControllerButton ControllerInput;
-	std::shared_ptr<Command> upCommand;
+	shared_ptr<Command> upCommand;
 	InputTriggerState TriggerState;
 	bool Active;
 };
@@ -75,11 +75,11 @@ public:
 
 	void Initialize(SDL_Window* sdlwindow);
 private:
-	std::vector<ControllerButton> m_PressedButtons;
-	std::vector<ControllerButton> m_ReleasedButtons;
-	std::vector<ControllerButton> m_DownButtons;
+	vector<ControllerButton> m_PressedButtons;
+	vector<ControllerButton> m_ReleasedButtons;
+	vector<ControllerButton> m_DownButtons;
 
-	std::vector<InputAction> m_Actions;
+	vector<InputAction> m_Actions;
 
 	 SHORT* m_pCurrKeyboardState, * m_pOldKeyboardState, * m_pKeyboardState0, * m_pKeyboardState1;
 	 bool m_KeyboardState0Active;

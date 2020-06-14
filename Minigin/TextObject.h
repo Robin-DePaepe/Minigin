@@ -12,11 +12,11 @@ public:
 	void Update() override;
 	void Render() const override;
 
-	void SetText(const std::string& text);
+	void SetText(const string& text);
 	void SetPosition(float x, float y);
 	void SetColor(SDL_Color color);
 
-	explicit TextObject(const std::string& text, const std::shared_ptr<Font>& font);
+	explicit TextObject(const string& text, const shared_ptr<Font>& font);
 	virtual ~TextObject() = default;
 
 	TextObject(const TextObject& other) = delete;
@@ -26,8 +26,8 @@ public:
 private:
 	bool m_NeedsUpdate;
 	SDL_Color m_Color;
-	std::string m_Text;
+	string m_Text;
 	TransformComponent m_Transform;
-	std::shared_ptr<Font> m_Font;
-	std::shared_ptr<Texture2D> m_Texture;
+	shared_ptr<Font> m_Font;
+	shared_ptr<Texture2D> m_Texture;
 };
