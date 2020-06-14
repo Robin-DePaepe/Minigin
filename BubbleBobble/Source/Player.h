@@ -7,6 +7,7 @@
 #include "Command.h"
 #include "GameObject.h"
 #include <InputManager.h>
+#include "fmod.hpp"
 
 class Bubble;
 class Player;
@@ -35,8 +36,10 @@ public:
 		, int jumpButton, minigin::ControllerButton jumpButtonC, int fireButton, minigin::ControllerButton fireButtonC,const wstring& name = L"Player");
 
 	//functions
-	virtual void SetActions(bool active) override;
-	virtual void OnTriggerStay(GameObject* other) override;
+	 void SetActions(bool active) override;
+	 void OnTriggerStay(GameObject* other) override;
+
+	void Update() override;
 
 	shared_ptr<GameObject> GetBubble();
 
@@ -44,9 +47,18 @@ private:
 	//datamembers
 	unsigned int m_Lives;
 	size_t m_FireId;
+	int m_Score;
 
 	shared_ptr<MovementControllerComponent> m_spMovement;
 	shared_ptr<Bubble> m_spBubble;
+
+	FMOD::Sound* m_pSound;
+	FMOD::Channel* m_pChannel;
+
+	//player hit vars
+	const float m_HitProtection;
+	float m_Timer;
+	bool m_Protected;
 	//functions
 	void FireBubble();
 };
