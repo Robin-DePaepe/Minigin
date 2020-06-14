@@ -25,6 +25,5 @@ namespace minigin
 		//datamembers
 		bool m_VisualizeBox;
 		float m_Width, m_Height;
-		shared_ptr<GameObject> m_DebugBox;
 	};
 }
