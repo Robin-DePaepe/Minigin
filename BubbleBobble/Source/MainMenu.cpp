@@ -5,11 +5,15 @@
 #include "GameObject.h"
 #include "Minigin.h"
 #include "SceneManager.h"
+#include "TransformComponent.h"
+#include "Level1.h"
 
 MainMenu::MainMenu(const wstring& name)
 	:Scene{ name }
-	,m_StartButtonPos{216.f,100.f}
-	,m_QuitButtonPos{216.f,250.f}
+	,m_StartP1ButtonPos{216.f,100.f}
+	,m_StartP2ButtonPos{216.f,200.f}
+	,m_QuitButtonPos{216.f,300.f}
+	,m_LoadScene{false}
 {
 }
 
@@ -30,11 +34,18 @@ void MainMenu::Initialize()
 
 	Add(startScreen);
 
-	//start button
+	//start button 1P
 	auto startButton = make_shared<minigin::GameObject>();
-	startButton->SetTexture("Sprites/StartButton.png");
-	startButton->GetTransfrom()->SetPosition(m_StartButtonPos.x,m_StartButtonPos.y);
+	startButton->SetTexture("Sprites/StartButtonOnePlayer.png");
+	startButton->GetTransfrom()->SetPosition(m_StartP1ButtonPos.x,m_StartP1ButtonPos.y);
 	m_StartButtonSize = startButton->GetTextureSize();
+
+	Add(startButton);
+
+	//start button 2P
+	 startButton = make_shared<minigin::GameObject>();
+	startButton->SetTexture("Sprites/StartButtonTwoPlayer.png");
+	startButton->GetTransfrom()->SetPosition(m_StartP2ButtonPos.x, m_StartP2ButtonPos.y);
 
 	Add(startButton);
 
@@ -49,6 +60,11 @@ void MainMenu::Initialize()
 
 void MainMenu::Update()
 {
+	if (m_LoadScene)
+	{
+		m_LoadScene = false;
+		minigin::SceneManager::GetInstance().SetActiveGameScene(minigin::SceneManager::GetInstance().GetScene(L"Level1"));
+	}
 }
 
 void MainMenu::Render() const
@@ -87,7 +103,16 @@ void MainMenu::MouseButtonClicked()
 	int x{}, y{};
 	minigin::InputManager::GetInstance().GetMousePos(x, y);
 
-	if (IsPointInRect(glm::vec2{ x,y }, m_StartButtonPos, m_StartButtonSize.x, m_StartButtonSize.y)) minigin::SceneManager::GetInstance().SetActiveGameScene(minigin::SceneManager::GetInstance().GetScene(L"Level1"));
+	if (IsPointInRect(glm::vec2{ x,y }, m_StartP1ButtonPos, m_StartButtonSize.x, m_StartButtonSize.y))
+	{
+		Level1::SetTwoPlayersSelected(false);
+		m_LoadScene = true;
+	}
+	if (IsPointInRect(glm::vec2{ x,y }, m_StartP2ButtonPos, m_StartButtonSize.x, m_StartButtonSize.y))
+	{
+		Level1::SetTwoPlayersSelected(true);
+		m_LoadScene = true;
+	}
 	if (IsPointInRect(glm::vec2{x,y},m_QuitButtonPos, m_QuitButtonSize.x, m_QuitButtonSize.y)) minigin::Minigin::QuitProgram();
 }
 

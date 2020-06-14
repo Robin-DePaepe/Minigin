@@ -49,8 +49,9 @@ private:
 	bool IsPointInRect(glm::vec2 point, glm::vec2 pos, float width, float height);
 	//variables
 	size_t m_ClickActionId;
-	const glm::vec2 m_StartButtonPos, m_QuitButtonPos;
+	const glm::vec2 m_StartP1ButtonPos, m_StartP2ButtonPos, m_QuitButtonPos;
 	glm::vec2 m_StartButtonSize, m_QuitButtonSize;
+	bool m_LoadScene;
 
 	FMOD::Sound* m_pSound;
 	FMOD::Channel* m_pChannel;
