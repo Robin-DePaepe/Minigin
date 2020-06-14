@@ -31,9 +31,10 @@ namespace minigin
 		bool IsBlockedRight() const { return m_BlockedRight; }
 		bool IsBlockedTop() const { return m_BlockedTop; }
 
+		void SetIsStatic(bool value) { m_IsStatic = value; }
 	protected:
 		//datamembers
-		bool m_OnGround, m_BlockedLeft, m_BlockedRight, m_BlockedTop, m_IsTrigger;
+		bool m_OnGround, m_BlockedLeft, m_BlockedRight, m_BlockedTop, m_IsTrigger,m_IsStatic;
 		static vector<ColliderComponent*> m_pColliders;
 	};
 }

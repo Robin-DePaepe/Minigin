@@ -19,6 +19,8 @@ minigin::BoxCollider::BoxCollider(float width, float height, bool isTrigger, boo
 
 void minigin::BoxCollider::PhysxUpdate()
 {
+	if (m_IsStatic && !m_IsTrigger) return;
+
 	//setup vars
 	m_BlockedLeft = false;
 	m_BlockedRight = false;
@@ -56,16 +58,28 @@ void minigin::BoxCollider::PhysxUpdate()
 			else
 			{
 				//check if we are colliding into anything
-				if (bottomLeft.y > pBox->GetTransform()->GetPosition().y&& GetTransform()->GetPosition().y < pBox->GetTransform()->GetPosition().y) m_OnGround = true;
+				if (bottomLeft.y > pBox->GetTransform()->GetPosition().y&& GetTransform()->GetPosition().y < pBox->GetTransform()->GetPosition().y)
+				{
+					const float difference{ pBox->GetTransform()->GetPosition().y - bottomLeft.y };
+
+					if (abs(difference) < 1.f)
+					{
+						m_OnGround = true;
+
+						if (abs(difference) > 0.25f) GetTransform()->Translate(0.f, difference);
+					}
+				}
+
 				if (GetTransform()->GetPosition().y < bottomLeftBox2.y && bottomLeft.y > bottomLeftBox2.y) m_BlockedTop = true;
 
-				float rightXValueBox1{ bottomLeft.x + m_Width * GetTransform()->GetScale().x };
-				float rightXValueBox2{ bottomLeftBox2.x + widthBox2 };
+				const float rightXValueBox1{ bottomLeft.x + m_Width * GetTransform()->GetScale().x };
+				const float rightXValueBox2{ bottomLeftBox2.x + widthBox2 };
+				const float wallBuffer{ 50.f };
 
 				if (abs(pBox->GetTransform()->GetPosition().y - bottomLeft.y) < 0.25f) continue;
 
-				if (bottomLeft.x < rightXValueBox2 && rightXValueBox1 > rightXValueBox2) m_BlockedLeft = true;
-				if (rightXValueBox1 > bottomLeftBox2.x&& bottomLeft.x < bottomLeftBox2.x) m_BlockedRight = true;
+				if (bottomLeft.x - wallBuffer < rightXValueBox2 && rightXValueBox1 > rightXValueBox2) m_BlockedLeft = true;
+				if (rightXValueBox1 + wallBuffer > bottomLeftBox2.x&& bottomLeft.x < bottomLeftBox2.x) m_BlockedRight = true;
 			}
 		}
 	}

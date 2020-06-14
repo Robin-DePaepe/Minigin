@@ -29,8 +29,7 @@ void LevelParser::AddLevel(std::vector<byte>& bytes)
 {
 	LevelBlocks level{};
 
-	//we start at the top since the y goes from top to bottom 
-	int y{ LevelBlocks::Height - 1 };
+	int y{ 0 };
 
 	for (size_t i = 0; i < bytes.size();)
 	{
@@ -49,7 +48,7 @@ void LevelParser::AddLevel(std::vector<byte>& bytes)
 			level.Blocks[7 + x][y] = byte & 0b00000001;
 			++i;
 		}
-		--y;
+		++y;
 	}
 
 	m_Levels.push_back(level);

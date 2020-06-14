@@ -17,7 +17,7 @@ public:
 
 private:
 	//datamembers
-	const int m_LevelsToLoad = 30;
+	const int m_LevelsToLoad = 50;
 	std::vector<LevelBlocks> m_Levels;
 
 	//functions

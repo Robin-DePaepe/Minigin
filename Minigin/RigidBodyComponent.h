@@ -41,7 +41,7 @@ namespace minigin
 	private:
 		//datamembers
 		const bool m_IsStatic;
-		const float m_Gravity, m_Mass;
+		const float m_Gravity, m_Mass,m_MaxAxisSpeed;
 		const Time& m_Time;
 
 		bool m_IsKinematic, m_Initialized;

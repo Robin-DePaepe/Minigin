@@ -16,6 +16,7 @@ minigin::ColliderComponent::ColliderComponent(bool isTrigger)
 	, m_BlockedRight{ false }
 	, m_BlockedLeft{ false }
 	, m_BlockedTop{ false }
+	,m_IsStatic{false}
 {
 	m_pColliders.push_back(this);
 }

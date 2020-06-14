@@ -19,7 +19,7 @@ minigin::Scene::Scene(const wstring& name)
 	m_spFpsCounter = make_shared<TextObject>("INITIALIZING", fontFPS);
 
 	m_spFpsCounter->SetColor({ 255,255,0 });
-	m_spFpsCounter->SetPosition(15, 15);
+	m_spFpsCounter->SetPosition(150, 15);
 }
 
 
@@ -58,35 +58,25 @@ void minigin::Scene::RootUpdate()
 	}
 
 	//multhi threat the updating of the objects in the scene
-	vector<thread*> pThreads;
+	vector<thread> pThreads;
 	unsigned int counter{ 0 };
 
 	for (auto& object : m_Objects)
 	{
-		thread* pThread{ new thread{ &SceneObject::Update, object} };
+		thread pThread{ &SceneObject::Update, object };
 
 		if (pThreads.size() == m_Processor_Cores)
 		{
-			pThreads[counter]->join();
-
-			delete pThreads[counter];
-			auto it = find(pThreads.cbegin(), pThreads.cend(), pThreads[counter]);
-
-			it = pThreads.erase(it);
-			pThreads.insert(it, pThread);
+			pThreads[counter].join();
 
 			++counter;
-
-			if (counter == pThreads.size() - 1) counter = 0;
 		}
-		else pThreads.push_back(pThread);
+		pThreads.push_back(move(pThread));
 	}
 
-	//clean up the created threads
-	for (size_t i = 0; i < pThreads.size(); i++)
+	for (size_t i = counter; i < pThreads.size(); i++)
 	{
-		pThreads[i]->join();
-		delete pThreads[i];
+		pThreads[i].join();
 	}
 
 	//delete objects
@@ -96,7 +86,7 @@ void minigin::Scene::RootUpdate()
 	{
 		if ((*it)->Destroy())it = m_Objects.erase(it);
 		else ++it;
-	}	
+	}
 	Update();
 }
 
