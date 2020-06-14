@@ -2,15 +2,13 @@
 #include "InputManager.h"
 #include <SDL.h>
 
-
-
-InputManager::InputManager()
+minigin::InputManager::InputManager()
 	:m_pCurrKeyboardState{ nullptr }
 	, m_pOldKeyboardState{ nullptr }
 	, m_KeyboardState0Active{ true }
 {}
 
-InputManager::~InputManager()
+minigin::InputManager::~InputManager()
 {
 	delete[] 	m_pKeyboardState0;
 	delete[] 	m_pKeyboardState1;
@@ -21,7 +19,7 @@ InputManager::~InputManager()
 	m_pKeyboardState1 = nullptr;
 }
 
-void InputManager::Initialize(SDL_Window* sdlwindow)
+void minigin::InputManager::Initialize(SDL_Window* sdlwindow)
 {
 	m_pKeyboardState0 = new SHORT[256];
 	m_pKeyboardState1 = new SHORT[256];
@@ -32,7 +30,7 @@ void InputManager::Initialize(SDL_Window* sdlwindow)
 	m_pSdlWindow = sdlwindow;
 }
 
-bool InputManager::ControllerConnected() const
+bool minigin::InputManager::ControllerConnected() const
 {
 	DWORD dwResult;
 	XINPUT_STATE controllerState;
@@ -44,7 +42,7 @@ bool InputManager::ControllerConnected() const
 	return dwResult == ERROR_SUCCESS;
 }
 
-void InputManager::GetMousePos(int& x, int& y) const
+void minigin::InputManager::GetMousePos(int& x, int& y) const
 {
 	POINT point;
 	GetCursorPos(&point);
@@ -54,7 +52,7 @@ void InputManager::GetMousePos(int& x, int& y) const
 	y = point.y - y;
 }
 
-void InputManager::ProcessInput()
+void minigin::InputManager::ProcessInput()
 {
 #pragma region
 	DWORD dwResult;
@@ -152,7 +150,11 @@ void InputManager::ProcessInput()
 
 	while (it != m_Actions.end())
 	{
-		if (it->KeyCode == -1) return;
+		if (!it->Active || it->KeyCode == -1)
+		{
+			++it;
+			continue;
+		}
 
 		switch (it->TriggerState)
 		{
@@ -171,42 +173,53 @@ void InputManager::ProcessInput()
 #pragma endregion keyboard & mouse input
 }
 
-bool InputManager::IsDown(ControllerButton button) const
+bool minigin::InputManager::IsDown(ControllerButton button) const
 {
-	return std::find(m_DownButtons.cbegin(), m_DownButtons.cend(), button) != m_DownButtons.cend();
+	return find(m_DownButtons.cbegin(), m_DownButtons.cend(), button) != m_DownButtons.cend();
 }
 
-bool InputManager::IsPressed(ControllerButton button) const
+bool minigin::InputManager::IsPressed(ControllerButton button) const
 {
-	return std::find(m_PressedButtons.cbegin(), m_PressedButtons.cend(), button) != m_PressedButtons.cend();
+	return find(m_PressedButtons.cbegin(), m_PressedButtons.cend(), button) != m_PressedButtons.cend();
 }
 
-bool InputManager::IsReleased(ControllerButton button) const
+bool minigin::InputManager::IsReleased(ControllerButton button) const
 {
-	return std::find(m_ReleasedButtons.cbegin(), m_ReleasedButtons.cend(), button) != m_ReleasedButtons.cend();
+	return find(m_ReleasedButtons.cbegin(), m_ReleasedButtons.cend(), button) != m_ReleasedButtons.cend();
 }
 
-bool InputManager::IsDown(int virtualKey) const
+bool minigin::InputManager::IsDown(int virtualKey) const
 {
 	return	m_pOldKeyboardState[virtualKey] && m_pCurrKeyboardState[virtualKey];//previous state and current one is active
 }
 
-bool InputManager::IsPressed(int virtualKey) const
+bool minigin::InputManager::IsPressed(int virtualKey) const
 {
 	return	!m_pOldKeyboardState[virtualKey] && m_pCurrKeyboardState[virtualKey];//previous state is inactive and current one is active
 }
 
-bool InputManager::IsReleased(int virtualKey) const
+bool minigin::InputManager::IsReleased(int virtualKey) const
 {
 	return	m_pOldKeyboardState[virtualKey] && !m_pCurrKeyboardState[virtualKey];//previous state is active and current one is inactive
 }
 
-void InputManager::AddInput(InputAction inputAction)
+size_t minigin::InputManager::AddInput(InputAction inputAction)
 {
 	m_Actions.push_back(inputAction);
+	return m_Actions.size() - 1;
 }
 
-void InputManager::ProcessButton(ControllerButton button, InputTriggerState triggerState)
+void minigin::InputManager::ChangeInputActionStatus(size_t id, bool active)
+{
+	if (id >= m_Actions.size())
+	{
+		Logger::LogWarning(L"Invalid action id detected.");
+		return;
+	}
+	m_Actions[id].Active = active;
+}
+
+void minigin::InputManager::ProcessButton(ControllerButton button, InputTriggerState triggerState)
 {
 	//add the button to the correct vector 
 	switch (triggerState)
@@ -216,7 +229,7 @@ void InputManager::ProcessButton(ControllerButton button, InputTriggerState trig
 		m_DownButtons.push_back(button);
 		break;
 	case InputTriggerState::Released:
-		auto it = std::find(m_DownButtons.cbegin(), m_DownButtons.cend(), button);
+		auto it = find(m_DownButtons.cbegin(), m_DownButtons.cend(), button);
 
 		if (it == m_DownButtons.cend()) return;//button was never pressed
 
@@ -230,12 +243,12 @@ void InputManager::ProcessButton(ControllerButton button, InputTriggerState trig
 		//check if the action matches 
 		if (action.ControllerInput == button && action.TriggerState == triggerState)
 		{
-			action.upCommand->Execute();
+			if (action.Active) action.upCommand->Execute();
 		}
 	}
 }
 
-void InputManager::GetActualKeyboardState(SHORT* state)
+void minigin::InputManager::GetActualKeyboardState(SHORT* state)
 {
 	for (int i = 0; i < 256; i++)state[i] = GetAsyncKeyState(i);
 }
