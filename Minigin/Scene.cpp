@@ -72,7 +72,7 @@ void minigin::Scene::RootUpdate()
 			delete pThreads[counter];
 			auto it = find(pThreads.cbegin(), pThreads.cend(), pThreads[counter]);
 
-			pThreads.erase(it);
+			it = pThreads.erase(it);
 			pThreads.insert(it, pThread);
 
 			++counter;
@@ -88,6 +88,15 @@ void minigin::Scene::RootUpdate()
 		pThreads[i]->join();
 		delete pThreads[i];
 	}
+
+	//delete objects
+	auto it = m_Objects.begin();
+
+	while (it != m_Objects.cend())
+	{
+		if ((*it)->Destroy())it = m_Objects.erase(it);
+		else ++it;
+	}	
 	Update();
 }
 

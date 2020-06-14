@@ -5,7 +5,7 @@ namespace minigin
 	{
 	public:
 		//rule of 5
-		SceneObject() = default;
+		SceneObject();
 		virtual ~SceneObject() = default;
 
 		SceneObject(const SceneObject& other) = delete;
@@ -16,5 +16,11 @@ namespace minigin
 		//functions
 		virtual void Update() = 0;
 		virtual void Render() const = 0;
+
+		void DestroyObject();
+		bool Destroy() const { return m_Delete; }
+
+	private:
+		bool m_Delete;
 	};
 }
