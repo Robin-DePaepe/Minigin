@@ -7,13 +7,13 @@
 #include "Bubble.h"
 #include "SoundManager.h"
 
-Player::Player(const glm::vec2& pos, int moveLeftButton, minigin::ControllerButton moveLeftButtonC, int moveRightButton, minigin::ControllerButton moveRightButtonC, 
+Player::Player(const glm::vec2& pos, int moveLeftButton, minigin::ControllerButton moveLeftButtonC, int moveRightButton, minigin::ControllerButton moveRightButtonC,
 	int jumpButton, minigin::ControllerButton jumpButtonC, int fireButton, minigin::ControllerButton fireButtonC, const wstring& name)
 	:GameObject{ name }
 	, m_Lives{ 4 }
-	,m_Protected{false}
-	,m_HitProtection{2.5f}
-	,m_Timer{0.f}
+	, m_Protected{ false }
+	, m_HitProtection{ 2.5f }
+	, m_Timer{ 0.f }
 	, m_Score{}
 {
 	//sound
@@ -39,7 +39,7 @@ Player::Player(const glm::vec2& pos, int moveLeftButton, minigin::ControllerButt
 	AddComponent(make_shared<minigin::RigidBodyComponent>(12.5f));
 
 	//add movement
-	m_spMovement = make_shared<MovementControllerComponent>(90.f, 175.f, moveLeftButton, moveRightButton,jumpButton, moveLeftButtonC, moveRightButtonC, jumpButtonC);
+	m_spMovement = make_shared<MovementControllerComponent>(90.f, 175.f, moveLeftButton, moveRightButton, jumpButton, moveLeftButtonC, moveRightButtonC, jumpButtonC);
 	AddComponent(m_spMovement);
 }
 

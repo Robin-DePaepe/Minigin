@@ -6,7 +6,7 @@
 #include <RigidBodyComponent.h>
 
 bool Level::m_TwoPlayersSelected = false;
-unsigned int Level::m_LevelNumber = 2;
+unsigned int Level::m_LevelNumber = 6;
 
 Level::Level(const wstring& name)
 	:Scene{ name }	

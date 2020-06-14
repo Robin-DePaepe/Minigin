@@ -57,27 +57,35 @@ void minigin::Scene::RootUpdate()
 		m_spFpsCounter->Update();
 	}
 
+	for (auto& object : m_Objects)
+	{
+		object->Update();
+	}
+#pragma region multhiThreading
+
 	//multhi threat the updating of the objects in the scene
-	vector<thread> pThreads;
+
+	/*vector<thread> threads;
 	unsigned int counter{ 0 };
 
 	for (auto& object : m_Objects)
 	{
 		thread pThread{ &SceneObject::Update, object };
 
-		if (pThreads.size() == m_Processor_Cores)
+		if (threads.size() >= m_Processor_Cores)
 		{
-			pThreads[counter].join();
+			threads[counter].join();
 
 			++counter;
 		}
-		pThreads.push_back(move(pThread));
+		threads.push_back(move(pThread));
 	}
 
-	for (size_t i = counter; i < pThreads.size(); i++)
+	for (size_t i = counter; i < threads.size(); i++)
 	{
-		pThreads[i].join();
-	}
+		threads[i].join();
+	}*/
+#pragma endregion multhiThreading attempt
 
 	//delete objects
 	auto it = m_Objects.begin();

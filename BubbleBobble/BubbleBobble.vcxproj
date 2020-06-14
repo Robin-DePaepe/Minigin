@@ -163,18 +163,18 @@
     <ClCompile Include="Source\Level.cpp" />
     <ClCompile Include="Source\LevelParser.cpp" />
     <ClCompile Include="Source\MainMenu.cpp" />
-    <ClCompile Include="Source\Maita.cpp" />
     <ClCompile Include="Source\MovementControllerComponent.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\ZenChan.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Bubble.h" />
     <ClInclude Include="Source\Level.h" />
     <ClInclude Include="Source\LevelParser.h" />
     <ClInclude Include="Source\MainMenu.h" />
-    <ClInclude Include="Source\Maita.h" />
     <ClInclude Include="Source\MovementControllerComponent.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\ZenChan.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -7,12 +7,12 @@
 
 Bubble::Bubble(const glm::vec2& spawnpos, bool goingLeft, const wstring& name)
 	:GameObject{ name }
-	,m_Dir{1}
-	,m_MaxCatchTime{1.5f}
-	,m_MaxSurviveTime{5.f}
-	,m_FloatingSpeed{30.f}
-	,m_FireSpeed{250.f}
-	,m_Timer{0.f}
+	, m_Dir{ 1 }
+	, m_MaxCatchTime{ 1.5f }
+	, m_MaxSurviveTime{ 5.f }
+	, m_FloatingSpeed{ 30.f }
+	, m_FireSpeed{ 250.f }
+	, m_Timer{ 0.f }
 {
 	//sprite
 	SetTexture("Sprites/Bubble.png");
@@ -28,7 +28,10 @@ Bubble::Bubble(const glm::vec2& spawnpos, bool goingLeft, const wstring& name)
 
 void Bubble::OnTriggerStay(GameObject* other)
 {
-
+	if (other->GetName() == L"Player" && m_Timer > m_MaxCatchTime)
+	{
+		DestroyObject();
+	}
 }
 
 void Bubble::Update()
@@ -39,9 +42,9 @@ void Bubble::Update()
 	{
 		GetTransfrom()->Translate(minigin::Time::GetInstance().GetElapsedTime() * m_Dir * m_FireSpeed, 0.f);
 	}
-	else if (m_Timer <=  m_MaxSurviveTime)
+	else if (m_Timer <= m_MaxSurviveTime)
 	{
-		float y{0.f};
+		float y{ 0.f };
 
 		//stops the bubble at the top
 		if (GetTransfrom()->GetPosition().y > 25.f) y = minigin::Time::GetInstance().GetElapsedTime() * -m_FloatingSpeed;

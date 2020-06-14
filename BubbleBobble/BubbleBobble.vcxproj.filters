@@ -34,7 +34,9 @@
     <ClCompile Include="Source\Level.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Maita.cpp" />
+    <ClCompile Include="Source\ZenChan.cpp">
+      <Filter>Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\MainMenu.h">
@@ -55,6 +57,8 @@
     <ClInclude Include="Source\Level.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Maita.h" />
+    <ClInclude Include="Source\ZenChan.h">
+      <Filter>Objects</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

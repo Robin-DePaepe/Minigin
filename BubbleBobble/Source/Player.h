@@ -32,8 +32,16 @@ private:
 class Player final : public minigin::GameObject
 {
 public:
+	//rule of 5
 	Player(const glm::vec2& pos, int moveLeftButton, minigin::ControllerButton moveLeftButtonC, int moveRightButton, minigin::ControllerButton moveRightButtonC
 		, int jumpButton, minigin::ControllerButton jumpButtonC, int fireButton, minigin::ControllerButton fireButtonC,const wstring& name = L"Player");
+
+	~Player() = default;
+
+	Player(const Player& other) = delete;
+	Player(Player&& other) = delete;
+	Player& operator=(const Player& other) = delete;
+	Player& operator=(Player&& other) = delete;
 
 	//functions
 	 void SetActions(bool active) override;

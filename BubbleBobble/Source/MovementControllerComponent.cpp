@@ -58,7 +58,7 @@ void MovementControllerComponent::Update()
 
 	//if the player falls through the bottom he respawns at the top
 	if (GetTransform()->GetPosition().y > minigin::Minigin::GetWindowHeight()) GetTransform()->SetPosition(GetTransform()->GetPosition().x, 0.f);
-	if (GetTransform()->GetPosition().y < 10.f) m_spRigid->ClearForce();
+	if (GetTransform()->GetPosition().y <= -1.f) m_spRigid->ClearForce();
 }
 
 void MovementControllerComponent::SetActions(bool active)

@@ -66,7 +66,7 @@ void minigin::BoxCollider::PhysxUpdate()
 					{
 						m_OnGround = true;
 
-						if (abs(difference) > 0.25f) GetTransform()->Translate(0.f, difference);
+						if (abs(difference) > 0.2f) GetTransform()->Translate(0.f, difference);
 					}
 				}
 
