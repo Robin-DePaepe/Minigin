@@ -2,4 +2,6 @@
 Game Engine
 
 This project is a game engine based on the Minigin Engine. 
-The purpose is to recreate Bubble Bobble in this engine for my finals of Prog4 in DAE Game Dev.
+Don't be confused if you can't run the application. The engine is basically a library to help you make your game. 
+
+More information can be found here: https://users.telenet.be/Robin/Portfolio/Minigin.html
